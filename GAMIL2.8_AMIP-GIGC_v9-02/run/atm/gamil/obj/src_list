@@ -1,0 +1,17 @@
+/data3/work/yuxinzhu/test/model_platform/models/libs/shr
+/data3/work/yuxinzhu/test/model_platform/models/libs/timing
+/data3/work/yuxinzhu/test/model_platform/models/atm/GAMIL2.8_AMIP/src/physics/cam1
+/data3/work/yuxinzhu/test/model_platform/models/atm/GAMIL2.8_AMIP/src/physics/cam1/echam_cu
+/data3/work/yuxinzhu/test/model_platform/models/atm/GAMIL2.8_AMIP/src/dynamics/eul
+/data3/work/yuxinzhu/test/model_platform/models/atm/GAMIL2.8_AMIP/src/control
+/data3/work/yuxinzhu/test/model_platform/models/atm/GAMIL2.8_AMIP/src/utils
+/data3/work/yuxinzhu/test/model_platform/models/atm/GAMIL2.8_AMIP/src/advection/slt
+/data3/work/yuxinzhu/test/model_platform/models/atm/GAMIL2.8_AMIP/src/ocnsice/dom
+/data3/work/yuxinzhu/test/model_platform/models/atm/GAMIL2.8_AMIP/src/ice/csim4
+/data3/work/yuxinzhu/test/model_platform/models/atm/GAMIL2.8_AMIP/src/lnd/clm2/src/main
+/data3/work/yuxinzhu/test/model_platform/models/atm/GAMIL2.8_AMIP/src/lnd/clm2/src/biogeophys
+/data3/work/yuxinzhu/test/model_platform/models/atm/GAMIL2.8_AMIP/src/lnd/clm2/src/mksrfdata
+/data3/work/yuxinzhu/test/model_platform/models/atm/GAMIL2.8_AMIP/src/lnd/clm2/src/ecosysdyn
+/data3/work/yuxinzhu/test/model_platform/models/atm/GAMIL2.8_AMIP/src/lnd/clm2/src/riverroute
+/data3/work/yuxinzhu/test/model_platform/models/atm/GAMIL2.8_AMIP/src/couple/c_coupler/
+/data3/work/yuxinzhu/test/GAMIL2.8_AMIP-GIGC_v9-02/run/atm/gamil/src/individual_src_files/

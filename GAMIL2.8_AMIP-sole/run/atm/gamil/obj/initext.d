@@ -1,0 +1,26 @@
+initext.o initext.d : initext.F90
+initext.o : misc.h
+initext.o : params.h
+initext.o : shr_kind_mod.o
+initext.o : pmgrid.o
+initext.o : ppgrid.o
+initext.o : phys_grid.o
+initext.o : comsrf.o
+initext.o : rgrid.o
+initext.o : shr_orb_mod.o
+initext.o : ioFileMod.o
+initext.o : so4bnd.o
+initext.o : so4bnd_IPCC.o
+initext.o : commap.o
+initext.o : ice_constants.o
+initext.o : filenames.o
+initext.o : physconst.o
+initext.o : time_manager.o
+initext.o : mpishorthand.o
+initext.o : ccsm_msg.o
+initext.o : atm_lndMod.o
+initext.o : sst_data.o
+initext.o : ice_data.o
+initext.o : comlun.h
+initext.o : comctl.h
+initext.o : comsol.h

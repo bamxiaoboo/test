@@ -1,0 +1,22 @@
+inti.o inti.d : inti.F90
+inti.o : misc.h
+inti.o : params.h
+inti.o : shr_kind_mod.o
+inti.o : pmgrid.o
+inti.o : chemistry.o
+inti.o : ppgrid.o
+inti.o : physics_types.o
+inti.o : gw_drag.o
+inti.o : vertical_diffusion.o
+inti.o : moistconvection.o
+inti.o : cldwat.o
+inti.o : zm_conv.o
+inti.o : zm_conv_3.o
+inti.o : shr_const_mod.o
+inti.o : physconst.o
+inti.o : MG.o
+inti.o : aerosol_mass_interface.o
+inti.o : prescribed_aerosols.o
+inti.o : comctl.h
+inti.o : comhyb.h
+inti.o : RK_or_MG.h

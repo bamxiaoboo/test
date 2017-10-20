@@ -1,0 +1,26 @@
+tphysbc.o tphysbc.d : tphysbc.F90
+tphysbc.o : misc.h
+tphysbc.o : params.h
+tphysbc.o : shr_kind_mod.o
+tphysbc.o : ppgrid.o
+tphysbc.o : phys_grid.o
+tphysbc.o : cldwat.o
+tphysbc.o : geopotential.o
+tphysbc.o : physics_types.o
+tphysbc.o : diagnostics.o
+tphysbc.o : history.o
+tphysbc.o : physconst.o
+tphysbc.o : radheat.o
+tphysbc.o : constituents.o
+tphysbc.o : tracers.o
+tphysbc.o : zm_conv.o
+tphysbc.o : zm_conv_3.o
+tphysbc.o : time_manager.o
+tphysbc.o : moistconvection.o
+tphysbc.o : m_cucall.o
+tphysbc.o : MG.o
+tphysbc.o : phys_buffer.o
+tphysbc.o : pmgrid.o
+tphysbc.o : mpishorthand.o
+tphysbc.o : comctl.h
+tphysbc.o : RK_or_MG.h

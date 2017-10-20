@@ -1,0 +1,60 @@
+Building dependency for shr_sys_mod.d
+Building dependency for shr_orb_mod.d
+Building dependency for shr_mpi_mod.d
+Building dependency for shr_kind_mod.d
+Building dependency for shr_const_mod.d
+Building dependency for parse_compset_nml_mod.d
+Building dependency for orbital_params_mod.d
+Building dependency for c_coupler_interface_mod.d
+mpiicpc -c -O0 -g -no-vec -fp-model precise -fp-speculation=safe -mp1 -zero -traceback -DDEBUG_CCPL  -I. -I/data3/work/yuxinzhu/test/model_platform/models/libs/c_coupler/Data_MGT -I/data3/work/yuxinzhu/test/model_platform/models/libs/c_coupler/Parallel_MGT -I/data3/work/yuxinzhu/test/model_platform/models/libs/c_coupler/Runtime_MGT -I/data3/work/yuxinzhu/test/model_platform/models/libs/c_coupler/Driver -I/data3/work/yuxinzhu/test/model_platform/models/libs/c_coupler/Utils -I/data3/work/yuxinzhu/test/model_platform/models/libs/c_coupler/CoR -I/data3/work/yuxinzhu/test/GAMIL2.8_AMIP-sole/run/lib/c_coupler/src/individual_src_files/ -DLINUX  -I/data3/work/yuxinzhu/test/GAMIL2.8_AMIP-sole/run/lib/include -I/opt/netCDF-intel13-without-hdf5/include -I/opt/intel/impi/3.2.0.011/include64 /data3/work/yuxinzhu/test/model_platform/models/libs/c_coupler/Driver/CCPL_api_mgt.cxx
+mpiicpc -c -O0 -g -no-vec -fp-model precise -fp-speculation=safe -mp1 -zero -traceback -DDEBUG_CCPL  -I. -I/data3/work/yuxinzhu/test/model_platform/models/libs/c_coupler/Data_MGT -I/data3/work/yuxinzhu/test/model_platform/models/libs/c_coupler/Parallel_MGT -I/data3/work/yuxinzhu/test/model_platform/models/libs/c_coupler/Runtime_MGT -I/data3/work/yuxinzhu/test/model_platform/models/libs/c_coupler/Driver -I/data3/work/yuxinzhu/test/model_platform/models/libs/c_coupler/Utils -I/data3/work/yuxinzhu/test/model_platform/models/libs/c_coupler/CoR -I/data3/work/yuxinzhu/test/GAMIL2.8_AMIP-sole/run/lib/c_coupler/src/individual_src_files/ -DLINUX  -I/data3/work/yuxinzhu/test/GAMIL2.8_AMIP-sole/run/lib/include -I/opt/netCDF-intel13-without-hdf5/include -I/opt/intel/impi/3.2.0.011/include64 /data3/work/yuxinzhu/test/model_platform/models/libs/c_coupler/Data_MGT/IO_field_mgt.cxx
+mpiicpc -c -O0 -g -no-vec -fp-model precise -fp-speculation=safe -mp1 -zero -traceback -DDEBUG_CCPL  -I. -I/data3/work/yuxinzhu/test/model_platform/models/libs/c_coupler/Data_MGT -I/data3/work/yuxinzhu/test/model_platform/models/libs/c_coupler/Parallel_MGT -I/data3/work/yuxinzhu/test/model_platform/models/libs/c_coupler/Runtime_MGT -I/data3/work/yuxinzhu/test/model_platform/models/libs/c_coupler/Driver -I/data3/work/yuxinzhu/test/model_platform/models/libs/c_coupler/Utils -I/data3/work/yuxinzhu/test/model_platform/models/libs/c_coupler/CoR -I/data3/work/yuxinzhu/test/GAMIL2.8_AMIP-sole/run/lib/c_coupler/src/individual_src_files/ -DLINUX  -I/data3/work/yuxinzhu/test/GAMIL2.8_AMIP-sole/run/lib/include -I/opt/netCDF-intel13-without-hdf5/include -I/opt/intel/impi/3.2.0.011/include64 /data3/work/yuxinzhu/test/model_platform/models/libs/c_coupler/Runtime_MGT/Runtime_Algorithm_Basis.cxx
+mpiicpc -c -O0 -g -no-vec -fp-model precise -fp-speculation=safe -mp1 -zero -traceback -DDEBUG_CCPL  -I. -I/data3/work/yuxinzhu/test/model_platform/models/libs/c_coupler/Data_MGT -I/data3/work/yuxinzhu/test/model_platform/models/libs/c_coupler/Parallel_MGT -I/data3/work/yuxinzhu/test/model_platform/models/libs/c_coupler/Runtime_MGT -I/data3/work/yuxinzhu/test/model_platform/models/libs/c_coupler/Driver -I/data3/work/yuxinzhu/test/model_platform/models/libs/c_coupler/Utils -I/data3/work/yuxinzhu/test/model_platform/models/libs/c_coupler/CoR -I/data3/work/yuxinzhu/test/GAMIL2.8_AMIP-sole/run/lib/c_coupler/src/individual_src_files/ -DLINUX  -I/data3/work/yuxinzhu/test/GAMIL2.8_AMIP-sole/run/lib/include -I/opt/netCDF-intel13-without-hdf5/include -I/opt/intel/impi/3.2.0.011/include64 /data3/work/yuxinzhu/test/model_platform/models/libs/c_coupler/Utils/annotation_mgt.cxx
+mpiicpc -c -O0 -g -no-vec -fp-model precise -fp-speculation=safe -mp1 -zero -traceback -DDEBUG_CCPL  -I. -I/data3/work/yuxinzhu/test/model_platform/models/libs/c_coupler/Data_MGT -I/data3/work/yuxinzhu/test/model_platform/models/libs/c_coupler/Parallel_MGT -I/data3/work/yuxinzhu/test/model_platform/models/libs/c_coupler/Runtime_MGT -I/data3/work/yuxinzhu/test/model_platform/models/libs/c_coupler/Driver -I/data3/work/yuxinzhu/test/model_platform/models/libs/c_coupler/Utils -I/data3/work/yuxinzhu/test/model_platform/models/libs/c_coupler/CoR -I/data3/work/yuxinzhu/test/GAMIL2.8_AMIP-sole/run/lib/c_coupler/src/individual_src_files/ -DLINUX  -I/data3/work/yuxinzhu/test/GAMIL2.8_AMIP-sole/run/lib/include -I/opt/netCDF-intel13-without-hdf5/include -I/opt/intel/impi/3.2.0.011/include64 /data3/work/yuxinzhu/test/model_platform/models/libs/c_coupler/Driver/c_coupler_interface.cxx
+/usr/bin/cpp -DLINUX -DNO_SHR_VMATH -I/data3/work/yuxinzhu/test/GAMIL2.8_AMIP-sole/run/lib/include -I/opt/netCDF-intel13-without-hdf5/include -I/opt/intel/impi/3.2.0.011/include64 -traditional-cpp -DLINUX  -I. -I/data3/work/yuxinzhu/test/model_platform/models/libs/c_coupler/Data_MGT -I/data3/work/yuxinzhu/test/model_platform/models/libs/c_coupler/Parallel_MGT -I/data3/work/yuxinzhu/test/model_platform/models/libs/c_coupler/Runtime_MGT -I/data3/work/yuxinzhu/test/model_platform/models/libs/c_coupler/Driver -I/data3/work/yuxinzhu/test/model_platform/models/libs/c_coupler/Utils -I/data3/work/yuxinzhu/test/model_platform/models/libs/c_coupler/CoR -I/data3/work/yuxinzhu/test/GAMIL2.8_AMIP-sole/run/lib/c_coupler/src/individual_src_files/ -I/data3/work/yuxinzhu/test/GAMIL2.8_AMIP-sole/run/lib/include -I/opt/netCDF-intel13-without-hdf5/include -I/opt/intel/impi/3.2.0.011/include64 /data3/work/yuxinzhu/test/model_platform/models/libs/c_coupler/Driver/parse_compset_nml_mod.F90 > parse_compset_nml_mod.f90
+mpiicpc -c -O0 -g -no-vec -fp-model precise -fp-speculation=safe -mp1 -zero -traceback -DDEBUG_CCPL  -I. -I/data3/work/yuxinzhu/test/model_platform/models/libs/c_coupler/Data_MGT -I/data3/work/yuxinzhu/test/model_platform/models/libs/c_coupler/Parallel_MGT -I/data3/work/yuxinzhu/test/model_platform/models/libs/c_coupler/Runtime_MGT -I/data3/work/yuxinzhu/test/model_platform/models/libs/c_coupler/Driver -I/data3/work/yuxinzhu/test/model_platform/models/libs/c_coupler/Utils -I/data3/work/yuxinzhu/test/model_platform/models/libs/c_coupler/CoR -I/data3/work/yuxinzhu/test/GAMIL2.8_AMIP-sole/run/lib/c_coupler/src/individual_src_files/ -DLINUX  -I/data3/work/yuxinzhu/test/GAMIL2.8_AMIP-sole/run/lib/include -I/opt/netCDF-intel13-without-hdf5/include -I/opt/intel/impi/3.2.0.011/include64 /data3/work/yuxinzhu/test/model_platform/models/libs/c_coupler/Utils/common_utils.cxx
+mpiicpc -c -O0 -g -no-vec -fp-model precise -fp-speculation=safe -mp1 -zero -traceback -DDEBUG_CCPL  -I. -I/data3/work/yuxinzhu/test/model_platform/models/libs/c_coupler/Data_MGT -I/data3/work/yuxinzhu/test/model_platform/models/libs/c_coupler/Parallel_MGT -I/data3/work/yuxinzhu/test/model_platform/models/libs/c_coupler/Runtime_MGT -I/data3/work/yuxinzhu/test/model_platform/models/libs/c_coupler/Driver -I/data3/work/yuxinzhu/test/model_platform/models/libs/c_coupler/Utils -I/data3/work/yuxinzhu/test/model_platform/models/libs/c_coupler/CoR -I/data3/work/yuxinzhu/test/GAMIL2.8_AMIP-sole/run/lib/c_coupler/src/individual_src_files/ -DLINUX  -I/data3/work/yuxinzhu/test/GAMIL2.8_AMIP-sole/run/lib/include -I/opt/netCDF-intel13-without-hdf5/include -I/opt/intel/impi/3.2.0.011/include64 /data3/work/yuxinzhu/test/model_platform/models/libs/c_coupler/Parallel_MGT/compset_communicators_info_mgt.cxx
+mpiifort -c -r8 -i4 -O2 -no-vec -132 -convert big_endian -assume byterecl -fp-model precise -fp-speculation=safe -mp1 -zero -DLINUX   -I. -I/data3/work/yuxinzhu/test/model_platform/models/libs/c_coupler/Data_MGT -I/data3/work/yuxinzhu/test/model_platform/models/libs/c_coupler/Parallel_MGT -I/data3/work/yuxinzhu/test/model_platform/models/libs/c_coupler/Runtime_MGT -I/data3/work/yuxinzhu/test/model_platform/models/libs/c_coupler/Driver -I/data3/work/yuxinzhu/test/model_platform/models/libs/c_coupler/Utils -I/data3/work/yuxinzhu/test/model_platform/models/libs/c_coupler/CoR -I/data3/work/yuxinzhu/test/GAMIL2.8_AMIP-sole/run/lib/c_coupler/src/individual_src_files/ -I/data3/work/yuxinzhu/test/GAMIL2.8_AMIP-sole/run/lib/include -I/opt/netCDF-intel13-without-hdf5/include -I/opt/intel/impi/3.2.0.011/include64 parse_compset_nml_mod.f90  
+/data3/work/yuxinzhu/test/model_platform/models/libs/c_coupler/Driver/CCPL_api_mgt.h(15): catastrophic error: cannot open source file "tinyxml.h"
+  #include "tinyxml.h"
+                      ^
+
+compilation aborted for /data3/work/yuxinzhu/test/model_platform/models/libs/c_coupler/Driver/CCPL_api_mgt.cxx (code 4)
+gmake: *** [CCPL_api_mgt.o] Error 4
+gmake: *** Waiting for unfinished jobs....
+/data3/work/yuxinzhu/test/model_platform/models/libs/c_coupler/Parallel_MGT/compset_communicators_info_mgt.h(17): catastrophic error: cannot open source file "tinyxml.h"
+  #include "tinyxml.h"
+                      ^
+
+compilation aborted for /data3/work/yuxinzhu/test/model_platform/models/libs/c_coupler/Utils/annotation_mgt.cxx (code 4)
+gmake: *** [annotation_mgt.o] Error 4
+/data3/work/yuxinzhu/test/model_platform/models/libs/c_coupler/Parallel_MGT/compset_communicators_info_mgt.h(17): catastrophic error: cannot open source file "tinyxml.h"
+  #include "tinyxml.h"
+                      ^
+
+compilation aborted for /data3/work/yuxinzhu/test/model_platform/models/libs/c_coupler/Data_MGT/IO_field_mgt.cxx (code 4)
+gmake: *** [IO_field_mgt.o] Error 4
+/data3/work/yuxinzhu/test/model_platform/models/libs/c_coupler/Parallel_MGT/compset_communicators_info_mgt.h(17): catastrophic error: cannot open source file "tinyxml.h"
+  #include "tinyxml.h"
+                      ^
+
+/data3/work/yuxinzhu/test/model_platform/models/libs/c_coupler/Parallel_MGT/compset_communicators_info_mgt.h(17): catastrophic error: cannot open source file "tinyxml.h"
+  #include "tinyxml.h"
+                      ^
+
+/data3/work/yuxinzhu/test/model_platform/models/libs/c_coupler/Parallel_MGT/compset_communicators_info_mgt.h(17): catastrophic error: cannot open source file "tinyxml.h"
+  #include "tinyxml.h"
+                      ^
+
+compilation aborted for /data3/work/yuxinzhu/test/model_platform/models/libs/c_coupler/Driver/c_coupler_interface.cxx (code 4)
+gmake: *** [c_coupler_interface.o] Error 4
+compilation aborted for /data3/work/yuxinzhu/test/model_platform/models/libs/c_coupler/Parallel_MGT/compset_communicators_info_mgt.cxx (code 4)
+gmake: *** [compset_communicators_info_mgt.o] Error 4
+compilation aborted for /data3/work/yuxinzhu/test/model_platform/models/libs/c_coupler/Utils/common_utils.cxx (code 4)
+gmake: *** [common_utils.o] Error 4
+/data3/work/yuxinzhu/test/model_platform/models/libs/c_coupler/Parallel_MGT/compset_communicators_info_mgt.h(17): catastrophic error: cannot open source file "tinyxml.h"
+  #include "tinyxml.h"
+                      ^
+
+compilation aborted for /data3/work/yuxinzhu/test/model_platform/models/libs/c_coupler/Runtime_MGT/Runtime_Algorithm_Basis.cxx (code 4)
+gmake: *** [Runtime_Algorithm_Basis.o] Error 4

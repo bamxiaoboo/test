@@ -1,0 +1,22 @@
+stepon.o stepon.d : stepon.F90
+stepon.o : misc.h
+stepon.o : params.h
+stepon.o : shr_kind_mod.o
+stepon.o : history.o
+stepon.o : pmgrid.o
+stepon.o : rgrid.o
+stepon.o : prognostics.o
+stepon.o : comfm1.o
+stepon.o : buffer.o
+stepon.o : restart.o
+stepon.o : ccsm_msg.o
+stepon.o : ppgrid.o
+stepon.o : physics_types.o
+stepon.o : dp_coupling.o
+stepon.o : commap.o
+stepon.o : physconst.o
+stepon.o : time_manager.o
+stepon.o : coupling_chemistry_model_mod.o
+stepon.o : comctl.h
+stepon.o : comhyb.h
+stepon.o : comlun.h

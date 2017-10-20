@@ -1,0 +1,9 @@
+models/atm/GAMIL2.8_AMIP b05bdcef42329faa19e4a0fc9813a91c6d96150a
+models/atm_chem/GIGC/Code.v9-02
+models/atm_chem/GIGC/Code.v9-02/GeosCore
+models/libs/c_coupler 4db94e395f1449a563fab3a6bbcf01b098746c55
+models/libs/esmf eaac74068be97deb76c449d67f17d3ffc11b089d
+models/libs/shr 1bc1621b543439506f161575cac45d31ff161fb6
+models/libs/timing 08a797dab5d7a5ce434fd74d0a0cf555e08df10c
+scripts b1beb3aaf970a890b9e755be540000733a5d7e90
+config 679438b52829b2c6c4a82766d42d598ec7edf3bf

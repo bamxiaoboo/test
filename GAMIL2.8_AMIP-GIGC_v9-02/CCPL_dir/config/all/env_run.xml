@@ -1,0 +1,16 @@
+<?xml version="1.0" ?>
+<Time_setting
+    case_name="C-Coupler testing"
+    model_name="ideal_model_for_CCPL2"
+    run_type="initial"
+    leap_year="on"
+    start_date="00040331"
+    start_second="0"
+    reference_date="00010101"
+    rest_freq_unit="ndays"
+    rest_freq_count="7"
+    stop_option="ndays"
+    stop_date="00010101"
+    stop_second="0"
+    stop_n="1"
+/>

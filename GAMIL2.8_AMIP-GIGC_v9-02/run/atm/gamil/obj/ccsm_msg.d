@@ -1,0 +1,22 @@
+ccsm_msg.o ccsm_msg.d : ccsm_msg.F90
+ccsm_msg.o : misc.h
+ccsm_msg.o : params.h
+ccsm_msg.o : shr_kind_mod.o
+ccsm_msg.o : pmgrid.o
+ccsm_msg.o : ppgrid.o
+ccsm_msg.o : phys_grid.o
+ccsm_msg.o : shr_sys_mod.o
+ccsm_msg.o : shr_const_mod.o
+ccsm_msg.o : rgrid.o
+ccsm_msg.o : mpishorthand.o
+ccsm_msg.o : history.o
+ccsm_msg.o : comsrf.o
+ccsm_msg.o : physconst.o
+ccsm_msg.o : constituents.o
+ccsm_msg.o : time_manager.o
+ccsm_msg.o : comctl.h
+ccsm_msg.o : comlun.h
+ccsm_msg.o : infnan.o
+ccsm_msg.o : comsol.h
+ccsm_msg.o : commap.o
+ccsm_msg.o : dycore.o

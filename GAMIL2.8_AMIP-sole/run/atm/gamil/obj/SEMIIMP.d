@@ -1,0 +1,5 @@
+SEMIIMP.o SEMIIMP.d : SEMIIMP.F
+SEMIIMP.o : misc.h
+SEMIIMP.o : params.h
+SEMIIMP.o : PARADYN
+SEMIIMP.o : commpi.h

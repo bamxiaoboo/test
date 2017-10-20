@@ -1,0 +1,21 @@
+<?xml version="1.0" ?>
+<Components>
+    <Online_Model name="ROOT" full_name="ROOT" global_id="0" processes=" 0~19">
+        <Online_Model name="FGOALS-g2" full_name="FGOALS-g2" global_id="1" processes=" 0~19">
+            <Online_Model name="clm" full_name="clm" global_id="6" processes=" 16~19" />
+            <Online_Model name="cice" full_name="cice" global_id="5" processes=" 12~15" />
+            <Online_Model name="licom" full_name="licom" global_id="10" processes=" 8~11">
+                <Online_Model name="licom_nest_component_2" full_name="licom@licom_nest_component_2" global_id="12" processes=" 8~11" />
+                <Online_Model name="licom_nest_component_1" full_name="licom@licom_nest_component_1" global_id="11" processes=" 8~11" />
+            </Online_Model>
+            <Online_Model name="gamil" full_name="gamil" global_id="7" processes=" 4~7">
+                <Online_Model name="gamil_nest_component_2" full_name="gamil@gamil_nest_component_2" global_id="9" processes=" 4~7" />
+                <Online_Model name="gamil_nest_component_1" full_name="gamil@gamil_nest_component_1" global_id="8" processes=" 4~7" />
+            </Online_Model>
+            <Online_Model name="c_coupler" full_name="c_coupler" global_id="2" processes=" 0~3">
+                <Online_Model name="ccpl_nest_component_1" full_name="c_coupler@ccpl_nest_component_1" global_id="3" processes=" 1~3" />
+                <Online_Model name="ccpl_nest_component_2" full_name="c_coupler@ccpl_nest_component_2" global_id="4" processes=" 0~1" />
+            </Online_Model>
+        </Online_Model>
+    </Online_Model>
+</Components>

@@ -1,0 +1,237 @@
+t_setoption: option disabled: Usr Sys   
+t_setoption: option disabled: Usr Sys   
+t_setoption: option disabled: Usr Sys   
+t_setoption: option disabled: Usr Sys   
+t_setoption: option disabled: Usr Sys   
+t_setoption: option disabled: Usr Sys   
+t_setoption: option disabled: Usr Sys   
+t_setoption: option disabled: Usr Sys   
+t_setoption: option disabled: Usr Sys   
+t_setoption: option disabled: Usr Sys   
+t_setoption: option disabled: Usr Sys   
+t_setoption: option disabled: Usr Sys   
+t_setoption: option disabled: Usr Sys   
+t_setoption: option disabled: Usr Sys   
+t_setoption: option disabled: Usr Sys   
+t_setoption: option disabled: Usr Sys   
+t_setoption: option disabled: Usr Sys   
+t_setoption: option disabled: Usr Sys   
+t_setoption: option disabled: Usr Sys   
+t_setoption: option disabled: Usr Sys   
+ *** p3   : jbeg=  2     jend=  4    jpole=  0   inc_pole=   F
+ *** p3   : itop=  4     ibot=  2
+  *** p 3           beglat:endlat= 10 : 12    numlats=  3
+  *** p 3       beglatex:endlatex=  9 : 13  numlatsex=  5
+  *** p 3 beglatexdyn:endlatexdyn= 48 : 52
+  *** p 3                  numbnd=  1
+ *** p4   : jbeg=  2     jend=  4    jpole=  0   inc_pole=   F
+ *** p4   : itop=  5     ibot=  3
+  *** p 4           beglat:endlat= 13 : 15    numlats=  3
+  *** p 4       beglatex:endlatex= 12 : 16  numlatsex=  5
+  *** p 4 beglatexdyn:endlatexdyn= 45 : 49
+  *** p 4                  numbnd=  1
+ *** p9   : jbeg=  2     jend=  4    jpole=  0   inc_pole=   F
+ *** p9   : itop= 10     ibot=  8
+  *** p 9           beglat:endlat= 28 : 30    numlats=  3
+  *** p 9       beglatex:endlatex= 27 : 31  numlatsex=  5
+  *** p 9 beglatexdyn:endlatexdyn= 30 : 34
+  *** p 9                  numbnd=  1
+ *** p*   : jbeg=  2     jend=  4    jpole=  0   inc_pole=   F
+ *** p*   : itop= 14     ibot= 12
+  *** p13           beglat:endlat= 40 : 42    numlats=  3
+  *** p13       beglatex:endlatex= 39 : 43  numlatsex=  5
+  *** p13 beglatexdyn:endlatexdyn= 18 : 22
+  *** p13                  numbnd=  1
+ *** p*   : jbeg=  2     jend=  4    jpole=  0   inc_pole=   F
+ *** p*   : itop= 18     ibot= 16
+  *** p17           beglat:endlat= 52 : 54    numlats=  3
+  *** p17       beglatex:endlatex= 51 : 55  numlatsex=  5
+  *** p17 beglatexdyn:endlatexdyn=  6 : 10
+  *** p17                  numbnd=  1
+ *** p*   : jbeg=  2     jend=  4    jpole=  0   inc_pole=   F
+ *** p*   : itop= 19     ibot= 17
+  *** p18           beglat:endlat= 55 : 57    numlats=  3
+  *** p18       beglatex:endlatex= 54 : 58  numlatsex=  5
+  *** p18 beglatexdyn:endlatexdyn=  3 :  7
+  *** p18                  numbnd=  1
+ *** p2   : jbeg=  2     jend=  4    jpole=  0   inc_pole=   F
+ *** p2   : itop=  3     ibot=  1
+  *** p 2           beglat:endlat=  7 :  9    numlats=  3
+  *** p 2       beglatex:endlatex=  6 : 10  numlatsex=  5
+  *** p 2 beglatexdyn:endlatexdyn= 51 : 55
+  *** p 2                  numbnd=  1
+ *** p7   : jbeg=  2     jend=  4    jpole=  0   inc_pole=   F
+ *** p7   : itop=  8     ibot=  6
+  *** p 7           beglat:endlat= 22 : 24    numlats=  3
+  *** p 7       beglatex:endlatex= 21 : 25  numlatsex=  5
+  *** p 7 beglatexdyn:endlatexdyn= 36 : 40
+  *** p 7                  numbnd=  1
+ *** p*   : jbeg=  2     jend=  4    jpole=  0   inc_pole=   F
+ *** p*   : itop= 11     ibot=  9
+  *** p10           beglat:endlat= 31 : 33    numlats=  3
+  *** p10       beglatex:endlatex= 30 : 34  numlatsex=  5
+  *** p10 beglatexdyn:endlatexdyn= 27 : 31
+  *** p10                  numbnd=  1
+ *** p*   : jbeg=  2     jend=  4    jpole=  0   inc_pole=   F
+ *** p*   : itop= 12     ibot= 10
+  *** p11           beglat:endlat= 34 : 36    numlats=  3
+  *** p11       beglatex:endlatex= 33 : 37  numlatsex=  5
+  *** p11 beglatexdyn:endlatexdyn= 24 : 28
+  *** p11                  numbnd=  1
+ *** p*   : jbeg=  2     jend=  4    jpole=  0   inc_pole=   F
+ *** p*   : itop= 15     ibot= 13
+  *** p14           beglat:endlat= 43 : 45    numlats=  3
+  *** p14       beglatex:endlatex= 42 : 46  numlatsex=  5
+  *** p14 beglatexdyn:endlatexdyn= 15 : 19
+  *** p14                  numbnd=  1
+ *** p*   : jbeg=  2     jend=  4    jpole=  0   inc_pole=   F
+ *** p*   : itop= 16     ibot= 14
+  *** p15           beglat:endlat= 46 : 48    numlats=  3
+  *** p15       beglatex:endlatex= 45 : 49  numlatsex=  5
+  *** p15 beglatexdyn:endlatexdyn= 12 : 16
+  *** p15                  numbnd=  1
+ *** p1   : jbeg=  2     jend=  4    jpole=  0   inc_pole=   F
+ *** p1   : itop=  2     ibot=  0
+  *** p 1           beglat:endlat=  4 :  6    numlats=  3
+  *** p 1       beglatex:endlatex=  3 :  7  numlatsex=  5
+  *** p 1 beglatexdyn:endlatexdyn= 54 : 58
+  *** p 1                  numbnd=  1
+ *** p5   : jbeg=  2     jend=  4    jpole=  0   inc_pole=   F
+ *** p5   : itop=  6     ibot=  4
+  *** p 5           beglat:endlat= 16 : 18    numlats=  3
+  *** p 5       beglatex:endlatex= 15 : 19  numlatsex=  5
+  *** p 5 beglatexdyn:endlatexdyn= 42 : 46
+  *** p 5                  numbnd=  1
+ *** p6   : jbeg=  2     jend=  4    jpole=  0   inc_pole=   F
+ *** p6   : itop=  7     ibot=  5
+  *** p 6           beglat:endlat= 19 : 21    numlats=  3
+  *** p 6       beglatex:endlatex= 18 : 22  numlatsex=  5
+  *** p 6 beglatexdyn:endlatexdyn= 39 : 43
+  *** p 6                  numbnd=  1
+ *** p8   : jbeg=  2     jend=  4    jpole=  0   inc_pole=   F
+ *** p8   : itop=  9     ibot=  7
+  *** p 8           beglat:endlat= 25 : 27    numlats=  3
+  *** p 8       beglatex:endlatex= 24 : 28  numlatsex=  5
+  *** p 8 beglatexdyn:endlatexdyn= 33 : 37
+  *** p 8                  numbnd=  1
+ *** p*   : jbeg=  2     jend=  4    jpole=  0   inc_pole=   F
+ *** p*   : itop= 13     ibot= 11
+  *** p12           beglat:endlat= 37 : 39    numlats=  3
+  *** p12       beglatex:endlatex= 36 : 40  numlatsex=  5
+  *** p12 beglatexdyn:endlatexdyn= 21 : 25
+  *** p12                  numbnd=  1
+ *** p*   : jbeg=  2     jend=  4    jpole=  0   inc_pole=   F
+ *** p*   : itop= 17     ibot= 15
+  *** p16           beglat:endlat= 49 : 51    numlats=  3
+  *** p16       beglatex:endlatex= 48 : 52  numlatsex=  5
+  *** p16 beglatexdyn:endlatexdyn=  9 : 13
+  *** p16                  numbnd=  1
+          20 pes participating in computation
+ -----------------------------------
+ NODE#  NAME
+  0  public2.c-coupler.org
+  1  public2.c-coupler.org
+  2  public2.c-coupler.org
+  3  public2.c-coupler.org
+  4  public2.c-coupler.org
+  5  public2.c-coupler.org
+  6  public2.c-coupler.org
+  7  public2.c-coupler.org
+  8  public2.c-coupler.org
+  9  public2.c-coupler.org
+ 10  public2.c-coupler.org
+ 11  public2.c-coupler.org
+ 12  public2.c-coupler.org
+ 13  public2.c-coupler.org
+ 14  public2.c-coupler.org
+ 15  public2.c-coupler.org
+ 16  public2.c-coupler.org
+ 17  public2.c-coupler.org
+ 18  public2.c-coupler.org
+ 19  public2.c-coupler.org
+ *** p*   : jbeg=  3     jend=  4    jpole=  2   inc_pole=   T
+ *** p*   : itop= -1     ibot= 18
+  *** p19           beglat:endlat= 58 : 60    numlats=  3
+  *** p19       beglatex:endlatex= 57 : 61  numlatsex=  5
+  *** p19 beglatexdyn:endlatexdyn=  0 :  4
+  *** p19                  numbnd=  1
+ *** p0   : jbeg=  2     jend=  3    jpole=  4   inc_pole=   T
+ *** p0   : itop=  1     ibot= -1
+ Problem factors: 2**           2  * 3**           1  * 5**           1
+ procid            0  assigned            3  latitude values from           1 
+  through            3
+ procid            1  assigned            3  latitude values from           4 
+  through            6
+ procid            2  assigned            3  latitude values from           7 
+  through            9
+ procid            3  assigned            3  latitude values from          10 
+  through           12
+ procid            4  assigned            3  latitude values from          13 
+  through           15
+ procid            5  assigned            3  latitude values from          16 
+  through           18
+ procid            6  assigned            3  latitude values from          19 
+  through           21
+ procid            7  assigned            3  latitude values from          22 
+  through           24
+ procid            8  assigned            3  latitude values from          25 
+  through           27
+ procid            9  assigned            3  latitude values from          28 
+  through           30
+ procid           10  assigned            3  latitude values from          31 
+  through           33
+ procid           11  assigned            3  latitude values from          34 
+  through           36
+ procid           12  assigned            3  latitude values from          37 
+  through           39
+ procid           13  assigned            3  latitude values from          40 
+  through           42
+ procid           14  assigned            3  latitude values from          43 
+  through           45
+ procid           15  assigned            3  latitude values from          46 
+  through           48
+ procid           16  assigned            3  latitude values from          49 
+  through           51
+ procid           17  assigned            3  latitude values from          52 
+  through           54
+ procid           18  assigned            3  latitude values from          55 
+  through           57
+ procid           19  assigned            3  latitude values from          58 
+  through           60
+ -----------------------------------------
+ Number of lats passed north & south =            1
+ Node  Partition  Extended Partition
+ -----------------------------------------
+  0      1-  3         0-  4
+  1      4-  6         3-  7
+  2      7-  9         6- 10
+  3     10- 12         9- 13
+  4     13- 15        12- 16
+  5     16- 18        15- 19
+  6     19- 21        18- 22
+  7     22- 24        21- 25
+  8     25- 27        24- 28
+  9     28- 30        27- 31
+ 10     31- 33        30- 34
+ 11     34- 36        33- 37
+ 12     37- 39        36- 40
+ 13     40- 42        39- 43
+ 14     43- 45        42- 46
+ 15     46- 48        45- 49
+ 16     49- 51        48- 52
+ 17     52- 54        51- 55
+ 18     55- 57        54- 58
+ 19     58- 60        57- 61
+  *** p 0           beglat:endlat=  1 :  3    numlats=  3
+  *** p 0       beglatex:endlatex=  0 :  4  numlatsex=  5
+  *** p 0 beglatexdyn:endlatexdyn= 57 : 61
+  *** p 0                  numbnd=  1
+ ----------------------------------------------------------
+     Gridpoint Atmosphere Model of IAP/LASG  (GAMIL)       
+                     version 2.0                           
+ ----------------------------------------------------------
+ DATE 09/13/17 TIME 16:19:52
+ ----------------------------------------------------------
+ DYCORE is EUL
+[mpiexec@public2.c-coupler.org] Sending Ctrl-C to processes as requested
+[mpiexec@public2.c-coupler.org] Press Ctrl-C again to force abort

@@ -1,0 +1,9 @@
+COMPSET=GIGC_v9-02_sole
+MACH=generic_linux
+export LIBROOT=/data3/work/yuxinzhu/test/GIGC_v9-02_sole/run/lib
+export INCROOT=/data3/work/yuxinzhu/test/GIGC_v9-02_sole/run/lib/include
+export COMMON_COMPILER=/data3/work/yuxinzhu/test/GIGC_v9-02_sole/config/common/machine/generic_linux/common_compiler.generic_linux.cfg
+export ENSEMBLE_NUM=0
+export OS=Linux
+export GMAKE_J=8
+export SUBMITTER=mpi

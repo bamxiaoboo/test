@@ -1,0 +1,16 @@
+/data/home/liuli/git_checkout/c-coupler-model-platform/models/libs/shr
+/data/home/liuli/git_checkout/c-coupler-model-platform/models/libs/timing
+/data/home/liuli/git_checkout/c-coupler-model-platform/models/atm/GAMIL2.8_AMIP/src/physics/cam1
+/data/home/liuli/git_checkout/c-coupler-model-platform/models/atm/GAMIL2.8_AMIP/src/physics/cam1/echam_cu
+/data/home/liuli/git_checkout/c-coupler-model-platform/models/atm/GAMIL2.8_AMIP/src/dynamics/eul
+/data/home/liuli/git_checkout/c-coupler-model-platform/models/atm/GAMIL2.8_AMIP/src/control
+/data/home/liuli/git_checkout/c-coupler-model-platform/models/atm/GAMIL2.8_AMIP/src/utils
+/data/home/liuli/git_checkout/c-coupler-model-platform/models/atm/GAMIL2.8_AMIP/src/advection/slt
+/data/home/liuli/git_checkout/c-coupler-model-platform/models/atm/GAMIL2.8_AMIP/src/ocnsice/dom
+/data/home/liuli/git_checkout/c-coupler-model-platform/models/atm/GAMIL2.8_AMIP/src/ice/csim4
+/data/home/liuli/git_checkout/c-coupler-model-platform/models/atm/GAMIL2.8_AMIP/src/lnd/clm2/src/main
+/data/home/liuli/git_checkout/c-coupler-model-platform/models/atm/GAMIL2.8_AMIP/src/lnd/clm2/src/biogeophys
+/data/home/liuli/git_checkout/c-coupler-model-platform/models/atm/GAMIL2.8_AMIP/src/lnd/clm2/src/mksrfdata
+/data/home/liuli/git_checkout/c-coupler-model-platform/models/atm/GAMIL2.8_AMIP/src/lnd/clm2/src/ecosysdyn
+/data/home/liuli/git_checkout/c-coupler-model-platform/models/atm/GAMIL2.8_AMIP/src/lnd/clm2/src/riverroute
+/data/home/liuli/git_checkout/model_experiments/GAMIL2.8_AMIP-sole.time_slice_from_1974/run/atm/gamil/src/individual_src_files/

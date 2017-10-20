@@ -1,0 +1,8 @@
+cpl/remap_weights_files/remap_weights_files_by_SCRIP/map_licomeq1x1_to_gamil128x60_aave_091022.nc
+atm/GAMIL2.0_128x60/ozone/Ozone_CMIP5_ACC_SPARC_1850-2099_RCP2.6_T3M_O3.nc
+atm/GAMIL2.0_128x60/boundary_condition/bc.128x60_1870-2009_hadley_taylor.nc
+atm/GAMIL2.0_128x60/radiation/abs_ems_factors_fastvx.052001.nc
+atm/GAMIL2.0_128x60/aerosol/Aerosol1850-2105RCP26gamil.nc
+atm/GAMIL2.0_128x60/initial_condition/amip_ic.gamil.128x060.0011-01-01-00000.nc
+atm/GAMIL2.0_128x60/lnd/pft-physiology
+atm/GAMIL2.0_128x60/lnd/surface-data.128x060.nc

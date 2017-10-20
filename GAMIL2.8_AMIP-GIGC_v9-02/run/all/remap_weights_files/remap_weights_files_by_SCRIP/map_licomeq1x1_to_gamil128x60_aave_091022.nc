@@ -1,0 +1,1 @@
+/data3/work/yuxinzhu/test/inputdata/cpl/remap_weights_files/remap_weights_files_by_SCRIP/map_licomeq1x1_to_gamil128x60_aave_091022.nc

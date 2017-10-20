@@ -1,0 +1,26 @@
+history.o history.d : history.F90
+history.o : misc.h
+history.o : params.h
+history.o : shr_kind_mod.o
+history.o : ppgrid.o
+history.o : constituents.o
+history.o : tracers.o
+history.o : filenames.o
+history.o : pmgrid.o
+history.o : ioFileMod.o
+history.o : time_manager.o
+history.o : mpishorthand.o
+history.o : binary_io.o
+history.o : spmd_dyn.o
+history.o : phys_grid.o
+history.o : dycore.o
+history.o : rgrid.o
+history.o : restart_dynamics.o
+history.o : comctl.h
+history.o : pspect.o
+history.o : commap.o
+history.o : comhyb.h
+history.o : comsrf.o
+history.o : buffer.o
+history.o : prognostics.o
+history.o : comlun.h

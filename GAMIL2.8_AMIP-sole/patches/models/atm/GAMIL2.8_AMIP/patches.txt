@@ -1,0 +1,260 @@
+diff --git a/src/control/gamil.F90 b/src/control/gamil.F90
+index 5e90ea7..cb65f7d 100755
+--- a/src/control/gamil.F90
++++ b/src/control/gamil.F90
+@@ -37,7 +37,7 @@ program gamil
+     use cpl_fields_mod    !
+ #endif
+ 
+-    use c_coupler_interface_mod
++    use CCPL_interface_mod
+     use register_decompositions_mod
+     use register_private_variables_mod
+ 
+@@ -97,7 +97,7 @@ program gamil
+     call t_startf('total')
+     call t_startf('initialization')
+ 
+-    call c_coupler_initialize(mpicom)
++    !call c_coupler_initialize(mpicom)
+     !
+     ! Initialize internal/external MPI if appropriate
+     !
+diff --git a/src/control/time_manager.F90 b/src/control/time_manager.F90
+index 3249bca..a142eed 100755
+--- a/src/control/time_manager.F90
++++ b/src/control/time_manager.F90
+@@ -17,7 +17,7 @@ module time_manager
+         esmf_timemgrrestartwrite, esmf_timemgrrestartread
+    use string_utils, only: to_upper
+    use dycore, only: dycore_is
+-   use c_coupler_interface_mod
++   use CCPL_interface_mod
+ #ifdef SPMD
+    use mpishorthand, only: mpicom, mpiint, mpilog
+ #endif
+@@ -124,7 +124,7 @@ subroutine timemgr_preset()
+ 
+    if ( dtime == uninit_int ) then
+       if (dycore_is ('EUL')) then
+-         dtime  = c_coupler_get_step_size()
++!         dtime  = c_coupler_get_step_size()
+          dtdy   = dtime/5                 !!(wh 2004.04.14)
+       else if (dycore_is ('SLD')) then
+          dtime  = 3600
+@@ -186,8 +186,8 @@ subroutine timemgr_init()
+       write(6,*)sub,': timestep must divide evenly into 1 day'
+       call endrun
+    end if
+-!!
+-   tmp = int(dtdy+0.1)                                      !!
++!
++  tmp = int(dtdy+0.1)                                      !!
+    if ( mod(dtime,tmp) /= 0 ) then                          !!
+       write(6,*)sub,': dtdy must divide evenly into dtime'  !! (wh 2004.04.14)
+       call endrun                                           !!
+diff --git a/src/couple/c_coupler/register_decompositions_mod.F90 b/src/couple/c_coupler/register_decompositions_mod.F90
+deleted file mode 100644
+index e0625e7..0000000
+--- a/src/couple/c_coupler/register_decompositions_mod.F90
++++ /dev/null
+@@ -1,84 +0,0 @@
+-!***************************************************************
+-!  This is a source file of GAMIL, which registers all parallel 
+-!  decompositions into C-Coupler library. This file was initially 
+-!  finished by Dr. Li Liu. If you have any problem, please 
+-!  contact Dr. Li Liu via liuli-cess@tsinghua.edu.cn
+-!***************************************************************
+-
+-
+-module register_decompositions_mod
+-
+-    public register_decompositions
+-
+-contains
+-
+-    subroutine register_decompositions
+-       use pmgrid
+-       use phys_grid
+-       use rgrid,          only: nlon                                                  ! reduced grid
+-       use c_coupler_interface_mod
+-       implicit none
+-       integer,allocatable :: decomp_cell_indexes(:)
+-       integer,allocatable :: dyn_cell_global_index(:)
+-       integer             :: n, i, j, startpoint, bufsize
+-       integer :: lchnk         ! indices
+-       integer :: ncol                  ! number of columns in current chunk
+-       integer :: lats(pcols)           ! array of latitude indices
+-       integer :: lons(pcols)           ! array of longitude indices
+-       integer :: begj, endj, NX
+-
+-       NX=130
+-
+-       bufsize=0
+-       do j=1,plat
+-          bufsize = bufsize + nlon(j)
+-       end do
+-       allocate(decomp_cell_indexes(bufsize))
+-       n = 0
+-       startpoint = 0
+-       do j=1,plat
+-          do i=1,nlon(j)
+-             if(get_chunk_owner_p(i,j) .eq. iam) then
+-                n=n+1
+-                decomp_cell_indexes(n) = startpoint + i
+-             end if
+-          enddo
+-          startpoint = startpoint + nlon(j)
+-       enddo
+-       call c_coupler_register_decomposition("gamil_gamil_grid_decomp", "gamil_grid", n, decomp_cell_indexes)
+-       deallocate(decomp_cell_indexes)
+-
+-       allocate(decomp_cell_indexes(pcols*(endchunk-begchunk+1)))
+-       decomp_cell_indexes=0
+-       do lchnk = begchunk,endchunk
+-          ncol = get_ncols_p(lchnk)
+-          call get_lon_all_p(lchnk, ncol, lons)
+-          call get_lat_all_p(lchnk, ncol, lats)
+-          do i=1,ncol
+-              decomp_cell_indexes((lchnk-begchunk)*pcols+i)=(lats(i)-1)*(128)+lons(i)
+-          end do
+-       end do
+-       call c_coupler_register_decomposition("gamil_2D_decomp_phys", "gamil_grid", &
+-                                  pcols*(endchunk-begchunk+1), decomp_cell_indexes)
+-       deallocate(decomp_cell_indexes)
+-
+-       bufsize=(endlatexdyn-beglatexdyn+1)*NX
+-       allocate(dyn_cell_global_index(bufsize))
+-       dyn_cell_global_index=-1
+-       begj = beglatexdyn + numbnd
+-       endj = endlatexdyn - numbnd
+-       do j=begj,endj
+-          do i=2,NX-1
+-             dyn_cell_global_index((j-begj)*NX+i) = (j-1)*(NX-2)+i-1
+-          enddo
+-       enddo
+-
+-       call c_coupler_register_decomposition("gamil_2D_decomp_dyn", "gamil_grid", &
+-                                  bufsize, dyn_cell_global_index)
+-
+-       deallocate(dyn_cell_global_index)
+-
+-    end subroutine register_decompositions
+-
+-end module register_decompositions_mod
+-
+diff --git a/src/couple/c_coupler/register_private_variables_mod.F90 b/src/couple/c_coupler/register_private_variables_mod.F90
+deleted file mode 100755
+index e4b6b28..0000000
+--- a/src/couple/c_coupler/register_private_variables_mod.F90
++++ /dev/null
+@@ -1,65 +0,0 @@
+-!***************************************************************
+-!  This is a source file of GAMIL, which registers all variables
+-!  into C-Coupler library for I/O. This file was initially 
+-!  finished by Dr. Li Liu. If you have any problem, please 
+-!  contact Dr. Li Liu via liuli-cess@tsinghua.edu.cn
+-!***************************************************************
+-
+-
+-#include <misc.h>
+-#include <params.h>
+-
+-
+-module register_private_variables_mod
+-
+-    use shr_kind_mod, only: r8 => shr_kind_r8
+-    use ppgrid
+-    use phys_grid,    only: read_chunk_from_field, write_field_from_chunk, get_ncols_p
+-    use pmgrid,       only: masterproc
+-    use prognostics,  only: ptimelevels, n3, n3m2
+-    use buffer
+-    use radae,        only: abstot_3d, absnxt_3d, emstot_3d, initialize_radbuffer
+-    use comsrf
+-    use ioFileMod
+-    use phys_buffer
+-    use c_coupler_interface_mod
+-
+-    implicit none
+-#include <pdyn.h> 
+-#include <comfm2.h> 
+-
+-    !
+-    ! Public interfaces
+-    !
+-    public  register_static_variables
+-    private register_dyn_variables
+-
+-CONTAINS
+-
+-    
+-
+-    subroutine register_dyn_variables
+-       use prognostics
+-       use comfm1
+-       use pmgrid, only: beglatex,beglatexdyn,endlatexdyn
+-       implicit none
+-
+-       call c_coupler_register_model_data(pes,"gamil_2D_decomp_dyn","gamil_pes",.true.)
+-       call c_coupler_register_model_data(t,"gamil_2D_decomp_dyn","gamil_t",.true.)
+-       !call c_coupler_add_field_for_perturbing_roundoff_errors(pes)
+-       call c_coupler_add_field_for_perturbing_roundoff_errors(t)
+-
+-    end subroutine register_dyn_variables
+-
+-
+-
+-    subroutine register_static_variables
+-
+-       implicit none
+-
+-       call register_dyn_variables
+-
+-    end subroutine register_static_variables
+-
+-
+-end module register_private_variables_mod
+diff --git a/src/dynamics/eul/stepon.F90 b/src/dynamics/eul/stepon.F90
+index 156cab5..9eedc6f 100755
+--- a/src/dynamics/eul/stepon.F90
++++ b/src/dynamics/eul/stepon.F90
+@@ -42,7 +42,7 @@ subroutine stepon
+                               is_first_step, is_first_restart_step, &
+                               is_last_step, is_end_curr_day, get_curr_calday, &
+                               dtdy ! added by WANG Hui
+-    use c_coupler_interface_mod
++    use CCPL_interface_mod
+ 
+     implicit none
+ 
+@@ -221,7 +221,7 @@ subroutine stepon
+ 
+         ! prepare data for physics
+ 
+-        call c_coupler_perturb_roundoff_errors
++!        call c_coupler_perturb_roundoff_errors
+ 
+         call c_a_switching(pmtop)            !!(wh 2003.10.28)
+ 
+@@ -277,7 +277,7 @@ subroutine stepon
+         !
+         ! Advance timestep before returning to top of loop
+         !
+-        call c_coupler_advance_timer()
++!        call CCPL_advance_timer()
+         call advance_timestep()
+         call t_stopf('stepon_st')
+         !
+diff --git a/src/lnd/clm2/src/main/controlMod.F90 b/src/lnd/clm2/src/main/controlMod.F90
+index f1e2562..24b0410 100755
+--- a/src/lnd/clm2/src/main/controlMod.F90
++++ b/src/lnd/clm2/src/main/controlMod.F90
+@@ -568,7 +568,7 @@ CONTAINS
+ 
+     rpntdir = ' '
+     rpntfil = ' '
+-    do n = len_trim(rpntpath),0,-1
++    do n = len_trim(rpntpath),1,-1
+        if (rpntpath(n:n) ==  '/') then
+           rpntdir = rpntpath(1:n-1)
+           rpntfil = rpntpath(n+1:len_trim(rpntpath))

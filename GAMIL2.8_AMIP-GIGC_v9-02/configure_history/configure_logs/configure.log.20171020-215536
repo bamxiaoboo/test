@@ -1,0 +1,24 @@
+configure model experiment GAMIL2.8_AMIP-GIGC_v9-02 by user yuxinzhu on computer public2.c-coupler.org at time 20171020-215536
+
+
+
+[ERROR]: Input data file "/data3/work/yuxinzhu/test/inputdata/atm/GAMIL2.8_128x60/ozone/Ozone_CMIP5_ACC_SPARC_1850-2099_RCP2.6_T3M_O3.nc" does not exist! Please check.
+
+
+[ERROR]: Input data file "/data3/work/yuxinzhu/test/inputdata/atm/GAMIL2.8_128x60/boundary_condition/bc.128x60_1870-2009_hadley_taylor.nc" does not exist! Please check.
+
+
+[ERROR]: Input data file "/data3/work/yuxinzhu/test/inputdata/atm/GAMIL2.8_128x60/radiation/abs_ems_factors_fastvx.052001.nc" does not exist! Please check.
+
+
+[ERROR]: Input data file "/data3/work/yuxinzhu/test/inputdata/atm/GAMIL2.8_128x60/aerosol/Aerosol1850-2105RCP26gamil.nc" does not exist! Please check.
+
+
+[ERROR]: Input data file "/data3/work/yuxinzhu/test/inputdata/atm/GAMIL2.8_128x60/initial_condition/amip_ic.gamil.128x060.0011-01-01-00000.nc" does not exist! Please check.
+
+
+[ERROR]: Input data file "/data3/work/yuxinzhu/test/inputdata/atm/GAMIL2.8_128x60/lnd/pft-physiology" does not exist! Please check.
+
+
+[ERROR]: Input data file "/data3/work/yuxinzhu/test/inputdata/atm/GAMIL2.8_128x60/lnd/surface-data.128x060.nc" does not exist! Please check.
+

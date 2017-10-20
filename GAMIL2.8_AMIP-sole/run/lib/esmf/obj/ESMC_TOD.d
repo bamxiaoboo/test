@@ -1,0 +1,3 @@
+ESMC_TOD.o ESMC_TOD.d : ESMC_TOD.c
+ESMC_TOD.o : ESMC_TOD.h
+ESMC_TOD.o : ESMC_TimeMgmtUtil.h

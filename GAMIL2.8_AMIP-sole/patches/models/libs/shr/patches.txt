@@ -1,0 +1,443 @@
+diff --git a/shr_const_mod.F90 b/shr_const_mod.F90
+index 533ed7c..0c6fd6c 100644
+--- a/shr_const_mod.F90
++++ b/shr_const_mod.F90
+@@ -19,6 +19,7 @@ MODULE shr_const_mod
+    real(SHR_KIND_R8),parameter :: SHR_CONST_REARTH = 6.37122e6_SHR_KIND_R8    ! radius of earth ~ m
+    real(SHR_KIND_R8),parameter :: SHR_CONST_G      = 9.80616_SHR_KIND_R8      ! acceleration of gravity ~ m/s^2
+    real(SHR_KIND_R8),parameter :: SHR_CONST_PSTD   = 101325.0_SHR_KIND_R8     ! standard pressure ~ pascals
++   real(SHR_KIND_R8),parameter :: SHR_CONST_PDB    = 0.0112372_SHR_KIND_R8    ! ratio of 13C/12C in Pee Dee Belemnite (C isotope standard)
+ 
+    real(SHR_KIND_R8),parameter :: SHR_CONST_STEBOL = 5.67e-8_SHR_KIND_R8      ! Stefan-Boltzmann constant ~ W/m^2/K^4
+    real(SHR_KIND_R8),parameter :: SHR_CONST_BOLTZ  = 1.38065e-23_SHR_KIND_R8  ! Boltzmann's constant ~ J/K/molecule
+@@ -32,6 +33,7 @@ MODULE shr_const_mod
+    real(SHR_KIND_R8),parameter :: SHR_CONST_KARMAN = 0.4_SHR_KIND_R8          ! Von Karman constant
+  
+    real(SHR_KIND_R8),parameter :: SHR_CONST_TKFRZ  = 273.16_SHR_KIND_R8       ! freezing T of fresh water ~ K (intentionally made == to TKTRIP)
++   real(SHR_KIND_R8),parameter :: SHR_CONST_TKFRZSW = SHR_CONST_TKFRZ - 1.8_SHR_KIND_R8 ! freezing T of salt water  ~ K
+    real(SHR_KIND_R8),parameter :: SHR_CONST_TKTRIP = 273.16_SHR_KIND_R8       ! triple point of fresh water ~ K
+ 
+    real(SHR_KIND_R8),parameter :: SHR_CONST_RHODAIR=SHR_CONST_PSTD/ &
+diff --git a/shr_mpi_mod.F90 b/shr_mpi_mod.F90
+index e522456..cccf0f7 100644
+--- a/shr_mpi_mod.F90
++++ b/shr_mpi_mod.F90
+@@ -40,14 +40,23 @@ Module shr_mpi_mod
+      shr_mpi_recvr1
+    end interface
+    interface shr_mpi_bcast ; module procedure &
++     shr_mpi_bcastc0, &
++     shr_mpi_bcastc1, &
++     shr_mpi_bcastl0, &
++     shr_mpi_bcastl1, &
+      shr_mpi_bcasti0, &
+      shr_mpi_bcasti1, &
++     shr_mpi_bcasti2, &
+      shr_mpi_bcastr0, &
+-     shr_mpi_bcastr1
++     shr_mpi_bcastr1, &
++     shr_mpi_bcastr2, &
++     shr_mpi_bcastr3
+    end interface
+    interface shr_mpi_sum ; module procedure &
+      shr_mpi_sumi0, &
+      shr_mpi_sumi1, &
++     shr_mpi_sumb0, &
++     shr_mpi_sumb1, &
+      shr_mpi_sumr0, &
+      shr_mpi_sumr1, &
+      shr_mpi_sumr2, &
+@@ -474,6 +483,78 @@ END SUBROUTINE shr_mpi_bcastr0
+ !===============================================================================
+ !===============================================================================
+ 
++SUBROUTINE shr_mpi_bcastl0(vec,comm,string,pebcast)
++
++   IMPLICIT none
++
++   !----- arguments ---
++   logical, intent(inout):: vec      ! vector of 1
++   integer(SHR_KIND_IN), intent(in)   :: comm     ! mpi communicator
++   character(*),optional,intent(in)   :: string   ! message
++   integer(SHR_KIND_IN), optional, intent(in)   :: pebcast  ! bcast pe (otherwise zero)
++
++   !----- local ---
++   character(*),parameter             :: subName = '(shr_mpi_bcastl0) '
++   integer(SHR_KIND_IN)               :: ierr
++   integer(SHR_KIND_IN)               :: lsize
++   integer(SHR_KIND_IN)               :: lpebcast
++
++!-------------------------------------------------------------------------------
++! PURPOSE: Broadcast a logical
++!-------------------------------------------------------------------------------
++
++   lsize = 1
++   lpebcast = 0
++   if (present(pebcast)) lpebcast = pebcast
++
++   call MPI_BCAST(vec,lsize,MPI_LOGICAL,lpebcast,comm,ierr)
++   if (present(string)) then
++     call shr_mpi_chkerr(ierr,subName//trim(string))
++   else
++     call shr_mpi_chkerr(ierr,subName)
++   endif
++
++END SUBROUTINE shr_mpi_bcastl0
++
++!===============================================================================
++!===============================================================================
++
++SUBROUTINE shr_mpi_bcastc0(vec,comm,string,pebcast)
++
++   IMPLICIT none
++
++   !----- arguments ---
++   character(len=*), intent(inout)    :: vec      ! vector of 1
++   integer(SHR_KIND_IN), intent(in)   :: comm     ! mpi communicator
++   character(*),optional,intent(in)   :: string   ! message
++   integer(SHR_KIND_IN), optional, intent(in)   :: pebcast  ! bcast pe (otherwise zero)
++
++   !----- local ---
++   character(*),parameter             :: subName = '(shr_mpi_bcastc0) '
++   integer(SHR_KIND_IN)               :: ierr
++   integer(SHR_KIND_IN)               :: lsize
++   integer(SHR_KIND_IN)               :: lpebcast
++
++!-------------------------------------------------------------------------------
++! PURPOSE: Broadcast a character string
++!-------------------------------------------------------------------------------
++
++   lsize = len(vec)
++   lpebcast = 0
++   if (present(pebcast)) lpebcast = pebcast
++
++   call MPI_BCAST(vec,lsize,MPI_CHARACTER,lpebcast,comm,ierr)
++   if (present(string)) then
++     call shr_mpi_chkerr(ierr,subName//trim(string))
++   else
++     call shr_mpi_chkerr(ierr,subName)
++   endif
++
++END SUBROUTINE shr_mpi_bcastc0
++
++!===============================================================================
++!===============================================================================
++
+ SUBROUTINE shr_mpi_bcasti1(vec,comm,string)
+ 
+    IMPLICIT none
+@@ -542,6 +623,193 @@ END SUBROUTINE shr_mpi_bcastr1
+ !===============================================================================
+ !===============================================================================
+ 
++SUBROUTINE shr_mpi_bcastc1(vec,comm,string,pebcast)
++
++   IMPLICIT none
++
++   !----- arguments ---
++   character(len=*), intent(inout)    :: vec(:)   ! 1D vector
++   integer(SHR_KIND_IN), intent(in)   :: comm     ! mpi communicator
++   character(*),optional,intent(in)   :: string   ! message
++   integer(SHR_KIND_IN), optional, intent(in)   :: pebcast  ! bcast pe (otherwise zero)
++
++   !----- local ---
++   character(*),parameter             :: subName = '(shr_mpi_bcastc1) '
++   integer(SHR_KIND_IN)               :: ierr
++   integer(SHR_KIND_IN)               :: lsize
++   integer(SHR_KIND_IN)               :: lpebcast
++
++!-------------------------------------------------------------------------------
++! PURPOSE: Broadcast a character string
++!-------------------------------------------------------------------------------
++
++   lsize = size(vec)*len(vec)
++   lpebcast = 0
++   if (present(pebcast)) lpebcast = pebcast
++
++   call MPI_BCAST(vec,lsize,MPI_CHARACTER,lpebcast,comm,ierr)
++   if (present(string)) then
++     call shr_mpi_chkerr(ierr,subName//trim(string))
++   else
++     call shr_mpi_chkerr(ierr,subName)
++   endif
++
++END SUBROUTINE shr_mpi_bcastc1
++
++!===============================================================================
++!===============================================================================
++
++SUBROUTINE shr_mpi_bcastl1(vec,comm,string,pebcast)
++
++   IMPLICIT none
++
++   !----- arguments ---
++   logical, intent(inout):: vec(:)      ! vector of 1
++   integer(SHR_KIND_IN), intent(in)   :: comm     ! mpi communicator
++   character(*),optional,intent(in)   :: string   ! message
++   integer(SHR_KIND_IN), optional, intent(in)   :: pebcast  ! bcast pe (otherwise zero)
++
++   !----- local ---
++   character(*),parameter             :: subName = '(shr_mpi_bcastl1) '
++   integer(SHR_KIND_IN)               :: ierr
++   integer(SHR_KIND_IN)               :: lsize
++   integer(SHR_KIND_IN)               :: lpebcast
++
++!-------------------------------------------------------------------------------
++! PURPOSE: Broadcast a logical
++!-------------------------------------------------------------------------------
++
++   lsize = size(vec)
++   lpebcast = 0
++   if (present(pebcast)) lpebcast = pebcast
++
++   call MPI_BCAST(vec,lsize,MPI_LOGICAL,lpebcast,comm,ierr)
++   if (present(string)) then
++     call shr_mpi_chkerr(ierr,subName//trim(string))
++   else
++     call shr_mpi_chkerr(ierr,subName)
++   endif
++
++END SUBROUTINE shr_mpi_bcastl1
++
++!===============================================================================
++!===============================================================================
++
++SUBROUTINE shr_mpi_bcasti2(arr,comm,string,pebcast)
++
++   IMPLICIT none
++
++   !----- arguments -----
++   integer,              intent(inout):: arr(:,:) ! array, 2d 
++   integer(SHR_KIND_IN), intent(in)   :: comm     ! mpi communicator
++   character(*),optional,intent(in)   :: string   ! message
++   integer(SHR_KIND_IN), optional, intent(in)   :: pebcast  ! bcast pe (otherwise zero)
++
++   !----- local -----
++   integer(SHR_KIND_IN)               :: ierr
++   integer(SHR_KIND_IN)               :: lsize
++   integer(SHR_KIND_IN)               :: lpebcast
++
++   !----- formats -----
++   character(*),parameter             :: subName = '(shr_mpi_bcasti2) '
++
++!-------------------------------------------------------------------------------
++! PURPOSE: Broadcast a 2d array of integers
++!-------------------------------------------------------------------------------
++
++   lsize = size(arr)
++   lpebcast = 0
++   if (present(pebcast)) lpebcast = pebcast
++
++   call MPI_BCAST(arr,lsize,MPI_INTEGER,lpebcast,comm,ierr)
++   if (present(string)) then
++     call shr_mpi_chkerr(ierr,subName//trim(string))
++   else
++     call shr_mpi_chkerr(ierr,subName)
++   endif
++
++END SUBROUTINE shr_mpi_bcasti2
++
++!===============================================================================
++!===============================================================================
++
++SUBROUTINE shr_mpi_bcastr2(arr,comm,string,pebcast)
++
++   IMPLICIT none
++
++   !----- arguments -----
++   real(SHR_KIND_R8),    intent(inout):: arr(:,:) ! array, 2d 
++   integer(SHR_KIND_IN), intent(in)   :: comm     ! mpi communicator
++   character(*),optional,intent(in)   :: string   ! message
++   integer(SHR_KIND_IN), optional, intent(in)   :: pebcast  ! bcast pe (otherwise zero)
++
++   !----- local -----
++   integer(SHR_KIND_IN)               :: ierr
++   integer(SHR_KIND_IN)               :: lsize
++   integer(SHR_KIND_IN)               :: lpebcast
++
++   !----- formats -----
++   character(*),parameter             :: subName = '(shr_mpi_bcastr2) '
++
++!-------------------------------------------------------------------------------
++! PURPOSE: Broadcast a 2d array of reals
++!-------------------------------------------------------------------------------
++
++   lsize = size(arr)
++   lpebcast = 0
++   if (present(pebcast)) lpebcast = pebcast
++
++   call MPI_BCAST(arr,lsize,MPI_REAL8,lpebcast,comm,ierr)
++   if (present(string)) then
++     call shr_mpi_chkerr(ierr,subName//trim(string))
++   else
++     call shr_mpi_chkerr(ierr,subName)
++   endif
++
++END SUBROUTINE shr_mpi_bcastr2
++
++!===============================================================================
++!===============================================================================
++
++SUBROUTINE shr_mpi_bcastr3(arr,comm,string,pebcast)
++
++   IMPLICIT none
++
++   !----- arguments -----
++   real(SHR_KIND_R8),    intent(inout):: arr(:,:,:) ! array, 3d 
++   integer(SHR_KIND_IN), intent(in)   :: comm       ! mpi communicator
++   character(*),optional,intent(in)   :: string     ! message
++   integer(SHR_KIND_IN), optional, intent(in)   :: pebcast  ! bcast pe (otherwise zero)
++
++   !----- local -----
++   integer(SHR_KIND_IN)               :: ierr
++   integer(SHR_KIND_IN)               :: lsize
++   integer(SHR_KIND_IN)               :: lpebcast
++
++   !----- formats -----
++   character(*),parameter             :: subName = '(shr_mpi_bcastr3) '
++
++!-------------------------------------------------------------------------------
++! PURPOSE: Broadcast a 3d array of reals
++!-------------------------------------------------------------------------------
++
++   lsize = size(arr)
++   lpebcast = 0
++   if (present(pebcast)) lpebcast = pebcast
++
++   call MPI_BCAST(arr,lsize,MPI_REAL8,lpebcast,comm,ierr)
++   if (present(string)) then
++     call shr_mpi_chkerr(ierr,subName//trim(string))
++   else
++     call shr_mpi_chkerr(ierr,subName)
++   endif
++
++END SUBROUTINE shr_mpi_bcastr3
++
++
++!===============================================================================
++!===============================================================================
++
+ SUBROUTINE shr_mpi_sumi0(lvec,gvec,comm,string,all)
+ 
+    IMPLICIT none
+@@ -660,6 +928,120 @@ END SUBROUTINE shr_mpi_sumi1
+ !===============================================================================
+ !===============================================================================
+ 
++SUBROUTINE shr_mpi_sumb0(lvec,gvec,comm,string,all)
++
++   IMPLICIT none
++
++   !----- arguments ---
++   integer(SHR_KIND_I8), intent(in) :: lvec     ! in/out local values
++   integer(SHR_KIND_I8), intent(out):: gvec     ! in/out global values
++   integer(SHR_KIND_IN), intent(in) :: comm     ! mpi communicator
++   character(*),optional,intent(in) :: string   ! message
++   logical,     optional,intent(in) :: all      ! allreduce if true
++
++   !----- local ---
++   character(*),parameter           :: subName = '(shr_mpi_sumb0) '
++   logical                          :: lall
++   character(SHR_KIND_CL)           :: lstring
++   integer(SHR_KIND_IN)             :: reduce_type  ! mpi reduction type
++   integer(SHR_KIND_IN)             :: lsize
++   integer(SHR_KIND_IN)             :: gsize
++   integer(SHR_KIND_IN)             :: ierr
++
++!-------------------------------------------------------------------------------
++! PURPOSE: Finds sum of a distributed vector of values, assume local sum
++!          already computed
++!-------------------------------------------------------------------------------
++
++   reduce_type = MPI_SUM
++   if (present(all)) then
++     lall = all
++   else
++     lall = .false.
++   endif
++   if (present(string)) then
++     lstring = trim(subName)//":"//trim(string)
++   else
++     lstring = trim(subName)
++   endif
++
++   lsize = 1
++   gsize = 1
++
++   if (lsize /= gsize) then
++     call shr_mpi_abort(subName//" lsize,gsize incompatable "//trim(string))
++   endif
++
++   if (lall) then
++     call MPI_ALLREDUCE(lvec,gvec,gsize,MPI_INTEGER8,reduce_type,comm,ierr)
++     call shr_mpi_chkerr(ierr,trim(lstring)//" MPI_ALLREDUCE")
++   else
++     call MPI_REDUCE(lvec,gvec,gsize,MPI_INTEGER8,reduce_type,0,comm,ierr)
++     call shr_mpi_chkerr(ierr,trim(lstring)//" MPI_REDUCE")
++   endif
++
++END SUBROUTINE shr_mpi_sumb0
++
++!===============================================================================
++!===============================================================================
++
++SUBROUTINE shr_mpi_sumb1(lvec,gvec,comm,string,all)
++
++   IMPLICIT none
++
++   !----- arguments ---
++   integer(SHR_KIND_I8), intent(in) :: lvec(:)  ! in/out local values
++   integer(SHR_KIND_I8), intent(out):: gvec(:)  ! in/out global values
++   integer(SHR_KIND_IN), intent(in) :: comm     ! mpi communicator
++   character(*),optional,intent(in) :: string   ! message
++   logical,     optional,intent(in) :: all      ! allreduce if true
++
++   !----- local ---
++   character(*),parameter           :: subName = '(shr_mpi_sumb1) '
++   logical                          :: lall
++   character(SHR_KIND_CL)           :: lstring
++   integer(SHR_KIND_IN)             :: reduce_type  ! mpi reduction type
++   integer(SHR_KIND_IN)             :: lsize
++   integer(SHR_KIND_IN)             :: gsize
++   integer(SHR_KIND_IN)             :: ierr
++
++!-------------------------------------------------------------------------------
++! PURPOSE: Finds sum of a distributed vector of values, assume local sum
++!          already computed
++!-------------------------------------------------------------------------------
++
++   reduce_type = MPI_SUM
++   if (present(all)) then
++     lall = all
++   else
++     lall = .false.
++   endif
++   if (present(string)) then
++     lstring = trim(subName)//":"//trim(string)
++   else
++     lstring = trim(subName)
++   endif
++
++   lsize = size(lvec)
++   gsize = size(gvec)
++
++   if (lsize /= gsize) then
++     call shr_mpi_abort(subName//" lsize,gsize incompatable "//trim(string))
++   endif
++
++   if (lall) then
++     call MPI_ALLREDUCE(lvec,gvec,gsize,MPI_INTEGER8,reduce_type,comm,ierr)
++     call shr_mpi_chkerr(ierr,trim(lstring)//" MPI_ALLREDUCE")
++   else
++     call MPI_REDUCE(lvec,gvec,gsize,MPI_INTEGER8,reduce_type,0,comm,ierr)
++     call shr_mpi_chkerr(ierr,trim(lstring)//" MPI_REDUCE")
++   endif
++
++END SUBROUTINE shr_mpi_sumb1
++
++!===============================================================================
++!===============================================================================
++
+ SUBROUTINE shr_mpi_sumr0(lvec,gvec,comm,string,all)
+ 
+    IMPLICIT none

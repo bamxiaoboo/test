@@ -1,0 +1,1 @@
+/data3/work/yuxinzhu/test/inputdata/atm/GAMIL2.0_128x60/boundary_condition/bc.128x60_1870-2009_hadley_taylor.nc

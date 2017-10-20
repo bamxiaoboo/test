@@ -1,0 +1,4 @@
+DATAROOT="/home/yuxinzhu/work3/test/inputdata"
+PLATFORMROOT="/home/yuxinzhu/work3/test/model_platform"
+#EXTRA_DATASRC_HIGH_PRIORITY="local_dataroots"
+#REQUIRE_CHECKSUM="no"

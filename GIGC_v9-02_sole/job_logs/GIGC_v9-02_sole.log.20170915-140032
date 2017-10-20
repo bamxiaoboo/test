@@ -1,0 +1,861 @@
+*************   S T A R T I N G   4 x 5   G E O S--C H E M   *************
+Created w/ LINUX/IFORT compiler
+Use ifort -V to print version information
+Using GMAO GEOS-5 met fields
+
+===> SIMULATION START TIME: 2017/09/15 14:49 <===
+
+===============================================================================
+G E O S - C H E M   U S E R   I N P U T
+
+READ_INPUT_FILE: Reading input.geos
+
+SIMULATION MENU
+---------------
+Start time of run           : 20050701 000000
+End time of run             : 20050702 000000
+Run directory               : ./
+Data Directory              : /data3/work/yuxinzhu/test/GIGC_v9-02_sole/run/atm_chem/GIGC/data/GEOS_4x5/
+GCAP       sub-directory    : AGRID/YYYY/MM/
+GEOS-4     sub-directory    : GEOS_4_v4/YYYY/MM/
+GEOS-5     sub-directory    : GEOS_5/YYYY/MM/
+GEOS-5.7.x sub-directory    : GEOS_FP/YYYY/MM/
+MERRA      sub-directory    : MERRA/YYYY/MM/
+1x1 Emissions etc Data Dir  : /data3/work/yuxinzhu/test/GIGC_v9-02_sole/run/atm_chem/GIGC/data/GEOS_1x1/
+Temporary Directory         : ./
+Input restart file          : restart.4x5.geos5.YYYYMMDDhh
+Create restart file?        :     T
+Output restart file(s)      : restart.4x5.geos5.YYYYMMDDhh
+Unzip met fields?           :     F
+Wait for met fields?        :     F
+Use variable tropopause?    :     T
+Global offsets I0, J0       :     0    0
+Nested-Grid X-offset [boxes]:   0
+Nested-Grid Y-offset [boxes]:   0
+
+Grid box longitude centers [degrees]: 
+-180.000 -175.000 -170.000 -165.000 -160.000 -155.000 -150.000 -145.000
+-140.000 -135.000 -130.000 -125.000 -120.000 -115.000 -110.000 -105.000
+-100.000  -95.000  -90.000  -85.000  -80.000  -75.000  -70.000  -65.000
+ -60.000  -55.000  -50.000  -45.000  -40.000  -35.000  -30.000  -25.000
+ -20.000  -15.000  -10.000   -5.000    0.000    5.000   10.000   15.000
+  20.000   25.000   30.000   35.000   40.000   45.000   50.000   55.000
+  60.000   65.000   70.000   75.000   80.000   85.000   90.000   95.000
+ 100.000  105.000  110.000  115.000  120.000  125.000  130.000  135.000
+ 140.000  145.000  150.000  155.000  160.000  165.000  170.000  175.000
+
+Grid box longitude edges [degrees]: 
+-182.500 -177.500 -172.500 -167.500 -162.500 -157.500 -152.500 -147.500
+-142.500 -137.500 -132.500 -127.500 -122.500 -117.500 -112.500 -107.500
+-102.500  -97.500  -92.500  -87.500  -82.500  -77.500  -72.500  -67.500
+ -62.500  -57.500  -52.500  -47.500  -42.500  -37.500  -32.500  -27.500
+ -22.500  -17.500  -12.500   -7.500   -2.500    2.500    7.500   12.500
+  17.500   22.500   27.500   32.500   37.500   42.500   47.500   52.500
+  57.500   62.500   67.500   72.500   77.500   82.500   87.500   92.500
+  97.500  102.500  107.500  112.500  117.500  122.500  127.500  132.500
+ 137.500  142.500  147.500  152.500  157.500  162.500  167.500  172.500
+ 177.500
+
+Grid box latitude centers [degrees]: 
+ -89.000  -86.000  -82.000  -78.000  -74.000  -70.000  -66.000  -62.000
+ -58.000  -54.000  -50.000  -46.000  -42.000  -38.000  -34.000  -30.000
+ -26.000  -22.000  -18.000  -14.000  -10.000   -6.000   -2.000    2.000
+   6.000   10.000   14.000   18.000   22.000   26.000   30.000   34.000
+  38.000   42.000   46.000   50.000   54.000   58.000   62.000   66.000
+  70.000   74.000   78.000   82.000   86.000   89.000
+
+Grid box latitude edges [degrees]: 
+ -90.000  -88.000  -84.000  -80.000  -76.000  -72.000  -68.000  -64.000
+ -60.000  -56.000  -52.000  -48.000  -44.000  -40.000  -36.000  -32.000
+ -28.000  -24.000  -20.000  -16.000  -12.000   -8.000   -4.000    0.000
+   4.000    8.000   12.000   16.000   20.000   24.000   28.000   32.000
+  36.000   40.000   44.000   48.000   52.000   56.000   60.000   64.000
+  68.000   72.000   76.000   80.000   84.000   88.000   90.000
+
+TRACER MENU (==> denotes SMVGEAR emitted species)
+------------------------------------------------
+  # Tracer          g/mole
+  1 NO                30.0
+     ===>  1.0 NO    
+  2 O3                48.0
+     ===>  1.0 O3    
+  3 PAN              121.0
+  4 CO                28.0
+     ===>  1.0 CO    
+  5 ALK4              12.0
+     ===>  4.0 C     
+  6 ISOP              12.0
+     ===>  5.0 C     
+  7 HNO3              63.0
+     ===>  1.0 HNO3  
+  8 H2O2              34.0
+  9 ACET              12.0
+     ===>  3.0 C     
+ 10 MEK               12.0
+     ===>  4.0 C     
+ 11 ALD2              12.0
+     ===>  2.0 C     
+ 12 RCHO              58.0
+ 13 MVK               70.0
+ 14 MACR              70.0
+ 15 PMN              147.0
+ 16 PPN              135.0
+ 17 R4N2             119.0
+ 18 PRPE              12.0
+     ===>  3.0 C     
+ 19 C3H8              12.0
+     ===>  3.0 C     
+ 20 CH2O              30.0
+     ===>  1.0 CH2O  
+ 21 C2H6              12.0
+     ===>  2.0 C     
+ 22 N2O5             105.0
+ 23 HNO4              79.0
+ 24 MP                48.0
+ 25 DMS               62.0
+ 26 SO2               64.0
+ 27 SO4               96.0
+ 28 SO4s              96.0
+ 29 MSA               96.0
+ 30 NH3               17.0
+ 31 NH4               18.0
+ 32 NIT               62.0
+ 33 NITs              62.0
+ 34 BCPI              12.0
+ 35 OCPI              12.0
+ 36 BCPO              12.0
+ 37 OCPO              12.0
+ 38 DST1              29.0
+ 39 DST2              29.0
+ 40 DST3              29.0
+ 41 DST4              29.0
+ 42 SALA              31.4
+ 43 SALC              31.4
+ 44 Br2              160.0
+     ===>  1.0 Br2   
+ 45 Br                80.0
+ 46 BrO               96.0
+ 47 HOBr              97.0
+ 48 HBr               81.0
+ 49 BrNO2            126.0
+ 50 BrNO3            142.0
+ 51 CHBr3            253.0
+     ===>  1.0 CHBr3 
+ 52 CH2Br2           174.0
+     ===>  1.0 CH2Br2
+ 53 CH3Br             95.0
+ 54 MPN               93.0
+ 55 ISOPN            147.0
+     --->  1.0 ISOP
+     --->  1.0 ISOP
+ 56 MOBA             114.0
+ 57 PROPNN           109.0
+ 58 HAC               74.0
+ 59 GLYC              60.0
+ 60 MMN              149.0
+     --->  1.0 MVKN
+     --->  1.0 MACR
+ 61 RIP              118.0
+ 62 IEPOX            118.0
+ 63 MAP               76.0
+ 64 NO2               46.0
+ 65 NO3               62.0
+ 66 HNO2              47.0
+
+TRACERID: Emitted tracers (anthro & bio) :  1  4 18 19  5 21  9 10 11 20  2  7  6 59 58 51 52 44
+TRACERID: CHECK FULLCHEM IDEs
+---------------------------------------------
+NEMANTHRO: 10 for standard sims b4 v811
+          + 2 for HNO3 and Ox
+          + 5 for aromatics (B,T,X,C2H2,C2H4)
+          + 1 for NAP
+NEMANTHRO: 18 max
+THIS NEMANTHRO:  12
+---------------------------------------------
+NEMBIOG:    1 for isoprene
+          + 6 for dicarbonyls
+          + 3 for bromine
+NEMBIOG:   10 max
+THIS NEMBIOG:     6
+-----------------------------------------
+IDENO     1
+IDECO     2
+IDEPRPE   3
+IDEC3H8   4
+IDEALK4   5
+IDEC2H6   6
+IDEACET   7
+IDEMEK    8
+IDEALD2   9
+IDECH2O  10
+IDEO3    11
+IDEHNO3  12
+IDEISOP  13
+IDEGLYX   0
+IDEMGLY   0
+IDEBENZ   0
+IDETOLU   0
+IDEXYLE   0
+IDEMONX   0
+IDEC2H4   0
+IDEC2H2   0
+IDERCHO   0
+IDEHCOOH  0
+IDEACTA   0
+IDEMBO    0
+IDEGLYC  14
+IDEHAC   15
+IDECHBr3  16
+IDECH2Br2 17
+IDEBr2    18
+IDENAP     0
+-----------------------------------------
+TRACERID: Biofuel burning tracers        :  1  4  5  9 10 11 18 19 20 21 58 59
+TRACERID: Biomass burning tracers        :  1  4  5  9 10 11 18 19 20 21 26 30 34 35 58 59
+
+TRANSPORT MENU
+--------------
+Turn on transport?          :     T
+Let TPCORE Fill negatives?  :     T
+IORD, JORD, KORD for TPCORE?:     3    3    7
+Transport timestep [min]    :    30
+
+CONVECTION MENU
+----------------
+Turn on cloud convection?   :     T
+Turn on PBL mixing?         :     T
+Turn on non-local PBL?      :     T
+Convection timestep [min]   :    30
+
+EMISSIONS MENU
+--------------
+Turn on emissions?          :     T
+Emissions timestep [min]    :    60
+Turn on ANTHRO emissions    :     T
+  ANTHRO scale factor year  :    -1
+  Use EDGAR anthro emissions:     T
+  Use EMEP anthro emissions :     T
+  Use BRAVO anthro emissions:     T
+  Use CAC anthro emissions  :     T
+  Use STREETS anthro emiss. :     T
+  Use EPA/NEI 2005          :     T
+  Use RETRO emissions       :     T
+  Use AEIC emissions        :     T
+  Use RCP emissions         :     F
+      RCP scenario?         : RCP60
+      RCP year?             :  2000
+Use EPA/NEI99 (ANTH + BF)   :     F
+      --> with NOx VISTAS?  :     F
+      --> with ICARTT modif?:     F
+Turn on BIOFUEL emissions?  :     T
+Turn on BIOGENIC emissions? :     T
+Use MEGAN biogenic emissions:     T
+Use PCEEA BVOC model        :     F
+Use MEGAN bio emissions MONO:     T
+ Use isop scaling factor    :   1.00
+Turn on BIOMASS EMISSIONS   :     T
+Use seasonal BIOMASS emiss? :     T
+Scale BIOMASS to TOMS-AI?   :     F
+Use GFED2 BIOMASS emissions?:     F
+    monthly GFED2 emissions?:     F
+    8-day GFED2 emission?   :     F
+    3hr GFED2 emission?     :     F
+    synoptic GFED2 ?        :     F
+Use GFED3 BIOMASS emissions?:     T
+    monthly GFED3 emissions?:     T
+    daily GFED3 emission?   :     F
+    3hr GFED3 emission?     :     F
+Use AIRCRAFT NOx from RCP?  :     F
+Turn on LIGHTNING NOx?      :     T
+Use OTD-LIS local redist?   :     T
+Turn on SOIL NOx?           :     F
+Soil NOx restart file name? : restart.soilnox.YYYYMMDDhh
+Turn on Fertilizer NOx?     :     T
+NOx scaling                 :   1.00
+Turn on EDGAR   SHIP emiss.?:     F
+Turn on ICOADS  SHIP emiss.?:     T
+Turn on RCP     SHIP emiss.?:     F
+Turn on  EMEP   SHIP emiss.?:     T
+Turn on Corbett SHIP SO2 ?  :     F
+     or ARCTAS  SHIP SO2 ?  :     T
+Use COOKE for OC/BC N.-Amer.:     F
+Turn on historical emiss?   :     F
+Turn on the Warwick VSLs?   :     T
+Use seasalt Br2 emissions?  :     T
+Set day PBL BrO conc to 1ppt:     F
+Bromine emiss scale factor  :     F
+
+AEROSOL MENU
+------------
+Online SULFATE AEROSOLS?    :     T
+Online CRYST & AQ AEROSOLS? :     F
+Online CARBON AEROSOLS?     :     T
+Online 2dy ORGANIC AEROSOLS?:     F
+Semivolatile POA?           :     F
+Annual NAP emiss [TgC/yr]   :   1.00
+POA emission scale [dimless]:   1.27
+Online DUST AEROSOLS?       :     T
+Use DEAD dust emissions?    :     T
+Online SEA SALT AEROSOLS?   :     T
+Accum  SEA SALT radii [um]  :   0.01 -   0.50
+Coarse SEA SALT radii [um]  :   0.50 -   8.00
+
+DEPOSITION MENU
+---------------
+Turn on dry deposition?     :     T
+Turn on wet deposition?     :     T
+Use Olson 2001 land map?    :     F
+
+INIT_DRYDEP: List of dry deposition species:
+
+  #   Name      Tracer DEPVEL Henry's    React.   Molec.   Aerosol?
+                Number Index  Law Const  Factor   Weight   (T or F)
+----------------------------------------------------------------------
+  1   O3           2     1     1.0E-02    1.000    0.048     F
+  2   PAN          3     2     3.6E+00    1.000    0.121     F
+  3   HNO3         7     3     1.0E+14    0.000    0.063     F
+  4   H2O2         8     4     1.0E+05    1.000    0.034     F
+  5   ACET         9     5     1.0E+05    1.000    0.058     F
+  6   ALD2        11     6     1.5E+01    1.000    0.044     F
+  7   MVK         13     7     4.4E+01    1.000    0.070     F
+  8   MACR        14     8     6.5E+00    1.000    0.070     F
+  9   PMN         15     2     0.0E+00    0.000    0.000     F
+ 10   PPN         16     2     0.0E+00    0.000    0.000     F
+ 11   R4N2        17     2     0.0E+00    0.000    0.000     F
+ 12   CH2O        20    12     6.0E+03    1.000    0.030     F
+ 13   N2O5        22     3     0.0E+00    0.000    0.000     F
+ 14   SO2         26    14     1.0E+05    0.000    0.064     F
+ 15   SO4         27    15     0.0E+00    0.000    0.096     T
+ 16   SO4S        28    16     0.0E+00    0.000    0.036     T
+ 17   MSA         29    17     0.0E+00    0.000    0.096     T
+ 18   NH3         30    18     2.0E+04    0.000    0.017     F
+ 19   NH4         31    19     0.0E+00    0.000    0.018     T
+ 20   NIT         32    20     0.0E+00    0.000    0.062     T
+ 21   NITS        33    21     0.0E+00    0.000    0.036     T
+ 22   BCPI        34    22     0.0E+00    0.000    0.012     T
+ 23   OCPI        35    23     0.0E+00    0.000    0.012     T
+ 24   BCPO        36    24     0.0E+00    0.000    0.012     T
+ 25   OCPO        37    25     0.0E+00    0.000    0.012     T
+ 26   DST1        38    26     0.0E+00    0.000    0.029     T
+ 27   DST2        39    27     0.0E+00    0.000    0.029     T
+ 28   DST3        40    28     0.0E+00    0.000    0.029     T
+ 29   DST4        41    29     0.0E+00    0.000    0.029     T
+ 30   SALA        42    30     0.0E+00    0.000    0.036     T
+ 31   SALC        43    31     0.0E+00    0.000    0.036     T
+ 32   Br2         44    32     7.6E-01    0.000    0.160     F
+ 33   HOBr        47    33     6.1E+03    0.000    0.097     F
+ 34   HBr         48    34     7.1E+15    0.000    0.081     F
+ 35   BrNO3       50    35     1.0E+20    0.000    0.142     F
+ 36   ISOPND      55    36     1.7E+04    1.000    0.147     F
+ 37   ISOPNB      55    37     1.7E+04    1.000    0.147     F
+ 38   PROPNN      57    38     1.0E+03    1.000    0.119     F
+ 39   HAC         58    39     2.9E+03    1.000    0.074     F
+ 40   GLYC        59    40     4.1E+04    1.000    0.060     F
+ 41   MACRN       60    41     1.7E+04    1.000    0.149     F
+ 42   MVKN        60    42     1.7E+04    1.000    0.149     F
+ 43   RIP         61    43     1.7E+06    1.000    0.118     F
+ 44   IEPOX       62    44     1.3E+08    1.000    0.118     F
+ 45   MAP         63    45     8.4E+02    1.000    0.076     F
+ 46   NO2         64    46     1.0E-02    0.100    0.046     F
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Opening file  : Olson_1992_Drydep_Inputs.nc
+%%  in directory : /data3/work/yuxinzhu/test/GIGC_v9-02_sole/run/atm_chem/GIGC/data/GEOS_1x1/Olson_Land_Map_201203/
+%%
+%% Successfully read DRYCOEFF [unitless]
+%% Successfully read IOLSON [unitless]
+%% Successfully read IDEP [unitless]
+%% Successfully read IWATER [unitless]
+%% Successfully read IZO [Default roughness heights for each Olson land type]
+%% Successfully read IDRYDEP [unitless]
+%% Successfully read IRI [s m-1]
+%% Successfully read IRLU [s m-1]
+%% Successfully read IRAC [s m-1]
+%% Successfully read IRGSS [s m-1]
+%% Successfully read IRGSO [s m-1]
+%% Successfully read IRCLS [s m-1]
+%% Successfully read IRCLO [s m-1]
+%% Successfully read IVSMAX [1e-2 cm s-1]
+%% Successfully closed file!
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+WETDEPID: List of soluble tracers: 
+
+  #             Name  Tracer Mol Wt
+                      Number g/mole
+------------------------------------
+  1             HNO3     7     63.0
+  2             H2O2     8     34.0
+  3             CH2O    20     30.0
+  4               MP    24     48.0
+  5              SO2    26     64.0
+  6              SO4    27     96.0
+  7             SO4s    28     96.0
+  8              MSA    29     96.0
+  9              NH3    30     17.0
+ 10              NH4    31     18.0
+ 11              NIT    32     62.0
+ 12             NITs    33     62.0
+ 13             BCPI    34     12.0
+ 14             OCPI    35     12.0
+ 15             BCPO    36     12.0
+ 16             OCPO    37     12.0
+ 17             DST1    38     29.0
+ 18             DST2    39     29.0
+ 19             DST3    40     29.0
+ 20             DST4    41     29.0
+ 21             SALA    42     31.4
+ 22             SALC    43     31.4
+ 23              Br2    44    160.0
+ 24             HOBr    47     97.0
+ 25              HBr    48     81.0
+ 26            ISOPN    55    147.0
+ 27             MOBA    56    114.0
+ 28           PROPNN    57    109.0
+ 29             GLYC    59     60.0
+ 30              MMN    60    149.0
+ 31              RIP    61    118.0
+ 32            IEPOX    62    118.0
+ 33              MAP    63     76.0
+
+CHEMISTRY MENU
+--------------
+Turn on chemistry?          :     T
+Use linear. strat. chem?    :     T
+ => Use Linoz for O3?       :     T
+Chemistry timestep [min]    :    60
+Use CSPEC restart?          :     F
+ => CSPEC restart file?     : restart.cspec.YYYYMMDDhh
+Use solver coded by KPP?    :     F
+GAMMA HO2                   :     F
+
+OUTPUT MENU
+-----------
+              1111111111222222222233
+     1234567890123456789012345678901
+     -------------------------------
+JAN--3000000000000000000000000000000
+FEB--30000000000000000000000000000
+MAR--3000000000000000000000000000000
+APR--300000000000000000000000000000
+MAY--3000000000000000000000000000000
+JUN--333333333333333333333333333330
+JUL--3300000000000000000000000000000
+AUG--3000000000000000000000000000000
+SEP--300000000000000000000000000000
+OCT--3000000000000000000000000000000
+NOV--300000000000000000000000000000
+DEC--3000000000000000000000000000000
+
+GAMAP MENU
+---------------
+GAMAP "diaginfo.dat"   file : diaginfo.dat
+GAMAP "tracerinfo.dat" file : tracerinfo.dat
+
+DIAGNOSTIC MENU
+---------------
+Diag    L   Tracers being saved to disk
+ND06    1   1 -  4
+ND07    1   1 - 15
+ND08    1   1 -  2
+ND11    1   1 -  5
+ND13    1   1 -  1
+ND21    1   1 - 27
+ND22    1  64  7  8 20 99
+ND28    1   1  4  5  9 10 11 18 19 20 21 26 30 34 35
+ND29    1   1 -  5
+ND31   48   1 -  1
+ND32    1   1 -  1
+ND34    1   1  4  5  9 10 11 18 19 20 21
+ND36    1   1  2  4  5  7  9 10 11 18 19 20 21
+ND38   47   1 - 66
+ND39   47   1 - 66
+ND43   47   1 -  5
+ND44   47   2  3  7  8  9 11 13 14 15 16 17 20 22 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 47 48 50 55 57 58 59 60 61 62 63 64
+ND45   47   1 -126
+ND46    1   1 - 20
+ND54   47   1 -  1
+ND55   47   1 -  3
+ND66   47   1 -  6
+ND67   47   1 - 23
+ND68   47   1 -  4
+ND69    1   1 -  1
+
+Turn on Mean OH diagnostic (ND23)? :    T
+
+PLANEFLIGHT MENU
+----------------
+Turn on planeflight diag?   :     F
+Flight track input file     : Planeflight.dat.YYYYMMDD
+Output file name            : plane.log.YYYYMMDD
+
+ND48 STATION TIMESERIES MENU
+----------------------------
+Turn on ND48 timeseries?    :     F
+ND48 timeseries file name   : stations.YYYYMMDD
+ND48 save frequency [min]   :    60
+
+ND49 3-D INSTANTANEOUS TIMESERIES MENU
+--------------------------------------
+Turn on ND49 timeseries?    :     F
+ND49 timeseries file name   : tsYYYYMMDD.bpch
+ND49 timeseries tracers     :  94
+ND49 save frequency [min]   :   120
+ND49 longitude limits       :    70   30
+ND49 latitude  limits       :    23   46
+ND49 level     limits       :     1    1
+
+ND50 3-D 24hr AVG TIMESERIES MENU
+---------------------------------
+Turn on ND50 timeseries?    :     F
+ND50 timeseries file name   : ts_24h_avg.YYYYMMDD.bpch
+Output as HDF?              :     F
+ND50 timeseries tracers     :  82 83 84 85 86 87
+ND50 longitude limits       :     1   72
+ND50 latitude  limits       :     1   46
+ND50 level     limits       :     1    1
+
+ND51 MORNING OR AFTERNOON TIMESERIES MENU
+-----------------------------------------
+Turn on ND51 timeseries?    :     F
+ND51 timeseries file name   : ts_satellite.YYYYMMDD.bpch
+Output as HDF?              :     F
+ND41 timeseries tracers     :  82 83 84 85 86 87
+ND51 hour to write to disk  :   0.0
+ND51 averaging period [GMT] :  10.0 12.0
+ND51 longitude limits       :     1  151
+ND51 latitude  limits       :     1  121
+ND51 altitude  limits       :     1   40
+
+ND51b MORNING OR AFTERNOON TIMESERIES MENU
+-----------------------------------------
+Turn on ND51b timeseries?    :     F
+ND51b timeseries file name   : ts_13_15.NA.YYYYMMDD.h5
+Output as HDF?               :     F
+ND41 timeseries tracers      :   1  4 20 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 60 61 62 63 64 65 66 72 73 75 82 83 84 85 86 87 93 94 98 99
+ND51b hour to write to disk  :   1.0
+ND51b averaging period [GMT] :  13.0 15.0
+ND51b longitude limits       :     1   72
+ND51b latitude  limits       :     1   46
+ND51b altitude  limits       :     1    1
+
+ND63 SHIP TIMESERIES MENU
+--------------------------------------
+Turn on ND63 timeseries?    :     F
+ND63 timeseries file name   : paranox_ts.YYYYMMDD.bpch
+ND63 timeseries tracers     :   1
+ND63 save frequency [min]   :   120
+ND63 longitude limits       :    70   30
+ND63 latitude  limits       :    23   46
+
+PROD & LOSS DIAGNOSTIC MENU
+---------------------------
+Turn on prod & loss diag?   :     T
+# of levels for P/L diag    :    47
+Save P(Ox), L(Ox) for TagOx?:     F
+
+Family=POX    Type=prod
+  1  1.0 O3   
+  2  1.0 NO2  
+  3  2.0 NO3  
+  4  1.0 PAN  
+  5  1.0 PMN  
+  6  1.0 PPN  
+  7  1.0 HNO4 
+  8  3.0 N2O5 
+  9  1.0 HNO3 
+ 10  1.0 BrO  
+ 11  1.0 HOBr 
+ 12  1.0 BrNO2
+ 13  2.0 BrNO3
+ 14  1.0 MPN  
+
+Family=LOX    Type=loss
+  1  1.0 O3   
+  2  1.0 NO2  
+  3  2.0 NO3  
+  4  1.0 PAN  
+  5  1.0 PMN  
+  6  1.0 PPN  
+  7  1.0 HNO4 
+  8  3.0 N2O5 
+  9  1.0 HNO3 
+ 10  1.0 BrO  
+ 11  1.0 HOBr 
+ 12  1.0 BrNO2
+ 13  2.0 BrNO3
+ 14  1.0 MPN  
+
+Family=PCO    Type=prod
+  1  1.0 CO   
+
+Family=LCO    Type=loss
+  1  1.0 CO   
+
+Family=PBrOx  Type=prod
+  1  1.0 Br   
+  2  1.0 BrO  
+
+Family=PBry   Type=prod
+  1  2.0 Br2  
+  2  1.0 Br   
+  3  1.0 BrO  
+  4  1.0 HOBr 
+  5  1.0 HBr  
+  6  1.0 BrNO2
+  7  1.0 BrNO3
+
+Family=LBry   Type=loss
+  1  2.0 Br2  
+  2  1.0 Br   
+  3  1.0 BrO  
+  4  1.0 HOBr 
+  5  1.0 HBr  
+  6  1.0 BrNO2
+  7  1.0 BrNO3
+
+ARCHIVED OH MENU
+-----------------
+Dir w/ archived OH files    : /data3/work/yuxinzhu/test/GIGC_v9-02_sole/run/atm_chem/GIGC/data/GEOS_MEAN/OHmerge/v5-07-08/
+
+ARCHIVED O3PL MENU
+-------------------
+Dir w/ archived O3 P/L files: /data3/work/yuxinzhu/test/GIGC_v9-02_sole/run/atm_chem/GIGC/data/GEOS_MEAN/O3_PROD_LOSS/2003.v6-01-05/
+
+BENCHMARK MENU
+--------------
+Save benchmark diag output? :     T
+File for initial tracer mass: Ox.mass.initial
+File for final tracer mass  : Ox.mass.final
+
+NESTED GRID MENU
+----------------
+Save TPCORE BC's at 4x5     :     F
+Dir w/ archived OH files     : BC_4x5/
+Timestep for 4x5 BC's [min] :   180
+Bot left  box of 4x5 BC area :     9   26
+Top right box of 4x5 BC area :    29   41
+1 x 1 window offsets         :     3    3
+
+UNIX CMDS MENU
+---------------
+Unix BACKGROUND  command    : &
+Unix REDIRECT    command    : >
+Unix REMOVE      command    : rm -f
+Unix SEPARATOR   command    : /
+Unix WHITE SPACE command    : 
+Unix WILD CARD   command    : *
+Unix UNZIP       command    : gzip -dc
+
+SET_TIMESTEPS: setting GEOS-Chem timesteps!
+-------------------------------------------
+Chemistry  Timestep [min] :   60
+Convection Timestep [min] :   30
+Dynamics   Timestep [min] :   30
+Emission   Timestep [min] :   60
+Unit Conv  Timestep [min] :   30
+Diagnostic Timestep [min] :   60
+===============================================================================
+     - INITIALIZE: Diag arrays zeroed!
+     - INITIALIZE: Diag counters zeroed!
+===============================================================================
+V E R T I C A L   G R I D   S E T U P
+
+INIT_PRESSURE: Vertical coordinates!
+
+Ap 
+   0.000000    0.048048    6.593752   13.134800   19.613110   26.092010
+  32.570810   38.982010   45.339010   51.696110   58.053210   64.362640
+  70.621980   78.834220   89.099920   99.365210  109.181700  118.958600
+ 128.695900  142.910000  156.260000  169.609000  181.619000  193.097000
+ 203.259000  212.150000  218.776000  223.898000  224.363000  216.865000
+ 201.192000  176.930000  150.393000  127.837000  108.663000   92.365720
+  78.512310   66.603410   56.387910   47.643910   40.175410   33.810010
+  28.367810   23.730410   19.791600   16.457100   13.643400   11.276900
+   9.292942    7.619842    6.216801    5.046801    4.076571    3.276431
+   2.620211    2.084970    1.650790    1.300510    1.019440    0.795134
+   0.616779    0.475806    0.365041    0.278526    0.211349    0.159495
+   0.119703    0.089345    0.066000    0.047585    0.032700    0.020000
+   0.010000
+
+Bp 
+   1.000000    0.984952    0.963406    0.941865    0.920387    0.898908
+   0.877429    0.856018    0.834661    0.813304    0.791947    0.770637
+   0.749378    0.721166    0.685900    0.650635    0.615818    0.581041
+   0.546304    0.494590    0.443740    0.392891    0.343381    0.294403
+   0.246741    0.200350    0.156224    0.113602    0.063720    0.028010
+   0.006960    0.000000    0.000000    0.000000    0.000000    0.000000
+   0.000000    0.000000    0.000000    0.000000    0.000000    0.000000
+   0.000000    0.000000    0.000000    0.000000    0.000000    0.000000
+   0.000000    0.000000    0.000000    0.000000    0.000000    0.000000
+   0.000000    0.000000    0.000000    0.000000    0.000000    0.000000
+   0.000000    0.000000    0.000000    0.000000    0.000000    0.000000
+   0.000000    0.000000    0.000000    0.000000    0.000000    0.000000
+   0.000000
+===============================================================================
+     - INIT_COMODE: Allocating arrays for SMVGEAR...
+     - LINOZ_READ: Reading /data3/work/yuxinzhu/test/GIGC_v9-02_sole/run/atm_chem/GIGC/data/GEOS_1x1/Linoz_200910/Linoz_March2007.dat
+   11  linoz chem tables - 40d int., w/ rxn175, +CH4,N2O,CFC11,CFC12 LLM climato
+ l
+  Linoz Data:  O3 climatology :                  z*=10, 12, ..., 58                             2.700E-08 1.083E-05
+  Linoz Data:  Temperature climatology :         z*=10, 12, ..., 58                             1.859E+02 2.904E+02
+  Linoz Data:  Column O3 above box climalology : z*=10, 12, ..., 58                             7.538E-02 3.770E+02
+  Linoz Data:  P-L O3 climatology (mr/s):        z*=10, 12, ..., 58                            -1.590E-10 2.835E-11
+  Linoz Data:  d(P-L)/dO3 (1/s) :                z*=10, 12, ..., 58                            -8.386E-04 7.556E-09
+  Linoz Data:  d(P-L)/dT (mr/K) :                z*=10, 12, ..., 58                            -5.742E-12 4.615E-14
+  Linoz Data:  d(P-L)/d(column O3) (mr/DU) :     z*=10, 12, ..., 58                            -1.921E-12 5.038E-10
+$$ Finished Reading Linoz Data $$
+
+     - READ_PFT: Reading /data3/work/yuxinzhu/test/GIGC_v9-02_sole/run/atm_chem/GIGC/data/GEOS_1x1/MEGAN_200909/MEGAN_PFT_BT.geos.1x1
+     - READ_PFT: Reading /data3/work/yuxinzhu/test/GIGC_v9-02_sole/run/atm_chem/GIGC/data/GEOS_1x1/MEGAN_200909/MEGAN_PFT_NT.geos.1x1
+     - READ_PFT: Reading /data3/work/yuxinzhu/test/GIGC_v9-02_sole/run/atm_chem/GIGC/data/GEOS_1x1/MEGAN_200909/MEGAN_PFT_SH.geos.1x1
+     - READ_PFT: Reading /data3/work/yuxinzhu/test/GIGC_v9-02_sole/run/atm_chem/GIGC/data/GEOS_1x1/MEGAN_200909/MEGAN_PFT_GR.geos.1x1
+     - READ_PFT: Reading /data3/work/yuxinzhu/test/GIGC_v9-02_sole/run/atm_chem/GIGC/data/GEOS_1x1/MEGAN_200909/MEGAN_PFT_CR.geos.1x1
+     - GET_AEF: Reading /data3/work/yuxinzhu/test/GIGC_v9-02_sole/run/atm_chem/GIGC/data/GEOS_1x1/MEGAN_200909/MEGANv2.1_AEF_ISOPRENE.geos.1x1
+     - GET_AEF: Reading /data3/work/yuxinzhu/test/GIGC_v9-02_sole/run/atm_chem/GIGC/data/GEOS_1x1/MEGAN_200909/MEGANv2.1_AEF_MONOTERPENES.geos.1x1
+     - GET_AEF: Reading /data3/work/yuxinzhu/test/GIGC_v9-02_sole/run/atm_chem/GIGC/data/GEOS_1x1/MEGAN_200909/MEGANv2.1_AEF_MBO.geos.1x1
+     - GET_AEF: Reading /data3/work/yuxinzhu/test/GIGC_v9-02_sole/run/atm_chem/GIGC/data/GEOS_1x1/MEGAN_200909/MEGANv2.1_AEF_ACET.geos.1x1
+     - GET_AEF: Reading /data3/work/yuxinzhu/test/GIGC_v9-02_sole/run/atm_chem/GIGC/data/GEOS_1x1/MEGAN_200510/MEGAN_AEF_MTP.geos.1x1
+     - GET_AEF: Reading /data3/work/yuxinzhu/test/GIGC_v9-02_sole/run/atm_chem/GIGC/data/GEOS_1x1/MEGAN_200909/MEGANv2.1_AEF_ALPHA_PINENE.geos.1x1
+     - GET_AEF: Reading /data3/work/yuxinzhu/test/GIGC_v9-02_sole/run/atm_chem/GIGC/data/GEOS_1x1/MEGAN_200909/MEGANv2.1_AEF_BETA_PINENE.geos.1x1
+     - GET_AEF: Reading /data3/work/yuxinzhu/test/GIGC_v9-02_sole/run/atm_chem/GIGC/data/GEOS_1x1/MEGAN_200909/MEGANv2.1_AEF_LIMONENE.geos.1x1
+     - GET_AEF: Reading /data3/work/yuxinzhu/test/GIGC_v9-02_sole/run/atm_chem/GIGC/data/GEOS_1x1/MEGAN_200909/MEGANv2.1_AEF_SABINENE.geos.1x1
+     - GET_AEF: Reading /data3/work/yuxinzhu/test/GIGC_v9-02_sole/run/atm_chem/GIGC/data/GEOS_1x1/MEGAN_200909/MEGANv2.1_AEF_MYRCENE.geos.1x1
+     - GET_AEF: Reading /data3/work/yuxinzhu/test/GIGC_v9-02_sole/run/atm_chem/GIGC/data/GEOS_1x1/MEGAN_200909/MEGANv2.1_AEF_CARENE.geos.1x1
+     - GET_AEF: Reading /data3/work/yuxinzhu/test/GIGC_v9-02_sole/run/atm_chem/GIGC/data/GEOS_1x1/MEGAN_200909/MEGANv2.1_AEF_OCIMENE.geos.1x1
+ Annual Sesquiterpene Base AEFs [TgC/yr]:
+    FARN   15.0498525143511     
+    BCAR   21.9789294872953     
+    OSQT   43.1597613672985     
+    OMTP   61.0581293987299     
+     - Opening: /data3/work/yuxinzhu/test/GIGC_v9-02_sole/run/atm_chem/GIGC/data/GEOS_4x5/GEOS_5/2005/06/20050621.a3.4x5 on unit   13
+     - Found all  33 A-3 met fields for 2005/06/21 01:30 on unit   13
+     - Found all  33 A-3 met fields for 2005/06/21 04:30 on unit   13
+     - Found all  33 A-3 met fields for 2005/06/21 07:30 on unit   13
+     - Found all  33 A-3 met fields for 2005/06/21 10:30 on unit   13
+     - Found all  33 A-3 met fields for 2005/06/21 13:30 on unit   13
+     - Found all  33 A-3 met fields for 2005/06/21 16:30 on unit   13
+     - Found all  33 A-3 met fields for 2005/06/21 19:30 on unit   13
+     - Found all  33 A-3 met fields for 2005/06/21 22:30 on unit   13
+     - Opening: /data3/work/yuxinzhu/test/GIGC_v9-02_sole/run/atm_chem/GIGC/data/GEOS_4x5/GEOS_5/2005/06/20050622.a3.4x5 on unit   13
+     - Found all  33 A-3 met fields for 2005/06/22 01:30 on unit   13
+     - Found all  33 A-3 met fields for 2005/06/22 04:30 on unit   13
+     - Found all  33 A-3 met fields for 2005/06/22 07:30 on unit   13
+     - Found all  33 A-3 met fields for 2005/06/22 10:30 on unit   13
+     - Found all  33 A-3 met fields for 2005/06/22 13:30 on unit   13
+     - Found all  33 A-3 met fields for 2005/06/22 16:30 on unit   13
+     - Found all  33 A-3 met fields for 2005/06/22 19:30 on unit   13
+     - Found all  33 A-3 met fields for 2005/06/22 22:30 on unit   13
+     - Opening: /data3/work/yuxinzhu/test/GIGC_v9-02_sole/run/atm_chem/GIGC/data/GEOS_4x5/GEOS_5/2005/06/20050623.a3.4x5 on unit   13
+     - Found all  33 A-3 met fields for 2005/06/23 01:30 on unit   13
+     - Found all  33 A-3 met fields for 2005/06/23 04:30 on unit   13
+     - Found all  33 A-3 met fields for 2005/06/23 07:30 on unit   13
+     - Found all  33 A-3 met fields for 2005/06/23 10:30 on unit   13
+     - Found all  33 A-3 met fields for 2005/06/23 13:30 on unit   13
+     - Found all  33 A-3 met fields for 2005/06/23 16:30 on unit   13
+     - Found all  33 A-3 met fields for 2005/06/23 19:30 on unit   13
+     - Found all  33 A-3 met fields for 2005/06/23 22:30 on unit   13
+     - Opening: /data3/work/yuxinzhu/test/GIGC_v9-02_sole/run/atm_chem/GIGC/data/GEOS_4x5/GEOS_5/2005/06/20050624.a3.4x5 on unit   13
+     - Found all  33 A-3 met fields for 2005/06/24 01:30 on unit   13
+     - Found all  33 A-3 met fields for 2005/06/24 04:30 on unit   13
+     - Found all  33 A-3 met fields for 2005/06/24 07:30 on unit   13
+     - Found all  33 A-3 met fields for 2005/06/24 10:30 on unit   13
+     - Found all  33 A-3 met fields for 2005/06/24 13:30 on unit   13
+     - Found all  33 A-3 met fields for 2005/06/24 16:30 on unit   13
+     - Found all  33 A-3 met fields for 2005/06/24 19:30 on unit   13
+     - Found all  33 A-3 met fields for 2005/06/24 22:30 on unit   13
+     - Opening: /data3/work/yuxinzhu/test/GIGC_v9-02_sole/run/atm_chem/GIGC/data/GEOS_4x5/GEOS_5/2005/06/20050625.a3.4x5 on unit   13
+     - Found all  33 A-3 met fields for 2005/06/25 01:30 on unit   13
+     - Found all  33 A-3 met fields for 2005/06/25 04:30 on unit   13
+     - Found all  33 A-3 met fields for 2005/06/25 07:30 on unit   13
+     - Found all  33 A-3 met fields for 2005/06/25 10:30 on unit   13
+     - Found all  33 A-3 met fields for 2005/06/25 13:30 on unit   13
+     - Found all  33 A-3 met fields for 2005/06/25 16:30 on unit   13
+     - Found all  33 A-3 met fields for 2005/06/25 19:30 on unit   13
+     - Found all  33 A-3 met fields for 2005/06/25 22:30 on unit   13
+     - Opening: /data3/work/yuxinzhu/test/GIGC_v9-02_sole/run/atm_chem/GIGC/data/GEOS_4x5/GEOS_5/2005/06/20050626.a3.4x5 on unit   13
+     - Found all  33 A-3 met fields for 2005/06/26 01:30 on unit   13
+     - Found all  33 A-3 met fields for 2005/06/26 04:30 on unit   13
+     - Found all  33 A-3 met fields for 2005/06/26 07:30 on unit   13
+     - Found all  33 A-3 met fields for 2005/06/26 10:30 on unit   13
+     - Found all  33 A-3 met fields for 2005/06/26 13:30 on unit   13
+     - Found all  33 A-3 met fields for 2005/06/26 16:30 on unit   13
+     - Found all  33 A-3 met fields for 2005/06/26 19:30 on unit   13
+     - Found all  33 A-3 met fields for 2005/06/26 22:30 on unit   13
+     - Opening: /data3/work/yuxinzhu/test/GIGC_v9-02_sole/run/atm_chem/GIGC/data/GEOS_4x5/GEOS_5/2005/06/20050627.a3.4x5 on unit   13
+     - Found all  33 A-3 met fields for 2005/06/27 01:30 on unit   13
+     - Found all  33 A-3 met fields for 2005/06/27 04:30 on unit   13
+     - Found all  33 A-3 met fields for 2005/06/27 07:30 on unit   13
+     - Found all  33 A-3 met fields for 2005/06/27 10:30 on unit   13
+     - Found all  33 A-3 met fields for 2005/06/27 13:30 on unit   13
+     - Found all  33 A-3 met fields for 2005/06/27 16:30 on unit   13
+     - Found all  33 A-3 met fields for 2005/06/27 19:30 on unit   13
+     - Found all  33 A-3 met fields for 2005/06/27 22:30 on unit   13
+     - Opening: /data3/work/yuxinzhu/test/GIGC_v9-02_sole/run/atm_chem/GIGC/data/GEOS_4x5/GEOS_5/2005/06/20050628.a3.4x5 on unit   13
+     - Found all  33 A-3 met fields for 2005/06/28 01:30 on unit   13
+     - Found all  33 A-3 met fields for 2005/06/28 04:30 on unit   13
+     - Found all  33 A-3 met fields for 2005/06/28 07:30 on unit   13
+     - Found all  33 A-3 met fields for 2005/06/28 10:30 on unit   13
+     - Found all  33 A-3 met fields for 2005/06/28 13:30 on unit   13
+     - Found all  33 A-3 met fields for 2005/06/28 16:30 on unit   13
+     - Found all  33 A-3 met fields for 2005/06/28 19:30 on unit   13
+     - Found all  33 A-3 met fields for 2005/06/28 22:30 on unit   13
+     - Opening: /data3/work/yuxinzhu/test/GIGC_v9-02_sole/run/atm_chem/GIGC/data/GEOS_4x5/GEOS_5/2005/06/20050629.a3.4x5 on unit   13
+     - Found all  33 A-3 met fields for 2005/06/29 01:30 on unit   13
+     - Found all  33 A-3 met fields for 2005/06/29 04:30 on unit   13
+     - Found all  33 A-3 met fields for 2005/06/29 07:30 on unit   13
+     - Found all  33 A-3 met fields for 2005/06/29 10:30 on unit   13
+     - Found all  33 A-3 met fields for 2005/06/29 13:30 on unit   13
+     - Found all  33 A-3 met fields for 2005/06/29 16:30 on unit   13
+     - Found all  33 A-3 met fields for 2005/06/29 19:30 on unit   13
+     - Found all  33 A-3 met fields for 2005/06/29 22:30 on unit   13
+     - Opening: /data3/work/yuxinzhu/test/GIGC_v9-02_sole/run/atm_chem/GIGC/data/GEOS_4x5/GEOS_5/2005/06/20050630.a3.4x5 on unit   13
+     - Found all  33 A-3 met fields for 2005/06/30 01:30 on unit   13
+     - Found all  33 A-3 met fields for 2005/06/30 04:30 on unit   13
+     - Found all  33 A-3 met fields for 2005/06/30 07:30 on unit   13
+     - Found all  33 A-3 met fields for 2005/06/30 10:30 on unit   13
+     - Found all  33 A-3 met fields for 2005/06/30 13:30 on unit   13
+     - Found all  33 A-3 met fields for 2005/06/30 16:30 on unit   13
+     - Found all  33 A-3 met fields for 2005/06/30 19:30 on unit   13
+     - Found all  33 A-3 met fields for 2005/06/30 22:30 on unit   13
+     - INITIALIZE: Diag arrays zeroed!
+     - INITIALIZE: Diag counters zeroed!
+     - Opening: /data3/work/yuxinzhu/test/GIGC_v9-02_sole/run/atm_chem/GIGC/data/GEOS_4x5/GEOS_5/2005/07/20050701.a3.4x5 on unit   13
+     - Found all  33 A-3 met fields for 2005/07/01 01:30 on unit   13
+     - Opening: /data3/work/yuxinzhu/test/GIGC_v9-02_sole/run/atm_chem/GIGC/data/GEOS_4x5/GEOS_5/2005/07/20050701.a6.4x5 on unit   14
+     - Found all  21 A-6 met fields for 2005/07/01 00:00 on unit   14
+     - Opening: /data3/work/yuxinzhu/test/GIGC_v9-02_sole/run/atm_chem/GIGC/data/GEOS_4x5/GEOS_5/2005/07/20050701.i6.4x5 on unit   15
+     - Found all   5 I-6 met fields for 2005/07/01 00:00 on unit   15
+     - INIT_LIGHTNING: Reading /data3/work/yuxinzhu/test/GIGC_v9-02_sole/run/atm_chem/GIGC/data/GEOS_4x5/lightning_NOx_201101/light_dist.ott2010.dat
+     - READ_LOCAL_REDIST: Reading /data3/work/yuxinzhu/test/GIGC_v9-02_sole/run/atm_chem/GIGC/data/GEOS_4x5/lightning_NOx_201311/OTD-LIS-Local-Redist.CTH.v5.geos5.1.0.4x5
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Opening file  : Olson_1992_Land_Map.05x05.generic.nc
+%%  in directory : /data3/work/yuxinzhu/test/GIGC_v9-02_sole/run/atm_chem/GIGC/data/GEOS_1x1/Olson_Land_Map_201203/
+%%
+%% Successfully read lon [degrees_east]
+%% Successfully read lat [degrees_north]
+%% Successfully read OLSON [unitless]
+%% Successfully read DXYP [m2]
+%% Successfully closed file!
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ vdinti: pbl height will be limited to bottom           25  model levels. top is
+     431.250100000000       hpa
+===============================================================================
+R E S T A R T   F I L E   I N P U T
+
+READ_RESTART_FILE: Reading restart.4x5.geos5.2005070100 on unit   16
+ Error opening filename=restart.4x5.geos5.2005070100
+===============================================================================
+GEOS-CHEM I/O ERROR    29 in file unit    16
+Encountered at routine:location open_bpch2_for_read:1
+
+Error   29: File not found
+===============================================================================
+     - CLEANUP: deallocating arrays now...
+
+===================================================================================
+=   BAD TERMINATION OF ONE OF YOUR APPLICATION PROCESSES
+=   PID 44961 RUNNING AT public2.c-coupler.org
+=   EXIT CODE: 174
+=   CLEANING UP REMAINING PROCESSES
+=   YOU CAN IGNORE THE BELOW CLEANUP MESSAGES
+===================================================================================

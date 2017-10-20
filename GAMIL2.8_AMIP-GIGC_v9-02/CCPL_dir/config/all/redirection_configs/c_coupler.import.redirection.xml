@@ -1,0 +1,67 @@
+<?xml version="1.0" ?>
+<component_import_interfaces_configuration>
+   <import_interface  name="receive_from_OCN"  status="on">
+       <import_redirection status="on">
+           <fields status="on" default="all">
+           </fields>
+           <components status="on" default="off">
+              <component comp_full_name="licom" />
+           </components>
+       </import_redirection>
+       <import_redirection status="off">
+           <fields status="on" default="off">
+           </fields>
+       </import_redirection>
+   </import_interface>
+   <import_interface  name="receive_from_ATM"  status="on">
+       <import_redirection status="on">
+           <fields status="on" default="all">
+           </fields>
+           <components status="on" default="off">
+              <component comp_full_name="gamil" />
+           </components>
+       </import_redirection>
+       <import_redirection status="off">
+           <fields status="on" default="off">
+           </fields>
+       </import_redirection>
+   </import_interface>
+   <import_interface  name="receive_from_SICE"  status="on">
+       <import_redirection status="on">
+           <fields status="on" default="all">
+           </fields>
+           <components status="on" default="off">
+              <component comp_full_name="cice" />
+           </components>
+       </import_redirection>
+       <import_redirection status="off">
+           <fields status="on" default="off">
+           </fields>
+       </import_redirection>
+   </import_interface>
+   <import_interface  name="receive_from_LND"  status="on">
+       <import_redirection status="on">
+           <fields status="on" default="all">
+           </fields>
+           <components status="on" default="off">
+              <component comp_full_name="clm" />
+           </components>
+       </import_redirection>
+       <import_redirection status="off">
+           <fields status="on" default="off">
+           </fields>
+       </import_redirection>
+   </import_interface>
+</component_import_interfaces_configuration>
+
+
+
+<component_grid_redirection_configuration>
+    <entry local_grid_name="remote_atm_grid"  another_comp_full_name="gamil"   another_comp_grid_name="gamil_H2D_grid" />
+</component_grid_redirection_configuration>
+
+
+<component_interface_tags>
+    <entry status="on" interface_tag="atm_component_recv_fixed" comp_full_name="gamil"  interface_name="send_data_to_CPL_fixed" />
+</component_interface_tags>
+

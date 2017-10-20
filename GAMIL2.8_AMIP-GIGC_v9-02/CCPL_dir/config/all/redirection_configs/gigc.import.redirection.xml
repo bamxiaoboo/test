@@ -1,0 +1,16 @@
+<?xml version="1.0" ?>
+<component_import_interfaces_configuration>
+   <import_interface  name="receive_data_from_GAMIL"  status="on">
+       <import_redirection status="on">
+           <fields status="on" default="all">
+           </fields>
+           <components status="on" default="off">
+              <component comp_full_name="gamil" interface_name="send_data_to_GAMIL"  />
+           </components>
+       </import_redirection>
+       <import_redirection status="off">
+           <fields status="on" default="off">
+           </fields>
+       </import_redirection>
+   </import_interface>
+</component_import_interfaces_configuration>

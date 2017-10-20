@@ -1,0 +1,949 @@
+diff --git a/src/control/filenames.F90 b/src/control/filenames.F90
+index 4008783..55cc2d1 100755
+--- a/src/control/filenames.F90
++++ b/src/control/filenames.F90
+@@ -98,7 +98,7 @@ contains
+         end if
+ 
+         if (nrefrq == 1 .and. len_trim(rest_pfile) == 0) then
+-            rest_pfile = 'gamil.'//trim(caseid)//'.rpointer'
++            rest_pfile = trim(home_dir)//'/gamil.'//trim(caseid)//'.rpointer'
+         end if
+         !
+         ! Set archive_dir if not initialized, and make sure has trailing "/"
+diff --git a/src/control/gamil.F90 b/src/control/gamil.F90
+index 5e90ea7..a06ddd1 100755
+--- a/src/control/gamil.F90
++++ b/src/control/gamil.F90
+@@ -23,7 +23,7 @@ program gamil
+     use history,      only: bldfld, intht
+     use units
+     use restart,      only: read_restart
+-    use time_manager, only: get_nstep, is_first_restart_step
++    use time_manager, only: get_nstep, is_first_restart_step, get_step_size
+     use phys_buffer ! added by SHI Xiangjun and LIU Li
+     use ppgrid,       only: pcols, pverp, begchunk, endchunk
+     use comsrf,       only: fld_kvh ! added by LIU Li
+@@ -37,9 +37,8 @@ program gamil
+     use cpl_fields_mod    !
+ #endif
+ 
+-    use c_coupler_interface_mod
+-    use register_decompositions_mod
+-    use register_private_variables_mod
++    use CCPL_interface_mod
++    use coupling_chemistry_model_mod
+ 
+     implicit none
+ 
+@@ -67,6 +66,7 @@ program gamil
+     integer nstep           ! Current timestep number.
+     integer kvh_idx ! added by LIU Li
+     integer i
++    integer :: comm,export_interface_id,time_step
+     !------------------------------Externals--------------------------------
+ #if ( defined SUNOS )
+     !integer iexcept, ieee_handler
+@@ -97,7 +97,10 @@ program gamil
+     call t_startf('total')
+     call t_startf('initialization')
+ 
+-    call c_coupler_initialize(mpicom)
++    !call c_coupler_initialize(mpicom)
++    comm = -1
++    !gamil_comp_id = CCPL_register_component(-1, "gamil", "atm", comm, annotation = "register atm model gamil")
++    call register_gamil_component(comm)
+     !
+     ! Initialize internal/external MPI if appropriate
+     !
+@@ -138,6 +141,9 @@ program gamil
+             write(6, *) 'DYCORE is LR'
+         end if
+     end if
++    time_step = get_step_size()
++    call register_component_coupling_configuration(comm, "gamil", export_interface_id, 1, time_step)
++    call CCPL_end_coupling_configuration(gamil_comp_id, annotation = "component gamil ends registration")
+     !
+     ! Set defaults then override with user-specified input
+     !
+@@ -190,15 +196,14 @@ program gamil
+         write(6, *)' nsrest=', nsrest, ' must be 0, 1, or 3'
+         call endrun
+     end select
+-
+-    call register_decompositions
+-    call register_static_variables
+-
+     !
+     ! Initialize external models or datasets depending upon whether coupled
+     !
+     call initext
+     call t_stopf('initialization')
++!    do while(.not. CCPL_is_model_run_ended(-1))
++!    call run_component(1,3600)
++!    end do
+     !
+     ! Invoke driving routine for time integration
+     !
+@@ -247,6 +252,7 @@ program gamil
+     call mpifinalize
+ #endif
+ 
++call CCPL_finalize(.true.)
+ #if ( defined SPMD )
+     iu = getunit ()
+     write(filenam,'(a10,i3.3)') 'spmdstats.', iam
+@@ -258,5 +264,4 @@ program gamil
+ #endif
+ 
+     stop
+-
+ end program gamil
+diff --git a/src/control/time_manager.F90 b/src/control/time_manager.F90
+index 3249bca..5ddd0b3 100755
+--- a/src/control/time_manager.F90
++++ b/src/control/time_manager.F90
+@@ -17,7 +17,8 @@ module time_manager
+         esmf_timemgrrestartwrite, esmf_timemgrrestartread
+    use string_utils, only: to_upper
+    use dycore, only: dycore_is
+-   use c_coupler_interface_mod
++   !use c_coupler_interface_mod
++   !use CCPL_interface_mod
+ #ifdef SPMD
+    use mpishorthand, only: mpicom, mpiint, mpilog
+ #endif
+@@ -124,7 +125,7 @@ subroutine timemgr_preset()
+ 
+    if ( dtime == uninit_int ) then
+       if (dycore_is ('EUL')) then
+-         dtime  = c_coupler_get_step_size()
++         dtime  = get_step_size()
+          dtdy   = dtime/5                 !!(wh 2004.04.14)
+       else if (dycore_is ('SLD')) then
+          dtime  = 3600
+diff --git a/src/couple/c_coupler/coupling_chemistry_model_mod.F90 b/src/couple/c_coupler/coupling_chemistry_model_mod.F90
+new file mode 100755
+index 0000000..8f4db77
+--- /dev/null
++++ b/src/couple/c_coupler/coupling_chemistry_model_mod.F90
+@@ -0,0 +1,414 @@
++!***************************************************************
++!  This is a source file of GAMIL, which registers all variables
++!  with chemistry model into C-Coupler library for coupling. 
++!  This file was initially finished by Dr. Li Liu. If you have 
++!  any problem, please contact Dr. Li Liu via 
++!  liuli-cess@tsinghua.edu.cn
++!***************************************************************
++
++
++#include <misc.h>
++#include <params.h>
++
++
++module coupling_chemistry_model_mod
++
++    use shr_kind_mod, only: r8 => shr_kind_r8
++    use ppgrid
++    use phys_grid,    only: read_chunk_from_field, write_field_from_chunk, get_ncols_p
++    use pmgrid,       only: masterproc
++    use prognostics,  only: ptimelevels, n3, n3m2
++    use buffer
++    use radae,        only: abstot_3d, absnxt_3d, emstot_3d, initialize_radbuffer
++    use comsrf, only: surface_state2d, srfflx_state2d
++    use ioFileMod
++    use phys_buffer
++    use CCPL_interface_mod
++
++    implicit none
++    !
++    ! Public interfaces
++    !
++
++    type, private :: fld_container_for_coupling_chem
++        character(16)        name
++        integer              num_lev
++        real(r8), pointer :: fld_buf(:,:,:)
++    end type fld_container_for_coupling_chem
++
++    integer, private, parameter                    :: max_num_chem_flds = 128
++    integer, private                               :: num_registered_flds_for_chem=0
++    type(fld_container_for_coupling_chem), private :: registered_flds_for_chem(max_num_chem_flds)
++    integer, public                                :: gamil_comp_id
++
++    integer, private          :: decomp_id, grid_h2d_id, grid_v1d_id
++    integer, private          :: grid_3d_id, grid_mid_3d_id
++
++    real, private,allocatable :: PRECCON_array(:,:) 
++    real, private,allocatable :: PRECTOT_array(:,:) 
++    real, private,allocatable :: PRECSNO_array(:,:) 
++    real, private,allocatable :: RADLWG_array(:,:) 
++    real, private,allocatable :: RADSWG_array(:,:) 
++    real, private,allocatable :: FRLAKE_array(:,:) 
++    real, private,allocatable :: FRLANDIC_array(:,:) 
++
++    integer, allocatable :: flds_id(:)
++
++    interface out_fld_for_coupling_chem ; module procedure &
++        out_fld_for_coupling_chem_3D, &
++        out_fld_for_coupling_chem_2D, &
++        out_fld_for_coupling_chem_2D_lchnk, &
++        out_fld_for_coupling_chem_1D_lchnk
++    end interface
++
++
++
++
++CONTAINS
++
++
++    subroutine register_gamil_component(comm)
++        integer, intent(inout) :: comm
++        gamil_comp_id = CCPL_register_component(-1, "gamil", "atm", comm, annotation = "register atm model gamil")
++    end subroutine register_gamil_component
++
++    subroutine register_grids_decomps
++        use pmgrid
++        use ppgrid
++        use phys_grid
++        use rgrid,          only: nlon                                                  ! reduced grid
++        use commap
++        use dycore, only: dycore_is
++        use shr_const_mod,  only: shr_const_spval
++        use CCPL_interface_mod
++        implicit none
++#include <comhyb.h>
++#include <pdyn.h>
++
++        real*8 area(plon,plat)
++        real*8 clondeg(plon,plat)
++        real*8 clatdeg(plon,plat)
++        integer :: mask(plon,plat)
++        integer lat, lon, lchnk
++        real(r8) :: spval = shr_const_spval          ! Special value for real msg data
++        real                               :: min_lon, min_lat, max_lon, max_lat
++        integer :: mid_v1d_grid_id
++        integer, allocatable               :: local_grid_cell_indexes(:)
++        integer :: ncol                  ! number of columns in current chunk
++        integer :: i
++        integer :: lats(pcols)           ! array of latitude indices
++        integer :: lons(pcols)           ! array of longitude indices
++
++        mask(:,:) = 0
++        clatdeg(:,:) = spval
++        clondeg(:,:) = spval
++        do lat = 1, plat
++        mask(1:nlon(lat),lat) = 1
++        clatdeg(1:nlon(lat),lat) = latdeg(lat)
++        clondeg(1:nlon(lat),lat) = londeg(1:nlon(lat),lat)
++        end do
++
++        min_lon = minval(londeg)
++        max_lon = maxval(londeg)
++        min_lat = minval(latdeg)
++        max_lat = maxval(latdeg)
++
++        grid_h2d_id = CCPL_register_H2D_grid_via_global_data(gamil_comp_id, "gamil_H2D_grid", "LON_LAT", "degrees", "cyclic", plon, plat, 0.0, 360.0, -90.0, 90.0, clondeg, clatdeg, mask,annotation="register gamil H2D grid")
++        grid_v1d_id = CCPL_register_V1D_SIGMA_grid_via_model_data(gamil_comp_id, "gamil_V1D_grid", "Pa", pmtop, sig, "register gamil v1d grid")
++        grid_3d_id = CCPL_register_MD_grid_via_multi_grids(gamil_comp_id, "gamil_3D_grid", grid_H2D_id, grid_V1D_id, annotation="register a gamil 3-d grid")
++        call CCPL_register_mid_point_grid(grid_3d_id, grid_mid_3d_id, mid_v1d_grid_id,annotation = "register a mid point grid")
++
++!register decomposition
++       allocate(local_grid_cell_indexes(pcols*(endchunk-begchunk+1)))
++       local_grid_cell_indexes=0
++       do lchnk = begchunk,endchunk
++          ncol = get_ncols_p(lchnk)
++          call get_lon_all_p(lchnk, ncol, lons)
++          call get_lat_all_p(lchnk, ncol, lats)
++          do i=1,ncol
++              local_grid_cell_indexes((lchnk-begchunk)*pcols+i)=(lats(i)-1)*(nx-2)+lons(i)
++          end do
++       end do
++       decomp_id = CCPL_register_parallel_decomp("decomp_gamil_grid", grid_H2D_id, pcols*(endchunk-begchunk+1), local_grid_cell_indexes, "allocate for gamil grid")
++       deallocate(local_grid_cell_indexes)
++
++    end subroutine register_grids_decomps
++
++    subroutine add_fld_for_coupling_chem(fld_name, units, long_name, num_lev, fld_id)
++        implicit none
++        character(len=*), intent(in) :: fld_name      
++        character(len=*), intent(in) :: units 
++        character(len=*), intent(in) :: long_name
++        integer         , intent(in) :: num_lev
++        integer                      :: i
++        integer         , intent(out):: fld_id
++
++        num_registered_flds_for_chem = num_registered_flds_for_chem + 1
++        if (num_registered_flds_for_chem .gt. max_num_chem_flds) then
++            call CCPL_report_error(gamil_comp_id, .false., "GAMIL register too many fields for coupling chemistry model", "too many fields")
++        endif
++        registered_flds_for_chem(num_registered_flds_for_chem)%name      = fld_name
++        registered_flds_for_chem(num_registered_flds_for_chem)%num_lev   = num_lev
++        registered_flds_for_chem(num_registered_flds_for_chem)%fld_buf(:,:,:) = 0.0
++
++        if (num_lev .eq. 1) then
++            fld_id = CCPL_register_field_instance(registered_flds_for_chem(num_registered_flds_for_chem)%fld_buf, fld_name, decomp_id, grid_h2d_id, 0, units, "register field instance of " // fld_name)
++        else if (num_lev .eq. pver) then
++            fld_id = CCPL_register_field_instance(registered_flds_for_chem(num_registered_flds_for_chem)%fld_buf, fld_name, decomp_id, grid_3d_id, 0, units, "register field instance of " // fld_name)
++        else if (num_lev .eq. pverp) then
++            fld_id = CCPL_register_field_instance(registered_flds_for_chem(num_registered_flds_for_chem)%fld_buf, fld_name, decomp_id, grid_mid_3d_id, 0, units, "register field instance of " // fld_name)
++        else if (num_lev .eq. 1) then 
++            fld_id = CCPL_register_field_instance(registered_flds_for_chem(num_registered_flds_for_chem)%fld_buf, fld_name, decomp_id, grid_h2d_id, 0, units, "register field instance of " // fld_name)
++        else 
++            call CCPL_report_error(gamil_comp_id, .false., "number of levels of fields for coupling chemistry model is not supported", "field level wrong")
++        endif
++
++    end subroutine add_fld_for_coupling_chem
++
++
++
++    subroutine copy_fld_for_coupling_chem_3D(field_in, field_out, num_lev)
++        implicit none
++        real(r8), intent(in)         :: field_in(pcols,begchunk:endchunk,num_lev) 
++        real(r8), intent(out)        :: field_out(pcols,begchunk:endchunk,num_lev) 
++        integer , intent(in)         :: num_lev
++
++
++        field_out(:,:,:) = field_in(:,:,:)
++ 
++    end subroutine copy_fld_for_coupling_chem_3D
++
++
++
++    subroutine copy_fld_for_coupling_chem_2D(field_in, field_out, num_lev)
++        implicit none
++        real(r8), intent(in)         :: field_in(pcols,begchunk:endchunk) 
++        real(r8), intent(out)        :: field_out(pcols,begchunk:endchunk,num_lev) 
++        integer , intent(in)         :: num_lev
++
++
++        field_out(:,:,1) = field_in(:,:)
++ 
++    end subroutine copy_fld_for_coupling_chem_2D
++
++
++
++    subroutine copy_fld_for_coupling_chem_2D_lchnk(field_in, field_out, num_lev, lchnk)
++        implicit none
++        real(r8), intent(in)         :: field_in(pcols,num_lev) 
++        real(r8), intent(out)        :: field_out(pcols,begchunk:endchunk,num_lev) 
++        integer , intent(in)         :: num_lev
++        integer , intent(in)         :: lchnk
++
++
++        field_out(:,lchnk,:) = field_in(:,:)
++ 
++    end subroutine copy_fld_for_coupling_chem_2D_lchnk
++
++
++
++    subroutine copy_fld_for_coupling_chem_1D_lchnk(field_in, field_out, num_lev, lchnk)
++        implicit none
++        real(r8), intent(in)         :: field_in(pcols) 
++        real(r8), intent(out)        :: field_out(pcols,begchunk:endchunk,num_lev) 
++        integer , intent(in)         :: num_lev
++        integer , intent(in)         :: lchnk
++
++
++        field_out(:,lchnk,1) = field_in(:)
++ 
++    end subroutine copy_fld_for_coupling_chem_1D_lchnk
++
++
++
++    subroutine search_fld_index(fld_name, indx)
++        implicit none
++        character(len=*), intent(in) :: fld_name      
++        integer,          intent(out) :: indx
++
++        
++        do indx = 1, num_registered_flds_for_chem
++            if (registered_flds_for_chem(indx)%name == fld_name) then
++                goto 200
++            endif
++        enddo 
++
++200     if (indx .gt. num_registered_flds_for_chem) then
++            call CCPL_report_error(gamil_comp_id, .false., "field has not been registerred when output it as a for coupling chemistry model")
++        endif 
++
++    end subroutine search_fld_index
++
++
++
++    subroutine out_fld_for_coupling_chem_3D(fld_name, field_buf)
++        implicit none
++        character(len=*), intent(in) :: fld_name      
++        real(r8), intent(in)         :: field_buf(:,:,:) ! Array containing field values
++        integer                      :: indx
++
++        
++        call search_fld_index(fld_name, indx)
++        call copy_fld_for_coupling_chem_3D(field_buf, registered_flds_for_chem(indx)%fld_buf, &
++                                        registered_flds_for_chem(indx)%num_lev)
++
++    end subroutine out_fld_for_coupling_chem_3D
++
++
++
++    subroutine out_fld_for_coupling_chem_2D(fld_name, field_buf)
++        implicit none
++        character(len=*), intent(in) :: fld_name      
++        real(r8), intent(in)         :: field_buf(:,:) ! Array containing field values
++        integer                      :: indx
++
++        
++        call search_fld_index(fld_name, indx)
++        if (registered_flds_for_chem(indx)%num_lev .ne. 1) then
++            call CCPL_report_error(gamil_comp_id, .false., "number of levels of for 2D field has not been registerred correctly")
++        endif
++        call copy_fld_for_coupling_chem_2D(field_buf, registered_flds_for_chem(indx)%fld_buf, &
++                                        registered_flds_for_chem(indx)%num_lev)
++
++    end subroutine out_fld_for_coupling_chem_2D
++
++
++
++    subroutine out_fld_for_coupling_chem_1D_lchnk(fld_name, field_buf, lchnk)
++        implicit none
++        character(len=*), intent(in) :: fld_name      
++        real(r8), intent(in)         :: field_buf(:) ! Array containing field values
++        integer, intent(in)          :: lchnk
++        integer                      :: indx
++
++        
++        call search_fld_index(fld_name, indx)
++        if (registered_flds_for_chem(indx)%num_lev .ne. 1) then
++            call CCPL_report_error(gamil_comp_id, .false., "number of levels of for 2D field has not been registerred correctly")
++        endif
++        call copy_fld_for_coupling_chem_1D_lchnk(field_buf, registered_flds_for_chem(indx)%fld_buf, &
++                                        registered_flds_for_chem(indx)%num_lev, lchnk)
++
++    end subroutine out_fld_for_coupling_chem_1D_lchnk
++
++
++
++    subroutine out_fld_for_coupling_chem_2D_lchnk(fld_name, field_buf, lchnk)
++        implicit none
++        character(len=*), intent(in) :: fld_name      
++        real(r8), intent(in)         :: field_buf(:,:) ! Array containing field values
++        integer, intent(in)          :: lchnk
++        integer                      :: indx
++
++        
++        call search_fld_index(fld_name, indx)
++        if (registered_flds_for_chem(indx)%num_lev .eq. 1) then
++            call CCPL_report_error(gamil_comp_id, .false., "number of levels of for 3D field has not been registerred correctly")
++        endif
++        call copy_fld_for_coupling_chem_2D_lchnk(field_buf, registered_flds_for_chem(indx)%fld_buf, &
++                                        registered_flds_for_chem(indx)%num_lev, lchnk)
++
++    end subroutine out_fld_for_coupling_chem_2D_lchnk
++
++
++
++    subroutine add_most_flds_for_coupling_chem
++    implicit none
++        allocate(PRECCON_array(pcols,begchunk:endchunk))
++        allocate(PRECTOT_array(pcols,begchunk:endchunk))
++        allocate(PRECSNO_array(pcols,begchunk:endchunk))
++        allocate(RADLWG_array(pcols,begchunk:endchunk))
++        allocate(RADSWG_array(pcols,begchunk:endchunk))
++        allocate(FRLAKE_array(pcols,begchunk:endchunk))
++        allocate(FRLANDIC_array(pcols,begchunk:endchunk))
++
++        allocate(flds_id(10))
++
++        call add_fld_for_coupling_chem('CLDF','fraction','Cloud fraction',pver,flds_id(1))
++        call add_fld_for_coupling_chem('CMFMC','kg m-2 s-1','Moist convection mass flux',pverp,flds_id(2))
++        call add_fld_for_coupling_chem('DQIDTMST','kg kg-1 s-1','ice tendency, mst proc',pver, flds_id(3))
++        call add_fld_for_coupling_chem('DQLDTMST','kg kg-1 s-1','H2O tendency, mst proc',pver, flds_id(4))
++        call add_fld_for_coupling_chem('DQVDTMST','kg kg-1 s-1','vapor tendency, mst proc',pver, flds_id(5))
++        call add_fld_for_coupling_chem('DTRAIN','kg m-2 s-1','detrainment flux',pver, flds_id(6))
++        call add_fld_for_coupling_chem('MOISTQ','g kg-1 day-1','tendency in sp. C17',pver, flds_id(7))
++        call add_fld_for_coupling_chem('OPTDEP','1','visible optical depth',pver, flds_id(8))
++        call add_fld_for_coupling_chem('SLP','Pa','sea level pressure',1, flds_id(9))
++        call add_fld_for_coupling_chem('TS','K','surface temperature',1, flds_id(10))
++
++
++    end subroutine add_most_flds_for_coupling_chem
++
++
++
++    subroutine out_caculated_flds_for_coupling_chem()
++        use comsrf, only: surface_state2d, srfflx_state2d, landfrac
++        implicit none
++        integer :: lchnk, ncols, i
++        
++        do lchnk = begchunk, endchunk
++            ncols = get_ncols_p(lchnk)
++            do i = 1, ncols
++                PRECCON_array(i,lchnk) = surface_state2d(lchnk)%precc(i)*1000.
++                PRECTOT_array(i,lchnk) = (surface_state2d(lchnk)%precl(i)+surface_state2d(lchnk)%precc(i))*1000.
++                PRECSNO_array(i,lchnk) = (surface_state2d(lchnk)%precsc(i)+surface_state2d(lchnk)%precsl(i))*1000.
++                RADLWG_array(i,lchnk)  = srfflx_state2d(lchnk)%lwup(i)-surface_state2d(lchnk)%flwds(i) 
++                RADSWG_array(i,lchnk)  = surface_state2d(lchnk)%srfrad(i)-surface_state2d(lchnk)%flwds(i)
++                !send2d_chunk(i,lchnk,atm_output_field_pbot)  = surface_state2d(lchnk)%pbot(i) ! Atmospheric state variable Pa
++            end do
++        end do
++        call out_fld_for_coupling_chem('PRECCON',PRECCON_array)
++        call out_fld_for_coupling_chem('PRECTOT',PRECTOT_array)
++        call out_fld_for_coupling_chem('PRECSNO',PRECSNO_array)
++        call out_fld_for_coupling_chem('RADLWG',RADLWG_array)
++        call out_fld_for_coupling_chem('RADSWG',RADSWG_array)
++        call out_fld_for_coupling_chem('FRLAND',landfrac)
++
++    end subroutine out_caculated_flds_for_coupling_chem
++
++    subroutine register_component_coupling_configuration(comm, comp_name, &
++               export_interface_id, local_comp_id, time_step)
++       use pmgrid
++       use ppgrid
++       use phys_grid
++       use rgrid,          only: nlon                                                  ! reduced grid
++       use commap
++       use dycore, only: dycore_is
++       use shr_const_mod,  only: shr_const_spval
++       use CCPL_interface_mod
++       implicit none
++
++#include <comhyb.h>
++#include <pdyn.h>
++
++       character(len=*), intent(in)       :: comp_name
++       integer, intent(inout)             :: comm
++       integer, intent(in)                :: local_comp_id
++       integer, intent(out)               :: export_interface_id
++       integer, intent(in)                :: time_step
++       character*1024                     :: annotation
++       integer                            :: timer1_id, timer2_id
++       integer                            :: num_proc, proc_id
++       integer, allocatable               :: timers_id(:), fields_id(:)
++       logical                            :: interface_status
++
++       proc_id = CCPL_get_current_process_id_in_component(gamil_comp_id)
++
++       call CCPL_set_time_step(gamil_comp_id, time_step)
++
++       annotation = "component "//comp_name//" start registration"
++
++       call register_grids_decomps
++       call add_most_flds_for_coupling_chem
++       call CCPL_set_3D_grid_dynamic_surface_field(grid_3d_id, fields_id(1), "set bottom field of a 3-D grid")
++
++       allocate(timers_id(10),fields_id(10))
++       timer1_id = CCPL_define_single_timer(gamil_comp_id, "steps", 1, 0, 0, annotation="define a single timer for comp_id_gamil")
++       timer2_id = CCPL_define_single_timer(gamil_comp_id, "seconds", 2400, 0, 0, annotation="define a single timer for comp_id_gamil")
++
++       export_interface_id = CCPL_register_export_interface("send_data_to_GIGC", 10, fields_id, timer1_id, "gamil_component_send", annotation="register interface for sending data to GIGC")
++       call CCPL_end_coupling_configuration(gamil_comp_id, annotation = "component "//comp_name//" end registration")
++       deallocate(timers_id, fields_id)
++
++    end subroutine register_component_coupling_configuration
++
++end module coupling_chemistry_model_mod
+diff --git a/src/couple/c_coupler/register_decompositions_mod.F90 b/src/couple/c_coupler/register_decompositions_mod.F90
+deleted file mode 100644
+index e0625e7..0000000
+--- a/src/couple/c_coupler/register_decompositions_mod.F90
++++ /dev/null
+@@ -1,84 +0,0 @@
+-!***************************************************************
+-!  This is a source file of GAMIL, which registers all parallel 
+-!  decompositions into C-Coupler library. This file was initially 
+-!  finished by Dr. Li Liu. If you have any problem, please 
+-!  contact Dr. Li Liu via liuli-cess@tsinghua.edu.cn
+-!***************************************************************
+-
+-
+-module register_decompositions_mod
+-
+-    public register_decompositions
+-
+-contains
+-
+-    subroutine register_decompositions
+-       use pmgrid
+-       use phys_grid
+-       use rgrid,          only: nlon                                                  ! reduced grid
+-       use c_coupler_interface_mod
+-       implicit none
+-       integer,allocatable :: decomp_cell_indexes(:)
+-       integer,allocatable :: dyn_cell_global_index(:)
+-       integer             :: n, i, j, startpoint, bufsize
+-       integer :: lchnk         ! indices
+-       integer :: ncol                  ! number of columns in current chunk
+-       integer :: lats(pcols)           ! array of latitude indices
+-       integer :: lons(pcols)           ! array of longitude indices
+-       integer :: begj, endj, NX
+-
+-       NX=130
+-
+-       bufsize=0
+-       do j=1,plat
+-          bufsize = bufsize + nlon(j)
+-       end do
+-       allocate(decomp_cell_indexes(bufsize))
+-       n = 0
+-       startpoint = 0
+-       do j=1,plat
+-          do i=1,nlon(j)
+-             if(get_chunk_owner_p(i,j) .eq. iam) then
+-                n=n+1
+-                decomp_cell_indexes(n) = startpoint + i
+-             end if
+-          enddo
+-          startpoint = startpoint + nlon(j)
+-       enddo
+-       call c_coupler_register_decomposition("gamil_gamil_grid_decomp", "gamil_grid", n, decomp_cell_indexes)
+-       deallocate(decomp_cell_indexes)
+-
+-       allocate(decomp_cell_indexes(pcols*(endchunk-begchunk+1)))
+-       decomp_cell_indexes=0
+-       do lchnk = begchunk,endchunk
+-          ncol = get_ncols_p(lchnk)
+-          call get_lon_all_p(lchnk, ncol, lons)
+-          call get_lat_all_p(lchnk, ncol, lats)
+-          do i=1,ncol
+-              decomp_cell_indexes((lchnk-begchunk)*pcols+i)=(lats(i)-1)*(128)+lons(i)
+-          end do
+-       end do
+-       call c_coupler_register_decomposition("gamil_2D_decomp_phys", "gamil_grid", &
+-                                  pcols*(endchunk-begchunk+1), decomp_cell_indexes)
+-       deallocate(decomp_cell_indexes)
+-
+-       bufsize=(endlatexdyn-beglatexdyn+1)*NX
+-       allocate(dyn_cell_global_index(bufsize))
+-       dyn_cell_global_index=-1
+-       begj = beglatexdyn + numbnd
+-       endj = endlatexdyn - numbnd
+-       do j=begj,endj
+-          do i=2,NX-1
+-             dyn_cell_global_index((j-begj)*NX+i) = (j-1)*(NX-2)+i-1
+-          enddo
+-       enddo
+-
+-       call c_coupler_register_decomposition("gamil_2D_decomp_dyn", "gamil_grid", &
+-                                  bufsize, dyn_cell_global_index)
+-
+-       deallocate(dyn_cell_global_index)
+-
+-    end subroutine register_decompositions
+-
+-end module register_decompositions_mod
+-
+diff --git a/src/couple/c_coupler/register_private_variables_mod.F90 b/src/couple/c_coupler/register_private_variables_mod.F90
+deleted file mode 100755
+index e4b6b28..0000000
+--- a/src/couple/c_coupler/register_private_variables_mod.F90
++++ /dev/null
+@@ -1,65 +0,0 @@
+-!***************************************************************
+-!  This is a source file of GAMIL, which registers all variables
+-!  into C-Coupler library for I/O. This file was initially 
+-!  finished by Dr. Li Liu. If you have any problem, please 
+-!  contact Dr. Li Liu via liuli-cess@tsinghua.edu.cn
+-!***************************************************************
+-
+-
+-#include <misc.h>
+-#include <params.h>
+-
+-
+-module register_private_variables_mod
+-
+-    use shr_kind_mod, only: r8 => shr_kind_r8
+-    use ppgrid
+-    use phys_grid,    only: read_chunk_from_field, write_field_from_chunk, get_ncols_p
+-    use pmgrid,       only: masterproc
+-    use prognostics,  only: ptimelevels, n3, n3m2
+-    use buffer
+-    use radae,        only: abstot_3d, absnxt_3d, emstot_3d, initialize_radbuffer
+-    use comsrf
+-    use ioFileMod
+-    use phys_buffer
+-    use c_coupler_interface_mod
+-
+-    implicit none
+-#include <pdyn.h> 
+-#include <comfm2.h> 
+-
+-    !
+-    ! Public interfaces
+-    !
+-    public  register_static_variables
+-    private register_dyn_variables
+-
+-CONTAINS
+-
+-    
+-
+-    subroutine register_dyn_variables
+-       use prognostics
+-       use comfm1
+-       use pmgrid, only: beglatex,beglatexdyn,endlatexdyn
+-       implicit none
+-
+-       call c_coupler_register_model_data(pes,"gamil_2D_decomp_dyn","gamil_pes",.true.)
+-       call c_coupler_register_model_data(t,"gamil_2D_decomp_dyn","gamil_t",.true.)
+-       !call c_coupler_add_field_for_perturbing_roundoff_errors(pes)
+-       call c_coupler_add_field_for_perturbing_roundoff_errors(t)
+-
+-    end subroutine register_dyn_variables
+-
+-
+-
+-    subroutine register_static_variables
+-
+-       implicit none
+-
+-       call register_dyn_variables
+-
+-    end subroutine register_static_variables
+-
+-
+-end module register_private_variables_mod
+diff --git a/src/dynamics/eul/stepon.F90 b/src/dynamics/eul/stepon.F90
+index 156cab5..128d396 100755
+--- a/src/dynamics/eul/stepon.F90
++++ b/src/dynamics/eul/stepon.F90
+@@ -42,7 +42,8 @@ subroutine stepon
+                               is_first_step, is_first_restart_step, &
+                               is_last_step, is_end_curr_day, get_curr_calday, &
+                               dtdy ! added by WANG Hui
+-    use c_coupler_interface_mod
++    use CCPL_interface_mod
++    use coupling_chemistry_model_mod
+ 
+     implicit none
+ 
+@@ -77,6 +78,7 @@ subroutine stepon
+     ! Externals
+     !
+     logical, external :: rstwr  ! whether or not to write restart files
++    logical           :: interface_status
+     !
+     !-----------------------------------------------------------------------
+     call t_startf('stepon_startup'); if(masterproc) write(6,*) '+++++ stepon_startup +++++'
+@@ -206,6 +208,10 @@ subroutine stepon
+             qminus(i1,1,1,begj), q3(i1,1,1,begj,n3), q31(i1,1,begj), t31(i1,1,begj))
+         call t_stopf('p_d_coupling')
+ 
++        interface_status = CCPL_execute_interface_using_name(gamil_comp_id, "send_data_to_GIGC", .false.)
++        call CCPL_advance_time(gamil_comp_id)
++        call CCPL_do_restart_write(gamil_comp_id, .false.)
++
+         !----------------------------------------------------------
+         ! DYNPKG Call the Dynamics Package
+         !----------------------------------------------------------
+@@ -221,8 +227,6 @@ subroutine stepon
+ 
+         ! prepare data for physics
+ 
+-        call c_coupler_perturb_roundoff_errors
+-
+         call c_a_switching(pmtop)            !!(wh 2003.10.28)
+ 
+         call t_stopf('dynpkg')
+@@ -277,7 +281,7 @@ subroutine stepon
+         !
+         ! Advance timestep before returning to top of loop
+         !
+-        call c_coupler_advance_timer()
++        !call c_coupler_advance_timer()
+         call advance_timestep()
+         call t_stopf('stepon_st')
+         !
+diff --git a/src/lnd/clm2/src/main/controlMod.F90 b/src/lnd/clm2/src/main/controlMod.F90
+index f1e2562..cf06ff9 100755
+--- a/src/lnd/clm2/src/main/controlMod.F90
++++ b/src/lnd/clm2/src/main/controlMod.F90
+@@ -538,7 +538,7 @@ CONTAINS
+ 
+     if (rpntpath == 'not_specified') then
+        call getenv ('HOME', homedir)
+-       rpntpath = 'lnd.'//trim(caseid)//'.rpointer'
++       rpntpath = trim(homedir)//'/lnd.'//trim(caseid)//'.rpointer'
+     endif
+ 
+     do i = 1, nhist
+diff --git a/src/physics/cam1/MG.F90 b/src/physics/cam1/MG.F90
+index eb8b60e..99fe93c 100755
+--- a/src/physics/cam1/MG.F90
++++ b/src/physics/cam1/MG.F90
+@@ -19,6 +19,8 @@ module MG
+ 
+     ! debug modules
+     use pmgrid,        only: masterproc
++    use CCPL_interface_mod
++    use coupling_chemistry_model_mod, only: out_fld_for_coupling_chem
+ 
+     implicit none
+ 
+@@ -852,6 +854,9 @@ contains
+         call outfld('CLDST   ', cldst,  pcols, lchnk)
+         call outfld('CNVCLD  ', clc,    pcols, lchnk)
+ 
++        call out_fld_for_coupling_chem('QI',         icimr,         lchnk)
++        call out_fld_for_coupling_chem('QL',         icwmr,         lchnk)
++
+     endsubroutine stratiform_tend
+ 
+ end module MG
+diff --git a/src/physics/cam1/diagnostics.F90 b/src/physics/cam1/diagnostics.F90
+index d23d052..803bef6 100755
+--- a/src/physics/cam1/diagnostics.F90
++++ b/src/physics/cam1/diagnostics.F90
+@@ -27,6 +27,7 @@ contains
+         use physics_types, only: physics_state
+         use physconst,     only: gravit, rga, rair
+         use wv_saturation, only: aqsat
++        use coupling_chemistry_model_mod, only: out_fld_for_coupling_chem  
+ #ifdef COUP_CSM
+         use ccsm_msg,      only: psl   ! Store sea-level pressure for CCSM
+ #endif
+@@ -142,6 +143,7 @@ contains
+         call aqsat(state%t, state%pmid, tem2, ftem, pcols, ncol, pver, 1, pver)
+         state%rh(:ncol,:) = state%q(:ncol,:,1)/ftem(:ncol,:)*100.
+         call outfld('RELHUM  ', state%rh, pcols, lchnk)
++        call out_fld_for_coupling_chem('RH', ftem, lchnk)
+         !
+         ! Sea level pressure
+         !
+@@ -179,6 +181,11 @@ contains
+         call outfld('TBOT    ', state%t(1,pver),   pcols, lchnk)
+         call outfld('ZBOT    ', state%zm(1,pver),  pcols, lchnk)
+ 
++        call out_fld_for_coupling_chem('SPHU', state%q(:,:,1), lchnk)
++        call out_fld_for_coupling_chem('T',    state%t,        lchnk)
++        call out_fld_for_coupling_chem('U',    state%u,        lchnk)
++        call out_fld_for_coupling_chem('V',    state%v,        lchnk)
++
+         return
+     end subroutine diag_dynvar
+ 
+diff --git a/src/physics/cam1/physpkg.F90 b/src/physics/cam1/physpkg.F90
+index 31ec674..0066f3e 100755
+--- a/src/physics/cam1/physpkg.F90
++++ b/src/physics/cam1/physpkg.F90
+@@ -38,6 +38,8 @@ subroutine physpkg(phys_state, phys_state0, gw,     ztodt,  &
+     use time_manager,   only: get_nstep, is_first_step, is_first_restart_step, &
+                               is_end_curr_month, get_curr_date
+     use phys_buffer,    only: pbuf   ! added by SHI Xiangjun
++    use CCPL_interface_mod
++    use coupling_chemistry_model_mod, only:out_fld_for_coupling_chem, out_caculated_flds_for_coupling_chem
+ #ifndef COUP_CSM
+     use sst_data,       only: sst    ! added by SHI Xiangjun
+ #endif
+@@ -365,5 +367,20 @@ subroutine physpkg(phys_state, phys_state0, gw,     ztodt,  &
+ 
+     call t_stopf ('global_ts')
+ 
++    call out_fld_for_coupling_chem('CLDF',cldn)
++    call out_fld_for_coupling_chem('FROCEAN',ocnfrac)
++    !call out_fld_for_coupling_chem('SLP',psl)
++    do c = begchunk, endchunk
++        call out_fld_for_coupling_chem('EFLUX',srfflx_state2d(c)%lhf(:),c)
++        call out_fld_for_coupling_chem('HFLUX',srfflx_state2d(c)%lhf(:),c)
++        call out_fld_for_coupling_chem('EVAP',srfflx_state2d(c)%lhf(:),c)
++        call out_fld_for_coupling_chem('TS',srfflx_state2d(c)%lhf(:),c)
++        call out_fld_for_coupling_chem('TSKIN',srfflx_state2d(c)%lhf(:),c)
++        call out_fld_for_coupling_chem('PS',srfflx_state2d(c)%lhf(:),c)
++        call out_fld_for_coupling_chem('PARDR',srfflx_state2d(c)%lhf(:),c)
++        call out_fld_for_coupling_chem('PARDF',srfflx_state2d(c)%lhf(:),c)
++    end do
++    call out_caculated_flds_for_coupling_chem
++
+     return
+ end subroutine physpkg
+diff --git a/src/physics/cam1/radcswmx.F90 b/src/physics/cam1/radcswmx.F90
+index 61ed3fc..b013222 100755
+--- a/src/physics/cam1/radcswmx.F90
++++ b/src/physics/cam1/radcswmx.F90
+@@ -56,6 +56,7 @@ subroutine radcswmx(lchnk   ,ncol    ,                            &
+ !-----------------------------------------------------------------------
+     use shr_kind_mod, only: r8 => shr_kind_r8
+     use ppgrid
++    use coupling_chemistry_model_mod, only: out_fld_for_coupling_chem
+ 
+    implicit none
+ 
+@@ -491,6 +492,8 @@ subroutine radcswmx(lchnk   ,ncol    ,                            &
+ !
+    real(r8) tauxcl(pcols,0:pver) ! water cloud extinction optical depth
+    real(r8) tauxci(pcols,0:pver) ! ice cloud extinction optical depth
++   real*8 tauxcl_output(pcols,pver)
++   real*8 tauxci_output(pcols,pver)
+    real(r8) wcl(pcols,0:pver) ! liquid cloud single scattering albedo
+    real(r8) gcl(pcols,0:pver) ! liquid cloud asymmetry parameter
+    real(r8) fcl(pcols,0:pver) ! liquid cloud forward scattered fraction
+@@ -1669,5 +1672,11 @@ subroutine radcswmx(lchnk   ,ncol    ,                            &
+ !
+     end do
+ 
++    tauxci_output(:,1:pver) = tauxci(:,1:pver)
++    tauxcl_output(:,1:pver) = tauxcl(:,1:pver)
++
++    call out_fld_for_coupling_chem('TAUCLI', tauxci_output, lchnk)
++    call out_fld_for_coupling_chem('TAUCLW', tauxcl_output, lchnk)
++
+     return
+ end subroutine radcswmx
+diff --git a/src/physics/cam1/tphysbc.F90 b/src/physics/cam1/tphysbc.F90
+index 66a4c18..2698eef 100755
+--- a/src/physics/cam1/tphysbc.F90
++++ b/src/physics/cam1/tphysbc.F90
+@@ -62,6 +62,8 @@ subroutine tphysbc(ztodt,   pblht,   tpert,   ts,      &
+                            pbuf_get_fld_idx              !!
+ 
+    USE pmgrid,                  ONLY: masterproc,iam     !sxj-2008-11-08
++   use CCPL_interface_mod
++   use coupling_chemistry_model_mod, only: out_fld_for_coupling_chem
+ #ifdef SPMD                                              !sxj
+    USE mpishorthand,      only:mpicom
+ #endif                                                   !sxj 2008-11-09
+@@ -1262,6 +1264,8 @@ subroutine tphysbc(ztodt,   pblht,   tpert,   ts,      &
+             call outfld('ICIMR ',icimr,  pcols,lchnk)
+             call outfld('ICWMR ',icwmr,  pcols,lchnk)
+             call outfld('FICE  ',fice,   pcols,lchnk)
++            call out_fld_for_coupling_chem('QI',         icimr,         lchnk)
++            call out_fld_for_coupling_chem('QL',         icwmr,         lchnk)
+         end if
+         !
+         ! Special diagnostic cloud water fields:
+@@ -1429,6 +1433,13 @@ subroutine tphysbc(ztodt,   pblht,   tpert,   ts,      &
+       call mf2mr (lchnk, ncol, state%q)
+    end if
+ 
++   call out_fld_for_coupling_chem('CMFMC',      cmfmc,         lchnk)
++   call out_fld_for_coupling_chem('DQIDTMST',   dqcond(:,:,3), lchnk)
++   call out_fld_for_coupling_chem('DQLDTMST',   dqcond(:,:,2), lchnk)
++   call out_fld_for_coupling_chem('DQVDTMST',   dqcond(:,:,1), lchnk)
++   call out_fld_for_coupling_chem('DTRAIN',     zdu,           lchnk)
++   call out_fld_for_coupling_chem('CLDFRC',     cltot,           lchnk)
++
+    return
+  end subroutine tphysbc
+ 
+diff --git a/src/physics/cam1/turbulence.F90 b/src/physics/cam1/turbulence.F90
+index 35ab5ef..6595335 100755
+--- a/src/physics/cam1/turbulence.F90
++++ b/src/physics/cam1/turbulence.F90
+@@ -30,6 +30,7 @@ module turbulence
+   use pmgrid, only    : masterproc
+   use tracers, only   : pcnst, pnats
+   use history, only: outfld
++  use coupling_chemistry_model_mod, only: out_fld_for_coupling_chem
+ 
+   implicit none
+ !
+@@ -231,6 +232,9 @@ CONTAINS
+     call outfld ('KVM     ',kvm,pcols,lchnk)
+     call outfld ('CGS     ',cgs,pcols,lchnk)
+ 
++    call out_fld_for_coupling_chem('USTAR', ustar, lchnk)
++    call out_fld_for_coupling_chem('PBLH', pblh, lchnk)
++
+     return
+  end subroutine trbintr
+ !

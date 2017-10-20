@@ -1,0 +1,4 @@
+STDATM0.o STDATM0.d : STDATM0.F
+STDATM0.o : misc.h
+STDATM0.o : params.h
+STDATM0.o : PARADYN

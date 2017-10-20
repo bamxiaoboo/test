@@ -1,0 +1,24 @@
+prescribed_aerosols.o prescribed_aerosols.d : prescribed_aerosols.F90
+prescribed_aerosols.o : misc.h
+prescribed_aerosols.o : params.h
+prescribed_aerosols.o : shr_kind_mod.o
+prescribed_aerosols.o : shr_const_mod.o
+prescribed_aerosols.o : pmgrid.o
+prescribed_aerosols.o : ppgrid.o
+prescribed_aerosols.o : phys_grid.o
+prescribed_aerosols.o : time_manager.o
+prescribed_aerosols.o : infnan.o
+prescribed_aerosols.o : aerosol_index.o
+prescribed_aerosols.o : scamMod.o
+prescribed_aerosols.o : error_messages.o
+prescribed_aerosols.o : physics_types.o
+prescribed_aerosols.o : boundarydata.o
+prescribed_aerosols.o : mpishorthand.o
+prescribed_aerosols.o : ioFileMod.o
+prescribed_aerosols.o : filenames.o
+prescribed_aerosols.o : rgrid.o
+prescribed_aerosols.o : physconst.o
+prescribed_aerosols.o : history.o
+prescribed_aerosols.o : comctl.h
+prescribed_aerosols.o : interpolate_data.o
+prescribed_aerosols.o : comhyb.h

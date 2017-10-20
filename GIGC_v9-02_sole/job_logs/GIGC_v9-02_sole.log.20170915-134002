@@ -1,0 +1,26 @@
+*************   S T A R T I N G   4 x 5   G E O S--C H E M   *************
+Created w/ LINUX/IFORT compiler
+Use ifort -V to print version information
+Using GMAO GEOS-5 met fields
+
+===> SIMULATION START TIME: 2017/09/15 13:40 <===
+
+===============================================================================
+G E O S - C H E M   U S E R   I N P U T
+
+READ_INPUT_FILE: Reading input.geos
+===============================================================================
+GEOS-CHEM I/O ERROR    29 in file unit    11
+Encountered at routine:location read_input_file:1
+
+Error   29: File not found
+===============================================================================
+     - CLEANUP: deallocating arrays now...
+
+===================================================================================
+=   BAD TERMINATION OF ONE OF YOUR APPLICATION PROCESSES
+=   PID 8485 RUNNING AT public2.c-coupler.org
+=   EXIT CODE: 174
+=   CLEANING UP REMAINING PROCESSES
+=   YOU CAN IGNORE THE BELOW CLEANUP MESSAGES
+===================================================================================

@@ -1,0 +1,21 @@
+preset.o preset.d : preset.F90
+preset.o : misc.h
+preset.o : params.h
+preset.o : shr_kind_mod.o
+preset.o : infnan.o
+preset.o : history.o
+preset.o : pmgrid.o
+preset.o : tracers.o
+preset.o : constituents.o
+preset.o : rgrid.o
+preset.o : shr_orb_mod.o
+preset.o : dycore.o
+preset.o : comhd.o
+preset.o : ice_dh.o
+preset.o : time_manager.o
+preset.o : comadj.h
+preset.o : comctl.h
+preset.o : comlun.h
+preset.o : comtfc.h
+preset.o : comsol.h
+preset.o : perturb.h

@@ -1,0 +1,12 @@
+COMPSET=GAMIL2-sole
+MACH=generic_linux
+#CONFIGROOT=/data/home/liuli/check_out/coupler/uniform_model_platform/C-Coupler_Model_Platform/config
+#CODEROOT=/data/home/liuli/check_out/coupler/uniform_model_platform/C-Coupler_Model_Platform/models
+#DATAROOT=/data/home/liuli/check_out/coupler/uniform_model_platform/inputdata
+export LIBROOT=/data3/work/yuxinzhu/test/GAMIL2.8_AMIP-sole/run/lib
+export INCROOT=/data3/work/yuxinzhu/test/GAMIL2.8_AMIP-sole/run/lib/include
+export COMMON_COMPILER=/data3/work/yuxinzhu/test/GAMIL2.8_AMIP-sole/config/common/machine/generic_linux/common_compiler.generic_linux.cfg
+export ENSEMBLE_NUM=0
+export OS=Linux
+export GMAKE_J=8
+export SUBMITTER=mpi

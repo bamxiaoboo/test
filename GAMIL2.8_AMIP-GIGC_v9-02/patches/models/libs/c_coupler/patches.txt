@@ -1,0 +1,1340 @@
+diff --git a/CoR/remap_grid_class.cxx b/CoR/remap_grid_class.cxx
+index f07f29d..ba021d2 100644
+--- a/CoR/remap_grid_class.cxx
++++ b/CoR/remap_grid_class.cxx
+@@ -1907,9 +1907,6 @@ void Remap_grid_class::set_grid_boundary(double min_lon, double max_lon, double
+     if (words_are_the_same(leaf_grids[0]->get_coord_label(), COORD_LABEL_LON))
+         lon_sub_grid = leaf_grids[0];
+     else lon_sub_grid = leaf_grids[1];
+-    if (lon_sub_grid->get_grid_cyclic())
+-        EXECUTION_REPORT(REPORT_ERROR, -1, min_lon == 0 && max_lon == 360, 
+-                         "As grid %s has cyclic longitude, its minimum and maximum longitude of the boundary must be 0 and 360 respectively", this->grid_name);
+ 
+     boundary_min_lon = min_lon;
+     boundary_max_lon = max_lon;
+diff --git a/Data_MGT/original_grid_mgt.cxx b/Data_MGT/original_grid_mgt.cxx
+index 3e0bebd..42ea07b 100644
+--- a/Data_MGT/original_grid_mgt.cxx
++++ b/Data_MGT/original_grid_mgt.cxx
+@@ -404,27 +404,27 @@ void Original_grid_mgt::common_checking_for_H2D_registration_via_data(int comp_i
+ 
+ 	EXECUTION_REPORT(REPORT_ERROR, comp_id, max_lat_value > min_lat_value, "Error happens when registering an H2D grid \"%s\" through API \"%s\": \"min_lat\" is not smaller than \"max_lat\". Please check the model code related to the annotation \"%s\".", grid_name, API_label, annotation);
+ 	if (words_are_the_same(coord_unit, COORD_UNIT_DEGREES)) {
+-		EXECUTION_REPORT(REPORT_ERROR, comp_id, are_array_values_between_boundaries(data_type, (double*) min_lon, 1, (double) -360.0*eps, (double) 360.0*eps, (double) -999.0, false), "Error happens when registering an H2D grid \"%s\" through API \"%s\": the value of the parameter \"min_lon\" is wrong (not between -360 and 360). Please check the model code related to the annotation \"%s\".", grid_name, API_label, annotation);
+-		EXECUTION_REPORT(REPORT_ERROR, comp_id, are_array_values_between_boundaries(data_type, (double*) max_lon, 1, (double) -360.0*eps, (double) 360.0*eps, (double) -999.0, false), "Error happens when registering an H2D grid \"%s\" through API \"%s\": the value of the parameter \"max_lon\" is wrong (not between -360 and 360). Please check the model code related to the annotation \"%s\".", grid_name, API_label, annotation);
+-		EXECUTION_REPORT(REPORT_ERROR, comp_id, are_array_values_between_boundaries(data_type, (double*) min_lat, 1, (double) -90.0*eps, (double) 90.0*eps, (double) -999.0, false), "Error happens when registering an H2D grid \"%s\" through API \"%s\": the value of the parameter \"min_lat\" is wrong (not between -90 and 90). Please check the model code related to the annotation \"%s\".", grid_name, API_label, annotation);
+-		EXECUTION_REPORT(REPORT_ERROR, comp_id, are_array_values_between_boundaries(data_type, (double*) max_lat, 1, (double) -90.0*eps, (double) 90.0*eps, (double) -999.0, false), "Error happens when registering an H2D grid \"%s\" through API \"%s\": the value of the parameter \"max_lat\" is wrong (not between -90 and 90). Please check the model code related to the annotation \"%s\".", grid_name, API_label, annotation);
++		EXECUTION_REPORT(REPORT_ERROR, comp_id, are_array_values_between_boundaries(data_type, (double*) min_lon, 1, (double) -360.0*eps, (double) 360.0*eps, (double) NULL_COORD_VALUE, false), "Error happens when registering an H2D grid \"%s\" through API \"%s\": the value of the parameter \"min_lon\" is wrong (not between -360 and 360). Please check the model code related to the annotation \"%s\".", grid_name, API_label, annotation);
++		EXECUTION_REPORT(REPORT_ERROR, comp_id, are_array_values_between_boundaries(data_type, (double*) max_lon, 1, (double) -360.0*eps, (double) 360.0*eps, (double) NULL_COORD_VALUE, false), "Error happens when registering an H2D grid \"%s\" through API \"%s\": the value of the parameter \"max_lon\" is wrong (not between -360 and 360). Please check the model code related to the annotation \"%s\".", grid_name, API_label, annotation);
++		EXECUTION_REPORT(REPORT_ERROR, comp_id, are_array_values_between_boundaries(data_type, (double*) min_lat, 1, (double) -90.0*eps, (double) 90.0*eps, (double) NULL_COORD_VALUE, false), "Error happens when registering an H2D grid \"%s\" through API \"%s\": the value of the parameter \"min_lat\" is wrong (not between -90 and 90). Please check the model code related to the annotation \"%s\".", grid_name, API_label, annotation);
++		EXECUTION_REPORT(REPORT_ERROR, comp_id, are_array_values_between_boundaries(data_type, (double*) max_lat, 1, (double) -90.0*eps, (double) 90.0*eps, (double) NULL_COORD_VALUE, false), "Error happens when registering an H2D grid \"%s\" through API \"%s\": the value of the parameter \"max_lat\" is wrong (not between -90 and 90). Please check the model code related to the annotation \"%s\".", grid_name, API_label, annotation);
+ //		EXECUTION_REPORT(REPORT_ERROR, comp_id, fabs(max_lon_value-min_lon_value) <= ((double)360.0)*eps, "Error happens when registering an H2D grid \"%s\" through API \"%s\": the difference between \"min_lon\" and \"max_lon\" (%lf) is wrong (not between -360 and 360). Please check the model code related to the annotation \"%s\".", grid_name, API_label, fabs(max_lon_value-min_lon_value), annotation);	
+-		EXECUTION_REPORT(REPORT_ERROR, comp_id, are_array_values_between_boundaries(data_type, (double*) center_lon, size_center_lon, (double) -360.0*eps, (double) 360.0*eps, (double) -999.0, false), "Error happens when registering an H2D grid \"%s\" through API \"%s\": some values of the parameter \"center_lon\" are wrong (not between -360 and 360). Please check the model code related to the annotation \"%s\".", grid_name, API_label, annotation);
+-		EXECUTION_REPORT(REPORT_ERROR, comp_id, are_array_values_between_boundaries(data_type, (double*) vertex_lon, size_vertex_lon, (double) -360.0*eps, (double) 360.0*eps, (double) -999.0, true), "Error happens when registering an H2D grid \"%s\" through API \"%s\": some values of the parameter \"vertex_lon\" are wrong (not between -360 and 360). Please check the model code related to the annotation \"%s\".", grid_name, API_label, annotation);
++		EXECUTION_REPORT(REPORT_ERROR, comp_id, are_array_values_between_boundaries(data_type, (double*) center_lon, size_center_lon, (double) -360.0*eps, (double) 360.0*eps, (double) NULL_COORD_VALUE, false), "Error happens when registering an H2D grid \"%s\" through API \"%s\": some values of the parameter \"center_lon\" are wrong (not between -360 and 360). Please check the model code related to the annotation \"%s\".", grid_name, API_label, annotation);
++		EXECUTION_REPORT(REPORT_ERROR, comp_id, are_array_values_between_boundaries(data_type, (double*) vertex_lon, size_vertex_lon, (double) -360.0*eps, (double) 360.0*eps, (double) NULL_COORD_VALUE, true), "Error happens when registering an H2D grid \"%s\" through API \"%s\": some values of the parameter \"vertex_lon\" are wrong (not between -360 and 360). Please check the model code related to the annotation \"%s\".", grid_name, API_label, annotation);
+ 	}
+ 	else if (words_are_the_same(coord_unit, COORD_UNIT_RADIANS)) {
+-		EXECUTION_REPORT(REPORT_ERROR, comp_id, are_array_values_between_boundaries(data_type, (double*) min_lon, 1, -((double)3.1416)*2*eps, ((double)3.1416)*2*eps, (double) -999.0, false), "Error happens when registering an H2D grid \"%s\" through API \"%s\": the value of the parameter \"min_lon\" are wrong (not between -2PI and 2PI). Please check the model code related to the annotation \"%s\".", grid_name, API_label, annotation);
+-		EXECUTION_REPORT(REPORT_ERROR, comp_id, are_array_values_between_boundaries(data_type, (double*) max_lon, 1, -((double)3.1416)*2*eps, ((double)3.1416)*2*eps, (double) -999.0, false), "Error happens when registering an H2D grid \"%s\" through API \"%s\": the value of the parameter \"max_lon\" are wrong (not between -2PI and 2PI). Please check the model code related to the annotation \"%s\".", grid_name, API_label, annotation);
+-		EXECUTION_REPORT(REPORT_ERROR, comp_id, are_array_values_between_boundaries(data_type, (double*) min_lat, 1, -((double)3.1416)/2*eps, ((double)3.1416)/2*eps, (double) -999.0, false), "Error happens when registering an H2D grid \"%s\" through API \"%s\": the value of the parameter \"min_lat\" are wrong (not between -PI/2 and PI/2). Please check the model code related to the annotation \"%s\".", grid_name, API_label, annotation);
+-		EXECUTION_REPORT(REPORT_ERROR, comp_id, are_array_values_between_boundaries(data_type, (double*) max_lat, 1, -((double)3.1416)/2*eps, ((double)3.1416)/2*eps, (double) -999.0, false), "Error happens when registering an H2D grid \"%s\" through API \"%s\": the value of the parameter \"max_lat\" are wrong (not between -PI/2 and PI/2). Please check the model code related to the annotation \"%s\".", grid_name, API_label, annotation);
++		EXECUTION_REPORT(REPORT_ERROR, comp_id, are_array_values_between_boundaries(data_type, (double*) min_lon, 1, -((double)3.1416)*2*eps, ((double)3.1416)*2*eps, (double) NULL_COORD_VALUE, false), "Error happens when registering an H2D grid \"%s\" through API \"%s\": the value of the parameter \"min_lon\" are wrong (not between -2PI and 2PI). Please check the model code related to the annotation \"%s\".", grid_name, API_label, annotation);
++		EXECUTION_REPORT(REPORT_ERROR, comp_id, are_array_values_between_boundaries(data_type, (double*) max_lon, 1, -((double)3.1416)*2*eps, ((double)3.1416)*2*eps, (double) NULL_COORD_VALUE, false), "Error happens when registering an H2D grid \"%s\" through API \"%s\": the value of the parameter \"max_lon\" are wrong (not between -2PI and 2PI). Please check the model code related to the annotation \"%s\".", grid_name, API_label, annotation);
++		EXECUTION_REPORT(REPORT_ERROR, comp_id, are_array_values_between_boundaries(data_type, (double*) min_lat, 1, -((double)3.1416)/2*eps, ((double)3.1416)/2*eps, (double) NULL_COORD_VALUE, false), "Error happens when registering an H2D grid \"%s\" through API \"%s\": the value of the parameter \"min_lat\" are wrong (not between -PI/2 and PI/2). Please check the model code related to the annotation \"%s\".", grid_name, API_label, annotation);
++		EXECUTION_REPORT(REPORT_ERROR, comp_id, are_array_values_between_boundaries(data_type, (double*) max_lat, 1, -((double)3.1416)/2*eps, ((double)3.1416)/2*eps, (double) NULL_COORD_VALUE, false), "Error happens when registering an H2D grid \"%s\" through API \"%s\": the value of the parameter \"max_lat\" are wrong (not between -PI/2 and PI/2). Please check the model code related to the annotation \"%s\".", grid_name, API_label, annotation);
+ //		EXECUTION_REPORT(REPORT_ERROR, comp_id, fabs(max_lon-min_lon) <= ((double)3.1416)*2*eps, "Error happens when registering an H2D grid \"%s\" through API \"%s\": the difference between \"min_lon\" and \"max_lon\" is wrong (not between -2PI and 2PI). Please check the model code related to the annotation \"%s\".", grid_name, API_label, annotation);	
+-		EXECUTION_REPORT(REPORT_ERROR, comp_id, are_array_values_between_boundaries(data_type, (double*) center_lon, size_center_lon, -((double)3.1416)*2*eps, ((double)3.1416)*2*eps, (double) -999.0, false), "Error happens when registering an H2D grid \"%s\" through API \"%s\": some values of the parameter \"center_lon\" are wrong (not between -2PI and 2PI). Please check the model code related to the annotation \"%s\".", grid_name, API_label, annotation);
+-		EXECUTION_REPORT(REPORT_ERROR, comp_id, are_array_values_between_boundaries(data_type, (double*) vertex_lon, size_vertex_lon, -((double)3.1416)*2*eps, ((double)3.1416)*2*eps, (double) -999.0, true), "Error happens when registering an H2D grid \"%s\" through API \"%s\": some values of the parameter \"vertex_lon\" are wrong (not between -2PI and 2PI). Please check the model code related to the annotation \"%s\".", grid_name, API_label, annotation);
++		EXECUTION_REPORT(REPORT_ERROR, comp_id, are_array_values_between_boundaries(data_type, (double*) center_lon, size_center_lon, -((double)3.1416)*2*eps, ((double)3.1416)*2*eps, (double) NULL_COORD_VALUE, false), "Error happens when registering an H2D grid \"%s\" through API \"%s\": some values of the parameter \"center_lon\" are wrong (not between -2PI and 2PI). Please check the model code related to the annotation \"%s\".", grid_name, API_label, annotation);
++		EXECUTION_REPORT(REPORT_ERROR, comp_id, are_array_values_between_boundaries(data_type, (double*) vertex_lon, size_vertex_lon, -((double)3.1416)*2*eps, ((double)3.1416)*2*eps, (double) NULL_COORD_VALUE, true), "Error happens when registering an H2D grid \"%s\" through API \"%s\": some values of the parameter \"vertex_lon\" are wrong (not between -2PI and 2PI). Please check the model code related to the annotation \"%s\".", grid_name, API_label, annotation);
+ 	}
+-	EXECUTION_REPORT(REPORT_ERROR, comp_id, are_array_values_between_boundaries(data_type, (double*) center_lon, size_center_lon, min_lon_value, max_lon_value, (double) -999.0, false), "Error happens when registering an H2D grid \"%s\" through API \"%s\": some values of the parameter \"center_lon\" are wrong (not between \"min_lon\" and \"max_lon\"). Please check the model code related to the annotation \"%s\".", grid_name, API_label, annotation);
+-	EXECUTION_REPORT(REPORT_ERROR, comp_id, are_array_values_between_boundaries(data_type, (double*) vertex_lon, size_vertex_lon, min_lon_value, max_lon_value, (double) -999.0, true), "Error happens when registering an H2D grid \"%s\" through API \"%s\": some values of the parameter \"vertex_lon\" are wrong (not between \"min_lon\" and \"max_lon\"). Please check the model code related to the annotation \"%s\".", grid_name, API_label, annotation);
+-	EXECUTION_REPORT(REPORT_ERROR, comp_id, are_array_values_between_boundaries(data_type, (double*) center_lat, size_center_lat, min_lat_value, max_lat_value, (double) -999.0, false), "Error happens when registering an H2D grid \"%s\" through API \"%s\": some values of the parameter \"center_lat\" are wrong (not between \"min_lat\" and \"max_lat\"). Please check the model code related to the annotation \"%s\".", grid_name, API_label, annotation);
+-	EXECUTION_REPORT(REPORT_ERROR, comp_id, are_array_values_between_boundaries(data_type, (double*) vertex_lat, size_vertex_lat, min_lat_value, max_lat_value, (double) -999.0, true), "Error happens when registering an H2D grid \"%s\" through API \"%s\": some values of the parameter \"vertex_lat\" are wrong (not between \"min_lat\" and \"max_lat\"). Please check the model code related to the annotation \"%s\".", grid_name, API_label, annotation);
++	EXECUTION_REPORT(REPORT_ERROR, comp_id, are_array_values_between_boundaries(data_type, (double*) center_lon, size_center_lon, min_lon_value, max_lon_value, (double) NULL_COORD_VALUE, false), "Error happens when registering an H2D grid \"%s\" through API \"%s\": some values of the parameter \"center_lon\" are wrong (not between \"min_lon\" and \"max_lon\"). Please check the model code related to the annotation \"%s\".", grid_name, API_label, annotation);
++	EXECUTION_REPORT(REPORT_ERROR, comp_id, are_array_values_between_boundaries(data_type, (double*) vertex_lon, size_vertex_lon, min_lon_value, max_lon_value, (double) NULL_COORD_VALUE, true), "Error happens when registering an H2D grid \"%s\" through API \"%s\": some values of the parameter \"vertex_lon\" are wrong (not between \"min_lon\" and \"max_lon\"). Please check the model code related to the annotation \"%s\".", grid_name, API_label, annotation);
++	EXECUTION_REPORT(REPORT_ERROR, comp_id, are_array_values_between_boundaries(data_type, (double*) center_lat, size_center_lat, min_lat_value, max_lat_value, (double) NULL_COORD_VALUE, false), "Error happens when registering an H2D grid \"%s\" through API \"%s\": some values of the parameter \"center_lat\" are wrong (not between \"min_lat\" and \"max_lat\"). Please check the model code related to the annotation \"%s\".", grid_name, API_label, annotation);
++	EXECUTION_REPORT(REPORT_ERROR, comp_id, are_array_values_between_boundaries(data_type, (double*) vertex_lat, size_vertex_lat, min_lat_value, max_lat_value, (double) NULL_COORD_VALUE, true), "Error happens when registering an H2D grid \"%s\" through API \"%s\": some values of the parameter \"vertex_lat\" are wrong (not between \"min_lat\" and \"max_lat\"). Please check the model code related to the annotation \"%s\".", grid_name, API_label, annotation);
+ 
+ }
+ 
+diff --git a/Driver/CCPL_api_mgt.cxx b/Driver/CCPL_api_mgt.cxx
+index 6578d20..6a4670a 100644
+--- a/Driver/CCPL_api_mgt.cxx
++++ b/Driver/CCPL_api_mgt.cxx
+@@ -251,6 +251,15 @@ void get_API_hint(int comp_id, int API_id, char *API_label)
+ 		case API_ID_RESTART_MGT_WRITE:
+ 			sprintf(API_label, "CCPL_do_restart_write");
+ 			break;
++		case API_ID_COUPLING_GEN_FAMILY:
++			sprintf(API_label, "CCPL_do_family_coupling_generation");
++			break;
++		case API_ID_COUPLING_GEN_INDIVIDUAL:
++			sprintf(API_label, "CCPL_do_individual_coupling_generation");
++			break;
++		case API_ID_COUPLING_GEN_EXTERNAL:
++			sprintf(API_label, "CCPL_do_external_coupling_generation");
++			break;
+ 		default:
+ 			EXECUTION_REPORT(REPORT_ERROR, comp_id, false, "software error1 in get_API_hint %x", API_id);
+ 			break;
+@@ -698,31 +707,26 @@ void transfer_array_from_one_comp_to_another(int current_proc_local_id_src_comp,
+ 		}
+ 	}
+ 
+-	if (current_proc_local_id_dst_comp != -1) {
+-		MPI_Bcast(&array_size, 1, MPI_LONG, 0, comm_dst_comp);
+-		if (array_size > 0) {
+-			if (current_proc_local_id_dst_comp != 0 && *array != NULL)
+-				delete [] *array;
+-			if (current_proc_local_id_dst_comp != 0)
+-				*array = new char [array_size];
+-			MPI_Bcast(*array, array_size, MPI_CHAR, 0, comm_dst_comp);
+-		}
+-	}		
++	if (current_proc_local_id_dst_comp != -1)
++		bcast_array_in_one_comp(current_proc_local_id_dst_comp, array, array_size, comm_dst_comp);
+ }
+ 
+ 
+ void gather_array_in_one_comp(int num_total_local_proc, int current_proc_local_id, void *local_array, int local_array_size, 
+-	                          int data_type_size, int *all_array_size, void **global_array, MPI_Comm comm)
++	                          int data_type_size, int *all_array_size, void **global_array, long &global_size, MPI_Comm comm)
+ {
+     int *displs = new int [num_total_local_proc];
+ 	int *counts = new int [num_total_local_proc];
+ 
+ 	
+     MPI_Gather(&local_array_size, 1, MPI_INT, all_array_size, 1, MPI_INT, 0, comm);
++	global_size = 0;
+     if (current_proc_local_id == 0) {
+         displs[0] = 0;
+ 		counts[0] = all_array_size[0] * data_type_size;
++		global_size = all_array_size[0];
+         for (int i = 1; i < num_total_local_proc; i ++) {
++			global_size += all_array_size[i];
+ 			counts[i] = all_array_size[i] * data_type_size;
+             displs[i] = displs[i-1] + counts[i-1];
+         }
+@@ -735,6 +739,19 @@ void gather_array_in_one_comp(int num_total_local_proc, int current_proc_local_i
+ }
+ 
+ 
++void bcast_array_in_one_comp(int current_proc_local_id, char **array, long &array_size, MPI_Comm comm)
++{
++	MPI_Bcast(&array_size, 1, MPI_LONG, 0, comm);
++	if (array_size > 0) {
++		if (current_proc_local_id != 0 && *array != NULL)
++			delete [] *array;
++		if (current_proc_local_id != 0)
++			*array = new char [array_size];
++		MPI_Bcast(*array, array_size, MPI_CHAR, 0, comm);
++	}
++}
++
++
+ bool does_file_exist(const char *file_name)
+ {
+ 	FILE *tmp_file = fopen(file_name, "r");
+diff --git a/Driver/CCPL_api_mgt.h b/Driver/CCPL_api_mgt.h
+index dbbe580..612e644 100644
+--- a/Driver/CCPL_api_mgt.h
++++ b/Driver/CCPL_api_mgt.h
+@@ -87,6 +87,9 @@
+ #define API_ID_RESTART_MGT_WRITE                        ((int)(0X07000001))
+ #define API_ID_RESTART_MGT_READ                         ((int)(0X07000002))
+ #define API_ID_RESTART_MGT_IS_TIMER_ON                  ((int)(0X07000004))
++#define API_ID_COUPLING_GEN_FAMILY                      ((int)(0x08000001))
++#define API_ID_COUPLING_GEN_EXTERNAL                    ((int)(0x08000002))
++#define API_ID_COUPLING_GEN_INDIVIDUAL                  ((int)(0x08000003))
+ 
+ 
+ extern void synchronize_comp_processes_for_API(int, int, MPI_Comm, const char *, const char *);
+@@ -104,7 +107,8 @@ extern void check_and_verify_name_format_of_string_for_XML(int, const char*, con
+ extern const char *get_XML_attribute(int, int, TiXmlElement*, const char*, const char*, int&, const char*, const char*);
+ extern bool is_XML_setting_on(int, TiXmlElement*, const char*, const char*, const char*);
+ extern void transfer_array_from_one_comp_to_another(int, int, int, int, MPI_Comm, char **, long &);
+-extern void gather_array_in_one_comp(int, int, void *, int, int, int *, void **, MPI_Comm);
++extern void gather_array_in_one_comp(int, int, void *, int, int, int *, void **, long &, MPI_Comm);
++extern void bcast_array_in_one_comp(int, char **, long &, MPI_Comm);
+ extern long calculate_checksum_of_array(const char *, int, int, const char *, const char *);
+ extern char *check_and_aggregate_local_grid_data(int, int, MPI_Comm, const char *, int, int, int, char *, const char *, int, int *, int &, const char *);
+ extern bool does_file_exist(const char *);
+diff --git a/Driver/c_coupler_interface_mod.F90 b/Driver/c_coupler_interface_mod.F90
+index ffd7084..98c0f78 100644
+--- a/Driver/c_coupler_interface_mod.F90
++++ b/Driver/c_coupler_interface_mod.F90
+@@ -82,6 +82,8 @@
+    public :: CCPL_report_error 
+    public :: CCPL_do_restart_write
+    public :: CCPL_do_restart_read
++   public :: CCPL_do_individual_coupling_generation
++   public :: CCPL_do_family_coupling_generation
+    public :: CCPL_is_restart_timer_on
+    public :: CCPL_abort
+ 
+@@ -1512,18 +1514,23 @@
+ 
+ 
+ 
+-   SUBROUTINE CCPL_end_coupling_configuration(comp_id, annotation)
++   SUBROUTINE CCPL_end_coupling_configuration(comp_id, do_coupling_generation, annotation)
+    implicit none
+-   integer                     :: comp_id
+-   character(len=*), optional  :: annotation
+-   character *1024             :: local_annotation
+-
++   integer                                 :: comp_id
++   logical, intent(in), optional           :: do_coupling_generation
++   character(len=*), optional              :: annotation
++   character *1024                         :: local_annotation
++   integer                                 :: local_do_coupling_generation
++   
+    local_annotation = ""
+    if (present(annotation)) then
+        local_annotation = annotation
+    endif
+ 
+-   call end_registration(comp_id, trim(local_annotation)//char(0))
++   local_do_coupling_generation = 0
++   if (present(do_coupling_generation) .and. do_coupling_generation) local_do_coupling_generation = 1
++
++   call ccpl_end_registration(comp_id, local_do_coupling_generation, trim(local_annotation)//char(0))
+ 
+    END SUBROUTINE CCPL_end_coupling_configuration
+ 
+@@ -2095,9 +2102,9 @@
+    integer                                                 :: grid_id
+ 
+    if (present(annotation)) then
+-       call register_V1D_grid_with_data(comp_id, grid_id, trim(grid_name)//char(0), 3, trim(coord_unit)//char(0), size(coef_A), size(coef_B), trim("real8")//char(0), top_value, coef_A, coef_B, trim(annotation)//char(0))
++       call register_V1D_grid_with_data(comp_id, grid_id, trim(grid_name)//char(0), 3, trim(coord_unit)//char(0), size(coef_B), size(coef_A), trim("real8")//char(0), top_value, coef_B, coef_A, trim(annotation)//char(0))
+    else
+-       call register_V1D_grid_with_data(comp_id, grid_id, trim(grid_name)//char(0), 3, trim(coord_unit)//char(0), size(coef_A), size(coef_B), trim("real8")//char(0), top_value, coef_A, coef_B, trim("")//char(0))
++       call register_V1D_grid_with_data(comp_id, grid_id, trim(grid_name)//char(0), 3, trim(coord_unit)//char(0), size(coef_B), size(coef_A), trim("real8")//char(0), top_value, coef_B, coef_A, trim("")//char(0))
+    endif
+ 
+    CCPL_register_V1D_HYBRID_grid_via_double_data = grid_id
+@@ -2118,9 +2125,9 @@
+    integer                                                 :: grid_id
+ 
+    if (present(annotation)) then
+-       call register_V1D_grid_with_data(comp_id, grid_id, trim(grid_name)//char(0), 3, trim(coord_unit)//char(0), size(coef_A), size(coef_B), trim("real4")//char(0), top_value, coef_A, coef_B, trim(annotation)//char(0))
++       call register_V1D_grid_with_data(comp_id, grid_id, trim(grid_name)//char(0), 3, trim(coord_unit)//char(0), size(coef_B), size(coef_A), trim("real4")//char(0), top_value, coef_B, coef_A, trim(annotation)//char(0))
+    else
+-       call register_V1D_grid_with_data(comp_id, grid_id, trim(grid_name)//char(0), 3, trim(coord_unit)//char(0), size(coef_A), size(coef_B), trim("real4")//char(0), top_value, coef_A, coef_B, trim("")//char(0))
++       call register_V1D_grid_with_data(comp_id, grid_id, trim(grid_name)//char(0), 3, trim(coord_unit)//char(0), size(coef_B), size(coef_A), trim("real4")//char(0), top_value, coef_B, coef_A, trim("")//char(0))
+    endif
+ 
+    CCPL_register_V1D_HYBRID_grid_via_float_data = grid_id
+@@ -2873,6 +2880,34 @@
+  
+ 
+ 
++   SUBROUTINE CCPL_do_family_coupling_generation(comp_id, annotation)
++   implicit none
++   integer,          intent(in)                :: comp_id
++   character(len=*), intent(in), optional      :: annotation
++
++   if (present(annotation)) then
++       call ccpl_family_coupling_generation(comp_id, trim(annotation)//char(0))
++   else
++       call ccpl_family_coupling_generation(comp_id, trim("")//char(0))
++   endif
++   END SUBROUTINE CCPL_do_family_coupling_generation
++
++
++
++   SUBROUTINE CCPL_do_individual_coupling_generation(comp_id, annotation)
++   implicit none
++   integer,          intent(in)                :: comp_id
++   character(len=*), intent(in), optional      :: annotation
++
++   if (present(annotation)) then
++       call ccpl_individual_coupling_generation(comp_id, trim(annotation)//char(0))
++   else
++       call ccpl_individual_coupling_generation(comp_id, trim("")//char(0))
++   endif
++   END SUBROUTINE CCPL_do_individual_coupling_generation
++
++
++
+    SUBROUTINE CCPL_do_restart_read(comp_id, specified_restart_file, annotation)
+    implicit none
+    integer,          intent(in)                :: comp_id
+diff --git a/Driver/coupling_interface.cxx b/Driver/coupling_interface.cxx
+index 4cfeb28..18e0707 100644
+--- a/Driver/coupling_interface.cxx
++++ b/Driver/coupling_interface.cxx
+@@ -388,18 +388,39 @@ extern "C" void get_comp_proc_global_id_(int *comp_id, int *local_proc_id, int *
+ }
+ 
+ 
+-extern "C" void end_registration_(int *comp_id, const char * annotation)
++extern "C" void ccpl_family_coupling_generation_(int *comp_id, const char * annotation)
++{
++	check_for_component_registered(*comp_id, API_ID_COUPLING_GEN_FAMILY, annotation, false);
++	EXECUTION_REPORT_LOG(REPORT_LOG, -1, true, "start to generate coupling procedures for the component model \"%s\" and its descendants", comp_comm_group_mgt_mgr->get_global_node_of_local_comp(*comp_id,"")->get_full_name());
++	synchronize_comp_processes_for_API(*comp_id, API_ID_COUPLING_GEN_FAMILY, comp_comm_group_mgt_mgr->get_comm_group_of_local_comp(*comp_id, "C-Coupler code in ccpl_family_coupling_generation_"), "first synchorization for coupling generation of a component", annotation);	
++	coupling_generator->generate_coupling_procedures_internal(*comp_id, true);
++	EXECUTION_REPORT_LOG(REPORT_LOG, -1, true, "Finish generating coupling procedures for the component model \"%s\" and its descendants", comp_comm_group_mgt_mgr->get_global_node_of_local_comp(*comp_id,"")->get_full_name());
++}
++
++
++extern "C" void ccpl_individual_coupling_generation_(int *comp_id, const char * annotation)
++{
++	check_for_component_registered(*comp_id, API_ID_COUPLING_GEN_INDIVIDUAL, annotation, false);
++	EXECUTION_REPORT_LOG(REPORT_LOG, -1, true, "start to generate coupling procedures for the component model \"%s\" and its descendants", comp_comm_group_mgt_mgr->get_global_node_of_local_comp(*comp_id,"")->get_full_name());
++	synchronize_comp_processes_for_API(*comp_id, API_ID_COUPLING_GEN_INDIVIDUAL, comp_comm_group_mgt_mgr->get_comm_group_of_local_comp(*comp_id, "C-Coupler code in ccpl_family_coupling_generation_"), "first synchorization for coupling generation of a component", annotation);	
++	coupling_generator->generate_coupling_procedures_internal(*comp_id, false);
++	EXECUTION_REPORT_LOG(REPORT_LOG, -1, true, "Finish generating coupling procedures for the component model \"%s\" and its descendants", comp_comm_group_mgt_mgr->get_global_node_of_local_comp(*comp_id,"")->get_full_name());
++}
++
++
++extern "C" void ccpl_end_registration_(int *comp_id, int *do_coupling_generation, const char * annotation)
+ {
+ 	check_for_component_registered(*comp_id, API_ID_COMP_MGT_END_COMP_REG, annotation, false);
+ 	
+-	EXECUTION_REPORT_LOG(REPORT_LOG, -1, true, "start to end the coupling registration for the component model \"%s\"", comp_comm_group_mgt_mgr->get_global_node_of_local_comp(*comp_id,"")->get_full_name());
+-	
+-	synchronize_comp_processes_for_API(*comp_id, API_ID_COMP_MGT_END_COMP_REG, comp_comm_group_mgt_mgr->get_comm_group_of_local_comp(*comp_id, "C-Coupler code in register_component for getting component management node"), "first synchorization for ending the registration of a component", annotation);	
++	EXECUTION_REPORT_LOG(REPORT_LOG, -1, true, "start to end the coupling registration for the component model \"%s\"", comp_comm_group_mgt_mgr->get_global_node_of_local_comp(*comp_id,"")->get_full_name());	
++	synchronize_comp_processes_for_API(*comp_id, API_ID_COMP_MGT_END_COMP_REG, comp_comm_group_mgt_mgr->get_comm_group_of_local_comp(*comp_id, "ccpl_end_registration_"), "first synchorization for ending the registration of a component", annotation);
++	check_API_parameter_int(*comp_id, API_ID_COMP_MGT_END_COMP_REG, comp_comm_group_mgt_mgr->get_comm_group_of_local_comp(*comp_id, "ccpl_end_registration_"), NULL, *do_coupling_generation, "do_coupling_generation (specification and the value)", annotation);
+ 
++	if ((*do_coupling_generation) == 1)
++		coupling_generator->generate_coupling_procedures_internal(*comp_id, true);
+ 	comp_comm_group_mgt_mgr->merge_comp_comm_info(*comp_id, annotation);
+-	inout_interface_mgr->merge_unconnected_inout_interface_fields_info(*comp_id);
+ 	if (((*comp_id) & TYPE_ID_SUFFIX_MASK) == 1) {
+-		coupling_generator->generate_coupling_procedures();
++		coupling_generator->generate_coupling_procedures_internal(comp_comm_group_mgt_mgr->get_global_node_of_local_comp(*comp_id, "in ccpl_end_registration_")->get_parent()->get_comp_id(), true);
+ 		coupling_generator->generate_IO_procedures();
+ 		delete all_H2D_remapping_wgt_files_info;
+ 	}
+@@ -454,8 +475,8 @@ extern "C" void register_v1d_grid_with_data_(int *comp_id, int *grid_id, const c
+ 		transform_datatype_of_arrays((double*)value3, temp_value3, *dim_size3);
+ 	}
+ 
+-	EXECUTION_REPORT(REPORT_ERROR, *comp_id, is_array_in_sorting_order(temp_value2,*dim_size2) != 0 && is_array_in_sorting_order(temp_value3,*dim_size2) != 0, "Error happens when calling the C-Coupler API \"%s\" to register a V1D grid \"%s\": some arrays of parameters are not in a descending/ascending order. Please check the model code with the annotation \"%s\".", API_label, grid_name, annotation);
+-	EXECUTION_REPORT(REPORT_ERROR, *comp_id, is_array_in_sorting_order(temp_value2,*dim_size2) == is_array_in_sorting_order(temp_value3,*dim_size2), "Error happens when calling the C-Coupler API \"%s\" to register a V1D grid \"%s\": the two arrays of parameters are not in the same sorting order. Please check the model code with the annotation \"%s\".", API_label, grid_name, annotation);	
++	EXECUTION_REPORT(REPORT_ERROR, *comp_id, is_array_in_sorting_order(temp_value2,*dim_size2) != 0, "Error happens when calling the C-Coupler API \"%s\" to register a V1D grid \"%s\": some arrays of parameters are not in a descending/ascending order. Please check the model code with the annotation \"%s\".", API_label, grid_name, annotation);
++//	EXECUTION_REPORT(REPORT_ERROR, *comp_id, is_array_in_sorting_order(temp_value2,*dim_size2) == is_array_in_sorting_order(temp_value3,*dim_size2), "Error happens when calling the C-Coupler API \"%s\" to register a V1D grid \"%s\": the two arrays of parameters are not in the same sorting order. Please check the model code with the annotation \"%s\".", API_label, grid_name, annotation);	
+ 	*grid_id = original_grid_mgr->register_V1D_grid_via_data(API_id, *comp_id, grid_name, *grid_type, coord_unit, *dim_size2, temp_value1, temp_value2, temp_value3, annotation);
+ 
+ 	delete [] temp_value2;
+diff --git a/Parallel_MGT/compset_communicators_info_mgt.cxx b/Parallel_MGT/compset_communicators_info_mgt.cxx
+index a04be51..77f59be 100644
+--- a/Parallel_MGT/compset_communicators_info_mgt.cxx
++++ b/Parallel_MGT/compset_communicators_info_mgt.cxx
+@@ -324,7 +324,7 @@ Comp_comm_group_mgt_node::Comp_comm_group_mgt_node(const char *comp_name, const
+ 
+ Comp_comm_group_mgt_node::Comp_comm_group_mgt_node(TiXmlElement *XML_element, const char *specified_full_name, const char *XML_file_name)
+ {
+-	int line_number, current_proc_global_id;
++	int line_number;
+ 
+ 
+ 	comp_id = -1;
+@@ -711,6 +711,48 @@ long Comp_comm_group_mgt_node::get_proc_latest_model_time(int proc_id)
+ }
+ 
+ 
++void Comp_comm_group_mgt_node::get_all_descendant_real_comp_fullnames(int top_comp_id, std::vector<char*> &all_descendant_real_comp_fullnames, char **temp_array_buffer, long &buffer_max_size, long &buffer_content_size)
++{
++	char *local_temp_array_buffer = NULL, *gather_temp_array_buffer = NULL;
++	long local_buffer_max_size, local_buffer_content_size = 0, gather_buffer_content_size = 0;
++	
++
++	for (int i = 0; i < children.size(); i ++)
++		children[i]->get_all_descendant_real_comp_fullnames(top_comp_id, all_descendant_real_comp_fullnames, &local_temp_array_buffer, local_buffer_max_size, local_buffer_content_size);
++
++	if (is_real_component_model() && current_proc_local_id == 0)
++		dump_string(full_name, -1, &local_temp_array_buffer, local_buffer_max_size, local_buffer_content_size);
++
++	if (current_proc_local_id != -1) {
++		int *all_array_size = new int [get_num_procs()];
++		gather_array_in_one_comp(get_num_procs(), current_proc_local_id, local_temp_array_buffer, local_buffer_content_size, sizeof(char), all_array_size, (void**)(&gather_temp_array_buffer), gather_buffer_content_size, comm_group);
++		if (current_proc_local_id == 0)
++			write_data_into_array_buffer(gather_temp_array_buffer, gather_buffer_content_size, temp_array_buffer, buffer_max_size, buffer_content_size);
++		delete [] all_array_size;
++	}
++
++	if (local_temp_array_buffer != NULL)
++		delete [] local_temp_array_buffer;
++	if (gather_temp_array_buffer != NULL)
++		delete [] gather_temp_array_buffer;
++
++	if (comp_id == top_comp_id) {
++		bcast_array_in_one_comp(current_proc_local_id, temp_array_buffer, buffer_content_size, comm_group);
++		char temp_full_name[NAME_STR_SIZE];
++		long str_size;
++		while (buffer_content_size > 0) {
++			load_string(temp_full_name, str_size, NAME_STR_SIZE, *temp_array_buffer, buffer_content_size, "C-Coupler internal");
++			all_descendant_real_comp_fullnames.push_back(strdup(temp_full_name));
++		}
++		EXECUTION_REPORT(REPORT_ERROR, -1, buffer_content_size == 0, "Software error in Comp_comm_group_mgt_node::get_all_descendant_real_comp_fullnames");
++		if (*temp_array_buffer != NULL) {
++			delete [] *temp_array_buffer;
++			*temp_array_buffer = NULL;
++		}
++	}
++}
++
++
+ Comp_comm_group_mgt_mgr::Comp_comm_group_mgt_mgr(const char *executable_name)
+ {
+ 	int i, j, num_procs, proc_id;
+@@ -903,10 +945,11 @@ int Comp_comm_group_mgt_mgr::register_component(const char *comp_name, const cha
+ 		sprintf(first_active_comp_config_dir, "%s/%s", runtime_config_root_dir, new_comp->get_comp_name());
+ 		if (change_dir == 1) {
+ 			char new_dir[NAME_STR_SIZE];
+-			sprintf(new_dir, "%s/run/%s/%s", root_working_dir, new_comp->get_comp_type(), new_comp->get_comp_name());
++			sprintf(new_dir, "%s/run/%s/%s/data", root_working_dir, new_comp->get_comp_type(), new_comp->get_comp_name());
+ 			DIR *dir=opendir(new_dir);
+ 			EXECUTION_REPORT(REPORT_ERROR, new_comp->get_comp_id(), dir != NULL, "Fail to change working directory for the first active component model \"%s\": the directory \"%s\" does not exist.", new_comp->get_comp_name(), new_dir);
+ 			chdir(new_dir);
++            EXECUTION_REPORT_LOG(REPORT_LOG, new_comp->get_comp_id(), true, "change working directory to \"%s\"", new_dir);
+ 		}
+ 		original_grid_mgr->initialize_CoR_grids();
+ 	}
+@@ -1227,3 +1270,22 @@ void Comp_comm_group_mgt_mgr::set_current_proc_current_time(int comp_id, int day
+ 	get_global_node_of_local_comp(comp_id,"Comp_comm_group_mgt_mgr::set_current_proc_time")->set_current_proc_current_time(days, second);
+ }
+ 
++
++Comp_comm_group_mgt_node *Comp_comm_group_mgt_mgr::load_comp_info_from_XML(int host_comp_id, const char *comp_full_name, MPI_Comm comm)
++{
++	char XML_file_name[NAME_STR_SIZE];
++	TiXmlDocument *XML_file;
++	int i;
++
++
++	sprintf(XML_file_name, "%s/%s.basic_info.xml", comp_comm_group_mgt_mgr->get_components_processes_dir(), comp_full_name);
++	XML_file = open_XML_file_to_read(host_comp_id, XML_file_name, comm, true);
++	TiXmlElement *XML_element = XML_file->FirstChildElement();
++	TiXmlElement *Online_Model = XML_element->FirstChildElement();
++	Comp_comm_group_mgt_node *pesudo_comp_node = new Comp_comm_group_mgt_node(Online_Model, comp_full_name, XML_file_name);
++	delete XML_file;
++		
++	return pesudo_comp_node;
++}
++
++
+diff --git a/Parallel_MGT/compset_communicators_info_mgt.h b/Parallel_MGT/compset_communicators_info_mgt.h
+index 2b056e7..c56f6e1 100644
+--- a/Parallel_MGT/compset_communicators_info_mgt.h
++++ b/Parallel_MGT/compset_communicators_info_mgt.h
+@@ -123,6 +123,7 @@ class Comp_comm_group_mgt_node
+ 		void set_current_proc_current_time(int, int);
+ 		void set_proc_latest_model_time(int, long);
+ 		long get_proc_latest_model_time(int);
++		void get_all_descendant_real_comp_fullnames(int, std::vector<char*>&, char **, long &, long &);
+ };
+ 
+ 
+@@ -189,6 +190,7 @@ class Comp_comm_group_mgt_mgr
+ 		Comp_comm_group_mgt_node *pop_comp_node();
+ 		void check_validation();
+ 		void set_current_proc_current_time(int, int, int);
++		Comp_comm_group_mgt_node *load_comp_info_from_XML(int, const char *, MPI_Comm);
+ };
+ 
+ 
+diff --git a/Parallel_MGT/routing_info_mgt.cxx b/Parallel_MGT/routing_info_mgt.cxx
+index f25f95d..5ba5d93 100644
+--- a/Parallel_MGT/routing_info_mgt.cxx
++++ b/Parallel_MGT/routing_info_mgt.cxx
+@@ -132,6 +132,7 @@ void Routing_info::build_2D_router()
+     int src_comp_root_proc_global_id = src_comp_node->get_root_proc_global_id();
+     int dst_comp_root_proc_global_id = dst_comp_node->get_root_proc_global_id();
+     Routing_info_with_one_process *routing_info;
++	long total_src_cells, total_dst_cells;
+ 
+ 
+     if (current_proc_id_src_comp != -1) {
+@@ -139,14 +140,14 @@ void Routing_info::build_2D_router()
+         num_local_src_cells = src_decomp_info->get_num_local_cells();
+ 		*num_global_src_cells = src_decomp_info->get_num_global_cells();
+ 		gather_array_in_one_comp(num_src_procs, current_proc_id_src_comp, (void*)src_decomp_info->get_local_cell_global_indx(), num_local_src_cells, 
+-			                     sizeof(int), num_cells_each_src_proc, (void**)(&cells_indx_each_src_proc), src_comp_node->get_comm_group());
++			                     sizeof(int), num_cells_each_src_proc, (void**)(&cells_indx_each_src_proc), total_src_cells, src_comp_node->get_comm_group());
+     }
+     if (current_proc_id_dst_comp != -1) {
+ 		EXECUTION_REPORT(REPORT_ERROR, -1, dst_decomp_info != NULL, "Software error in Routing_info::build_2D_router: NULL dst decomp info");
+         num_local_dst_cells = dst_decomp_info->get_num_local_cells();
+ 		*num_global_dst_cells = dst_decomp_info->get_num_global_cells();
+ 		gather_array_in_one_comp(num_dst_procs, current_proc_id_dst_comp, (void*)dst_decomp_info->get_local_cell_global_indx(), num_local_dst_cells, 
+-								 sizeof(int), num_cells_each_dst_proc, (void**)(&cells_indx_each_dst_proc), dst_comp_node->get_comm_group());
++								 sizeof(int), num_cells_each_dst_proc, (void**)(&cells_indx_each_dst_proc), total_dst_cells, dst_comp_node->get_comm_group());
+     }
+ 
+ 	long temp_size = num_src_procs*sizeof(int);
+@@ -157,10 +158,10 @@ void Routing_info::build_2D_router()
+ 	transfer_array_from_one_comp_to_another(current_proc_id_src_comp, src_comp_root_proc_global_id, current_proc_id_dst_comp, dst_comp_root_proc_global_id, dst_comp_node->get_comm_group(), (char**)(&num_global_src_cells), temp_size);	
+ 	if (current_proc_id_dst_comp != -1)
+ 		EXECUTION_REPORT(REPORT_ERROR, -1, *num_global_src_cells == *num_global_dst_cells, "Software error in Routing_info::build_2D_router: different global decomp grid size: %d vs %d", *num_global_src_cells, *num_global_dst_cells);
+-	long total_src_cells = 0;
++	total_src_cells = 0;
+ 	for (int i = 0; i < num_src_procs; i ++) 
+ 		total_src_cells += num_cells_each_src_proc[i] * sizeof(int);
+-	long total_dst_cells = 0;
++	total_dst_cells = 0;
+ 	for (int i = 0; i < num_dst_procs; i ++) 
+ 		total_dst_cells += num_cells_each_dst_proc[i] * sizeof(int);
+ 	transfer_array_from_one_comp_to_another(current_proc_id_src_comp, src_comp_root_proc_global_id, current_proc_id_dst_comp, dst_comp_root_proc_global_id, dst_comp_node->get_comm_group(), (char**)(&cells_indx_each_src_proc), total_src_cells);
+diff --git a/Runtime_MGT/coupling_generator.cxx b/Runtime_MGT/coupling_generator.cxx
+index c6c5215..a44f3a8 100644
+--- a/Runtime_MGT/coupling_generator.cxx
++++ b/Runtime_MGT/coupling_generator.cxx
+@@ -558,6 +558,8 @@ void Coupling_connection::write_connection_fields_info_into_array(Inout_interfac
+ 	
+ 	for (int i = fields_name.size() - 1; i >= 0; i --) {
+ 		Field_mem_info *field = inout_interface->search_registered_field_instance(fields_name[i], field_local_index);
++		if (field == NULL)
++		EXECUTION_REPORT(REPORT_ERROR, inout_interface->get_comp_id(), field != NULL, "%s %s", inout_interface->get_interface_name(), fields_name[i]);
+ 		write_field_info_into_array(field, array, buffer_max_size, buffer_content_size);
+ 	}
+ 	*timer = inout_interface->get_timer();
+@@ -627,9 +629,8 @@ bool Coupling_connection::get_is_bottom_field_dynamic(int field_indx)
+ }
+ 
+ 
+-Import_direction_setting::Import_direction_setting(Import_interface_configuration *interface_configuration, const char *comp_full_name, const char *interface_name, TiXmlElement *redirection_element, const char *XML_file_name, std::vector<const char*> &interface_fields_name, int *fields_count)
++Import_direction_setting::Import_direction_setting(int host_comp_id, Import_interface_configuration *interface_configuration, const char *comp_full_name, const char *interface_name, TiXmlElement *redirection_element, const char *XML_file_name, std::vector<const char*> &interface_fields_name, int *fields_count, bool check_comp_existence)
+ {
+-	int comp_id = comp_comm_group_mgt_mgr->search_global_node(comp_full_name)->get_comp_id();
+ 	TiXmlElement *fields_element = NULL, *components_element = NULL, *remapping_element = NULL, *merge_element = NULL;
+ 	int i, line_number;
+ 	std::pair<char[NAME_STR_SIZE],char[NAME_STR_SIZE]> producer_info;
+@@ -639,33 +640,33 @@ Import_direction_setting::Import_direction_setting(Import_interface_configuratio
+ 	for (TiXmlNode *detailed_element_node = redirection_element->FirstChild(); detailed_element_node != NULL; detailed_element_node = detailed_element_node->NextSibling()) {
+ 		TiXmlElement *detailed_element = detailed_element_node->ToElement();
+ 		if (words_are_the_same(detailed_element->Value(), "fields")) {
+-			if (!is_XML_setting_on(comp_id, detailed_element, XML_file_name, "the status of \"fields\"", "import interface configuration file"))
++			if (!is_XML_setting_on(host_comp_id, detailed_element, XML_file_name, "the status of \"fields\"", "import interface configuration file"))
+ 				continue;
+-			EXECUTION_REPORT(REPORT_ERROR, comp_id, fields_element == NULL, "When setting the redirection configuration of the import interface \"%s\" in the XML file \"%s\", the attribute of \"fields\" has been set at least twice in a redirection specification. Please verify the XML file arround the line number %d.", interface_name, XML_file_name, detailed_element->Row());
++			EXECUTION_REPORT(REPORT_ERROR, host_comp_id, fields_element == NULL, "When setting the redirection configuration of the import interface \"%s\" in the XML file \"%s\", the attribute of \"fields\" has been set at least twice in a redirection specification. Please verify the XML file arround the line number %d.", interface_name, XML_file_name, detailed_element->Row());
+ 			fields_element = detailed_element;
+-			const char *default_str = get_XML_attribute(comp_id, -1, detailed_element, "default", XML_file_name, line_number, "default setting of \"fields\"", "import interface configuration file");
+-			EXECUTION_REPORT(REPORT_ERROR, comp_id, words_are_the_same(default_str, "off") || words_are_the_same(default_str, "all") || words_are_the_same(default_str, "remain"), "When setting the redirection configuration of the import interface \"%s\" in the XML file \"%s\", the value of \"default\" for the attribute of \"fields\" is wrong (legal values are \"off\", \"all\" and \"remain\"). Please verify the XML file arround the line number %d.", interface_name, XML_file_name, line_number);
++			const char *default_str = get_XML_attribute(host_comp_id, -1, detailed_element, "default", XML_file_name, line_number, "default setting of \"fields\"", "import interface configuration file");
++			EXECUTION_REPORT(REPORT_ERROR, host_comp_id, words_are_the_same(default_str, "off") || words_are_the_same(default_str, "all") || words_are_the_same(default_str, "remain"), "When setting the redirection configuration of the import interface \"%s\" in the XML file \"%s\", the value of \"default\" for the attribute of \"fields\" is wrong (legal values are \"off\", \"all\" and \"remain\"). Please verify the XML file arround the line number %d.", interface_name, XML_file_name, line_number);
+ 			if (words_are_the_same(default_str, "off")) {
+ 				fields_default_setting = 0;
+ 				for (TiXmlNode *field_element_node = detailed_element->FirstChild(); field_element_node != NULL; field_element_node = field_element_node->NextSibling()) {
+ 					TiXmlElement *field_element = field_element_node->ToElement();
+-					EXECUTION_REPORT(REPORT_ERROR, comp_id, words_are_the_same(field_element->Value(),"field"), "When setting the attribute \"fields\" for the redirection configuration of the import interface \"%s\" in the XML file \"%s\", please use the keyword \"field\" for the name of a field (arround line %d of the XML file)", interface_name, XML_file_name, field_element->Row());
+-					const char *field_name = get_XML_attribute(comp_id, -1, field_element, "name", XML_file_name, line_number, "the name of a field", "import interface configuration file");	
+-					check_and_verify_name_format_of_string_for_XML(comp_id, field_name, "the field", XML_file_name, line_number);
+-					EXECUTION_REPORT(REPORT_ERROR, comp_id, fields_info->search_field_info(field_name) != NULL, "When setting the attribute \"fields\" for the redirection configuration of the import interface \"%s\" in the XML file \"%s\", an illegal field name (\"%s\") is detected. Please verify the XML file arround the line number %d.", interface_name, XML_file_name, field_name, field_element->Row());
++					EXECUTION_REPORT(REPORT_ERROR, host_comp_id, words_are_the_same(field_element->Value(),"field"), "When setting the attribute \"fields\" for the redirection configuration of the import interface \"%s\" in the XML file \"%s\", please use the keyword \"field\" for the name of a field (arround line %d of the XML file)", interface_name, XML_file_name, field_element->Row());
++					const char *field_name = get_XML_attribute(host_comp_id, -1, field_element, "name", XML_file_name, line_number, "the name of a field", "import interface configuration file");	
++					check_and_verify_name_format_of_string_for_XML(host_comp_id, field_name, "the field", XML_file_name, line_number);
++					EXECUTION_REPORT(REPORT_ERROR, host_comp_id, fields_info->search_field_info(field_name) != NULL, "When setting the attribute \"fields\" for the redirection configuration of the import interface \"%s\" in the XML file \"%s\", an illegal field name (\"%s\") is detected. Please verify the XML file arround the line number %d.", interface_name, XML_file_name, field_name, field_element->Row());
+ 					for (i = 0; i < interface_fields_name.size(); i ++)
+ 						if (words_are_the_same(interface_fields_name[i], field_name))
+ 							break;
+ 					if (i < interface_fields_name.size())
+ 						fields_name.push_back(strdup(interface_fields_name[i]));
+-					else EXECUTION_REPORT(REPORT_WARNING, comp_id, true, "When setting the attribute \"fields\" for the redirection configuration of the import interface \"%s\" in the XML file \"%s\", the interface does not contain a field with the name of \"%s\"", interface_name, XML_file_name, field_name);
++					else EXECUTION_REPORT(REPORT_WARNING, host_comp_id, true, "When setting the attribute \"fields\" for the redirection configuration of the import interface \"%s\" in the XML file \"%s\", the interface does not contain a field with the name of \"%s\"", interface_name, XML_file_name, field_name);
+ 				}
+-				EXECUTION_REPORT(REPORT_WARNING, comp_id, fields_name.size() > 0, "When setting a redirection configuration of the import interface \"%s\" in the XML file \"%s\", there are no fields specified. Please note the XML file arround the line number %d.", interface_name, XML_file_name, detailed_element->Row());
++				EXECUTION_REPORT(REPORT_WARNING, host_comp_id, fields_name.size() > 0, "When setting a redirection configuration of the import interface \"%s\" in the XML file \"%s\", there are no fields specified. Please note the XML file arround the line number %d.", interface_name, XML_file_name, detailed_element->Row());
+ 			}
+ 			else if (words_are_the_same(default_str, "all")) {
+ 				fields_default_setting = 1;
+ 				for (i = 0; i < interface_fields_name.size(); i ++) {
+-					EXECUTION_REPORT(REPORT_ERROR, comp_id, fields_count[i] == 0, "When setting the redirection configuration of the import interface \"%s\" in the XML file \"%s\", the configuration information of field \"%s\" has been set more than once. This is not allowed. Please note that the default value \"all\" means all fields. Please verify the XML file arround the line number %d.", interface_name, XML_file_name, interface_fields_name[i], detailed_element->Row()); 
++					EXECUTION_REPORT(REPORT_ERROR, host_comp_id, fields_count[i] == 0, "When setting the redirection configuration of the import interface \"%s\" in the XML file \"%s\", the configuration information of field \"%s\" has been set more than once. This is not allowed. Please note that the default value \"all\" means all fields. Please verify the XML file arround the line number %d.", interface_name, XML_file_name, interface_fields_name[i], detailed_element->Row()); 
+ 					fields_count[i] ++;
+ 					fields_name.push_back(strdup(interface_fields_name[i]));					
+ 				}
+@@ -681,19 +682,20 @@ Import_direction_setting::Import_direction_setting(Import_interface_configuratio
+ 			}
+ 		}
+ 		else if (words_are_the_same(detailed_element->Value(), "components")) {
+-			if (!is_XML_setting_on(comp_id, detailed_element, XML_file_name, "the status of \"components\"", "import interface configuration file"))
++			if (!is_XML_setting_on(host_comp_id, detailed_element, XML_file_name, "the status of \"components\"", "import interface configuration file"))
+ 				continue;
+-			EXECUTION_REPORT(REPORT_ERROR, comp_id, components_element == NULL, "When setting the redirection configuration of the import interface \"%s\" in the XML file \"%s\", the attribute of \"components\" has been set at least twice in a redirection specification. Please verify the XML file arround the line number %d.", interface_name, XML_file_name, redirection_element->Row());
++			EXECUTION_REPORT(REPORT_ERROR, host_comp_id, components_element == NULL, "When setting the redirection configuration of the import interface \"%s\" in the XML file \"%s\", the attribute of \"components\" has been set at least twice in a redirection specification. Please verify the XML file arround the line number %d.", interface_name, XML_file_name, redirection_element->Row());
+ 			components_element = detailed_element;
+-			const char *default_str = get_XML_attribute(comp_id, -1, detailed_element, "default", XML_file_name, line_number, "default setting for components", "import interface configuration file");
+-			EXECUTION_REPORT(REPORT_ERROR, comp_id, words_are_the_same(default_str, "off") || words_are_the_same(default_str, "all"), "When setting the redirection configuration of the import interface \"%s\" in the XML file \"%s\", the value of \"default\" for the attribute of \"componets\" is wrong (legal values are \"off\" and \"all\"). Please verify the XML file arround the line number %d.", interface_name, XML_file_name, line_number);
++			const char *default_str = get_XML_attribute(host_comp_id, -1, detailed_element, "default", XML_file_name, line_number, "default setting for components", "import interface configuration file");
++			EXECUTION_REPORT(REPORT_ERROR, host_comp_id, words_are_the_same(default_str, "off") || words_are_the_same(default_str, "all"), "When setting the redirection configuration of the import interface \"%s\" in the XML file \"%s\", the value of \"default\" for the attribute of \"componets\" is wrong (legal values are \"off\" and \"all\"). Please verify the XML file arround the line number %d.", interface_name, XML_file_name, line_number);
+ 			if (words_are_the_same(default_str, "off")) {
+ 				components_default_setting = 0;
+ 				for (TiXmlNode *component_element_node = detailed_element->FirstChild(); component_element_node != NULL; component_element_node = component_element_node->NextSibling()) {
+ 					TiXmlElement *component_element = component_element_node->ToElement();
+-					EXECUTION_REPORT(REPORT_ERROR, comp_id, words_are_the_same(component_element->Value(),"component"), "When setting the attribute \"components\" for the redirection configuration of the import interface \"%s\" in the XML file \"%s\", please use the keyword \"component\" for the full name of a component. Please verify the XML file arround the line number %d.", interface_name, XML_file_name, component_element->Row());
+-					const char *full_name = get_XML_attribute(comp_id, 512, component_element, "comp_full_name", XML_file_name, line_number, "the full name of a component", "import interface configuration file");
+-					EXECUTION_REPORT(REPORT_ERROR, comp_id, comp_comm_group_mgt_mgr->search_global_node(full_name) != NULL, "When setting the redirection configuration of the import interface \"%s\" in the XML file \"%s\", the full component name (\"%s\") is wrong. Please verify the XML file arround the line number %d.", interface_name, XML_file_name, full_name, line_number);
++					EXECUTION_REPORT(REPORT_ERROR, host_comp_id, words_are_the_same(component_element->Value(),"component"), "When setting the attribute \"components\" for the redirection configuration of the import interface \"%s\" in the XML file \"%s\", please use the keyword \"component\" for the full name of a component. Please verify the XML file arround the line number %d.", interface_name, XML_file_name, component_element->Row());
++					const char *full_name = get_XML_attribute(host_comp_id, 512, component_element, "comp_full_name", XML_file_name, line_number, "the full name of a component", "import interface configuration file");
++					if (check_comp_existence)
++						EXECUTION_REPORT(REPORT_ERROR, host_comp_id, comp_comm_group_mgt_mgr->search_global_node(full_name) != NULL, "When setting the redirection configuration of the import interface \"%s\" in the XML file \"%s\", the full component name (\"%s\") is wrong. Please verify the XML file arround the line number %d.", interface_name, XML_file_name, full_name, line_number);
+ 					strcpy(producer_info.first, full_name);
+ 					const char *interface_name = component_element->Attribute("interface_name", &line_number);
+ 					if (interface_name == NULL)
+@@ -717,15 +719,15 @@ Import_direction_setting::Import_direction_setting(Import_interface_configuratio
+ 			}
+ 		}
+ 		else if (words_are_the_same(detailed_element->Value(), "merge_setting")) {
+-			EXECUTION_REPORT(REPORT_ERROR, comp_id, false, "When setting the redirection configuration of the import interface \"%s\" in the XML file \"%s\", the attribute of \"merge_setting\" is not supported currently", interface_name, XML_file_name);
++			EXECUTION_REPORT(REPORT_ERROR, host_comp_id, false, "When setting the redirection configuration of the import interface \"%s\" in the XML file \"%s\", the attribute of \"merge_setting\" is not supported currently", interface_name, XML_file_name);
+ 		}
+-		else EXECUTION_REPORT(REPORT_ERROR, comp_id, false, "When setting the redirection configuration of the import interface \"%s\" in the XML file \"%s\", \"%s\" is not a legal attribute. Please verify the XML file arround the line number %d.", interface_name, XML_file_name, detailed_element->Value(), detailed_element->Row());
++		else EXECUTION_REPORT(REPORT_ERROR, host_comp_id, false, "When setting the redirection configuration of the import interface \"%s\" in the XML file \"%s\", \"%s\" is not a legal attribute. Please verify the XML file arround the line number %d.", interface_name, XML_file_name, detailed_element->Value(), detailed_element->Row());
+ 	}		
+-	EXECUTION_REPORT(REPORT_ERROR, comp_id, fields_element != NULL, "For a redirection configuration of the import interface \"%s\" in the XML file \"%s\", the information about fields is not set. Please verify the XML file arround the line number %d.", interface_name, XML_file_name, redirection_element->Row());
+-	EXECUTION_REPORT(REPORT_ERROR, comp_id, components_element != NULL, "For a redirection configuration of the import interface \"%s\" in the XML file \"%s\", the information about components is not set. Please verify the XML file arround the line number %d.", interface_name, XML_file_name, redirection_element->Row());
++	EXECUTION_REPORT(REPORT_ERROR, host_comp_id, fields_element != NULL, "For a redirection configuration of the import interface \"%s\" in the XML file \"%s\", the information about fields is not set. Please verify the XML file arround the line number %d.", interface_name, XML_file_name, redirection_element->Row());
++	EXECUTION_REPORT(REPORT_ERROR, host_comp_id, components_element != NULL, "For a redirection configuration of the import interface \"%s\" in the XML file \"%s\", the information about components is not set. Please verify the XML file arround the line number %d.", interface_name, XML_file_name, redirection_element->Row());
+ 	for (i = 0; i < fields_name.size(); i ++)
+ 		for (int j = 0; j < producers_info.size(); j ++)
+-			interface_configuration->add_field_src_component(comp_id, fields_name[i], producers_info[j]);
++			interface_configuration->add_field_src_component(host_comp_id, fields_name[i], producers_info[j]);
+ }
+ 
+ 
+@@ -734,7 +736,7 @@ Import_direction_setting::~Import_direction_setting()
+ }
+ 
+ 
+-Import_interface_configuration::Import_interface_configuration(const char *comp_full_name, const char *interface_name, TiXmlElement *interface_element, const char *XML_file_name, Inout_interface_mgt *all_interfaces_mgr)
++Import_interface_configuration::Import_interface_configuration(int host_comp_id, const char *comp_full_name, const char *interface_name, TiXmlElement *interface_element, const char *XML_file_name, Inout_interface_mgt *all_interfaces_mgr, bool check_comp_existence)
+ {
+ 	int *fields_count, line_number;
+ 	Inout_interface *interface_ptr = all_interfaces_mgr->get_interface(comp_full_name, interface_name);
+@@ -755,7 +757,7 @@ Import_interface_configuration::Import_interface_configuration(const char *comp_
+ 		EXECUTION_REPORT(REPORT_ERROR, interface_ptr->get_comp_id(), words_are_the_same(redirection_element->Value(),"import_redirection"), "When setting the redirection configuration of the import interface \"%s\" in the XML file \"%s\", the XML element for specifying the redirection configuration should be named \"import_redirection\". Please verify the XML file arround the line number %d.", interface_name, XML_file_name, redirection_element->Row());
+ 		if (!is_XML_setting_on(interface_ptr->get_comp_id(), redirection_element, XML_file_name, "the status of some redirection configurations for an import interface", "import interface configuration file"))
+ 			continue;
+-		import_directions.push_back(new Import_direction_setting(this, comp_full_name, interface_name, redirection_element, XML_file_name, fields_name, fields_count));
++		import_directions.push_back(new Import_direction_setting(host_comp_id, this, comp_full_name, interface_name, redirection_element, XML_file_name, fields_name, fields_count, check_comp_existence));
+ 	}
+ 
+ 	delete [] fields_count;
+@@ -789,22 +791,22 @@ void Import_interface_configuration::get_field_import_configuration(const char *
+ }
+ 
+ 
+-Component_import_interfaces_configuration::Component_import_interfaces_configuration(int comp_id, Inout_interface_mgt *interface_mgr)
++Component_import_interfaces_configuration::Component_import_interfaces_configuration(int host_comp_id, const char *comp_full_name, Inout_interface_mgt *interface_mgr, bool check_comp_existence)
+ {
+ 	char XML_file_name[NAME_STR_SIZE];
+ 	int line_number;
+ 
+ 
+-	strcpy(comp_full_name, comp_comm_group_mgt_mgr->get_global_node_of_local_comp(comp_id, "in Component_import_interfaces_configuration")->get_full_name());
++	strcpy(this->comp_full_name, comp_full_name);
+ 	sprintf(XML_file_name, "%s/all/redirection_configs/%s.import.redirection.xml", comp_comm_group_mgt_mgr->get_config_root_dir(), comp_full_name);
+-	TiXmlDocument *XML_file = open_XML_file_to_read(-1, XML_file_name, MPI_COMM_NULL, false);	
++	TiXmlDocument *XML_file = open_XML_file_to_read(host_comp_id, XML_file_name, MPI_COMM_NULL, false);	
+ 	if (XML_file == NULL) {
+ 		EXECUTION_REPORT_LOG(REPORT_LOG, -1, true, "As there is no import interface configuration file (the file name should be \"%s.import.redirection.xml\") specified for the component \"%s\", the coupling procedures of the import/export interfaces of this component will be generated automatically", 
+-			             comp_comm_group_mgt_mgr->get_global_node_of_local_comp(comp_id, "in Component_import_interfaces_configuration")->get_full_name(), comp_comm_group_mgt_mgr->get_global_node_of_local_comp(comp_id, "in Component_import_interfaces_configuration")->get_full_name());
++			             comp_full_name, comp_full_name);
+ 		return;
+ 	}
+ 	TiXmlElement *root_XML_element = XML_file->FirstChildElement();
+-	TiXmlNode *root_XML_element_node = get_XML_first_child_of_unique_root(comp_id, XML_file_name, XML_file);
++	TiXmlNode *root_XML_element_node = get_XML_first_child_of_unique_root(host_comp_id, XML_file_name, XML_file);
+ 	for (; root_XML_element_node != NULL; root_XML_element_node = root_XML_element_node->NextSibling()) {
+ 		root_XML_element = root_XML_element_node->ToElement();
+ 		if (words_are_the_same(root_XML_element->Value(),"component_import_interfaces_configuration"))
+@@ -818,27 +820,25 @@ Component_import_interfaces_configuration::Component_import_interfaces_configura
+ 	for (TiXmlNode *interface_XML_element_node = root_XML_element->FirstChild(); interface_XML_element_node != NULL; interface_XML_element_node = interface_XML_element_node->NextSibling()) {
+ 		TiXmlElement *interface_XML_element = interface_XML_element_node->ToElement();
+ 		EXECUTION_REPORT(REPORT_ERROR, -1, words_are_the_same(interface_XML_element->Value(),"import_interface"), "The XML element for specifying the configuration information of an import interface in the XML configuration file \"%s\" should be named \"import_interface\". Please verify the XML file arround the line number %d.", XML_file_name, interface_XML_element->Row());
+-		const char *interface_name = get_XML_attribute(comp_id, 80, interface_XML_element, "name", XML_file_name, line_number, "the \"name\" of an import interface", "import interface configuration file");
+-		if (!is_XML_setting_on(comp_id, interface_XML_element, XML_file_name, "the \"status\" of the redirection configurations for an import interface", "import interface configuration file"))
++		const char *interface_name = get_XML_attribute(host_comp_id, 80, interface_XML_element, "name", XML_file_name, line_number, "the \"name\" of an import interface", "import interface configuration file");
++		if (!is_XML_setting_on(host_comp_id, interface_XML_element, XML_file_name, "the \"status\" of the redirection configurations for an import interface", "import interface configuration file"))
+ 			continue;
+ 		check_and_verify_name_format_of_string_for_XML(-1, interface_name, "the import interface", XML_file_name, line_number);
+ 		Inout_interface *import_interface = interface_mgr->get_interface(comp_full_name, interface_name);
+ 		if (import_interface == NULL) {
+ 			EXECUTION_REPORT(REPORT_WARNING, -1, false, "The redirection configuration of the import interface named \"%s\" has been specified in the XML configuration file \"%s\", while the component \"%s\" does not register the corresponding import interface. So this redirection configuration information is negleted.\"", 
+-				             interface_name, XML_file_name, comp_comm_group_mgt_mgr->get_global_node_of_local_comp(comp_id, "in Component_import_interfaces_configuration")->get_full_name());
++				             interface_name, XML_file_name, comp_full_name);
+ 			continue;
+ 		}
+ 		EXECUTION_REPORT(REPORT_ERROR, -1, import_interface->get_import_or_export_or_remap() == 0, "The redirection configuration of the import interface named \"%s\" has been specified in the XML configuration file \"%s\", while the component \"%s\" registers \"%s\" as an export interface. Please verify the model code or the XML file",
+-			             interface_name, XML_file_name, comp_comm_group_mgt_mgr->get_global_node_of_local_comp(comp_id, "in Component_import_interfaces_configuration")->get_full_name(), interface_name);
++			             interface_name, XML_file_name, comp_full_name, interface_name);
+ 		for (int i = 0; i < import_interfaces_configuration.size(); i ++)
+ 			EXECUTION_REPORT(REPORT_ERROR, -1, !words_are_the_same(import_interfaces_configuration[i]->get_interface_name(), import_interface->get_interface_name()), "The redirection configuration of the import interface named \"%s\" has been set more than once in the XML file \"%s\", which is not allowed (only once for an interface). Please verify.", import_interface->get_interface_name(), XML_file_name);
+-				
+-		import_interfaces_configuration.push_back(new Import_interface_configuration(comp_full_name, import_interface->get_interface_name(), interface_XML_element, XML_file_name, interface_mgr));
++		import_interfaces_configuration.push_back(new Import_interface_configuration(host_comp_id, comp_full_name, import_interface->get_interface_name(), interface_XML_element, XML_file_name, interface_mgr, check_comp_existence));
+ 	}
+ 
+ 	delete XML_file;
+-	
+-	EXECUTION_REPORT_LOG(REPORT_LOG, comp_id, true, "Finish loading the configuration of import interfaces from the XML file %s", XML_file_name);
++	EXECUTION_REPORT_LOG(REPORT_LOG, host_comp_id, true, "Finish loading the configuration of import interfaces from the XML file %s", XML_file_name);
+ }
+ 
+ 
+@@ -858,10 +858,26 @@ void Component_import_interfaces_configuration::get_interface_field_import_confi
+ 
+ Coupling_generator::~Coupling_generator()
+ {
++	clear();
++}
++
++
++void Coupling_generator::clear()
++{
+ 	if (import_field_index_lookup_table != NULL)
+ 		delete import_field_index_lookup_table;
+ 	if (export_field_index_lookup_table != NULL)
+ 		delete export_field_index_lookup_table;
++	import_field_index_lookup_table = NULL;
++	export_field_index_lookup_table = NULL;
++
++	for (int i = 0; i < string_in_export_fields_dst_components.size(); i ++)
++		delete [] string_in_export_fields_dst_components[i];
++	string_in_export_fields_dst_components.clear();
++	export_fields_dst_components.clear();
++
++	all_coupling_connections.clear();
++	all_IO_connections.clear();
+ }
+ 
+ 
+@@ -873,7 +889,7 @@ void Coupling_generator::synchronize_latest_connection_id(MPI_Comm comm)
+ }
+ 
+ 
+-void Coupling_generator::generate_coupling_procedures()
++void Coupling_generator::generate_coupling_procedures_common(std::vector<char *> &all_descendant_real_comp_fullnames, MPI_Comm comm, bool is_overall_generation)
+ {
+ 	bool define_use_wrong = false;
+ 	char *temp_array_buffer = NULL, field_name[NAME_STR_SIZE];
+@@ -881,21 +897,31 @@ void Coupling_generator::generate_coupling_procedures()
+ 	int temp_int;	
+ 	Coupling_connection *coupling_connection;
+ 	std::pair<char[NAME_STR_SIZE],char[NAME_STR_SIZE]> src_comp_interface;
++	int current_proc_local_id;
++	Comp_comm_group_mgt_node *local_comp_node = NULL, *temp_comp_node, *existing_comp_node;
+ 	
+ 
+-	coupling_generator->synchronize_latest_connection_id(MPI_COMM_WORLD);
+-	
+-	if (comp_comm_group_mgt_mgr->get_current_proc_global_id() == 0)
+-		EXECUTION_REPORT_LOG(REPORT_LOG, -1, true, "Start to generate coupling procedure");
+-	inout_interface_mgr->merge_unconnected_inout_interface_fields_info(TYPE_COMP_LOCAL_ID_PREFIX);
+-	if (comp_comm_group_mgt_mgr->get_current_proc_global_id() == 0) {
+-		Inout_interface_mgt *all_interfaces_mgr = new Inout_interface_mgt(inout_interface_mgr->get_temp_array_buffer(), inout_interface_mgr->get_buffer_content_size());
+-		generate_interface_fields_source_dst(inout_interface_mgr->get_temp_array_buffer(), inout_interface_mgr->get_buffer_content_size());
+-		const int *all_components_ids = comp_comm_group_mgt_mgr->get_all_components_ids();
+-		for (int i = 1; i < all_components_ids[0]; i ++) {
++	EXECUTION_REPORT(REPORT_ERROR, -1, MPI_Comm_rank(comm, &current_proc_local_id) == MPI_SUCCESS);	
++	if (current_proc_local_id == 0)
++		EXECUTION_REPORT_LOG(REPORT_LOG, -1, true, "Start to generate coupling procedures commonly");
++	synchronize_latest_connection_id(comm);
++	inout_interface_mgr->get_all_unconnected_inout_interface_fields_info(all_descendant_real_comp_fullnames, &temp_array_buffer, current_array_buffer_size, comm);
++	bcast_array_in_one_comp(current_proc_local_id, &temp_array_buffer, current_array_buffer_size, comm);
++	for (int i = 0; i < all_descendant_real_comp_fullnames.size(); i ++) {
++		local_comp_node = comp_comm_group_mgt_mgr->search_global_node(all_descendant_real_comp_fullnames[i]);
++		if (local_comp_node != NULL && local_comp_node->get_current_proc_local_id() != -1)
++			break;
++		local_comp_node = NULL;
++	}
++	EXECUTION_REPORT(REPORT_ERROR, -1, local_comp_node != NULL, "Software error in Coupling_generator::generate_coupling_procedures: wrong local_comp_node");
++
++	if (current_proc_local_id == 0) {
++		Inout_interface_mgt *all_interfaces_mgr = new Inout_interface_mgt(temp_array_buffer, current_array_buffer_size);
++		generate_interface_fields_source_dst(temp_array_buffer, current_array_buffer_size);
++		for (int i = 0; i < all_descendant_real_comp_fullnames.size(); i ++) {
+ 			std::vector<Inout_interface*> import_interfaces_of_a_component;
+-			all_interfaces_mgr->get_all_import_interfaces_of_a_component(import_interfaces_of_a_component, all_components_ids[i]);
+-			Component_import_interfaces_configuration *comp_import_interfaces_config = new Component_import_interfaces_configuration(all_components_ids[i], all_interfaces_mgr);
++			all_interfaces_mgr->get_all_import_interfaces_of_a_component(import_interfaces_of_a_component, all_descendant_real_comp_fullnames[i]);
++			Component_import_interfaces_configuration *comp_import_interfaces_config = new Component_import_interfaces_configuration(local_comp_node->get_comp_id(), all_descendant_real_comp_fullnames[i], all_interfaces_mgr, is_overall_generation);
+ 			for (int j = 0; j < import_interfaces_of_a_component.size(); j ++) {
+ 				std::vector<const char*> import_fields_name;
+ 				if (strlen(import_interfaces_of_a_component[j]->get_fixed_remote_comp_full_name()) > 0)
+@@ -905,14 +931,14 @@ void Coupling_generator::generate_coupling_procedures()
+ 					std::vector<std::pair<char[NAME_STR_SIZE],char[NAME_STR_SIZE]> > configuration_export_producer_info;
+ 					coupling_connection = new Coupling_connection(coupling_generator->apply_connection_id());
+ 					comp_import_interfaces_config->get_interface_field_import_configuration(import_interfaces_of_a_component[j]->get_interface_name(), import_fields_name[k], configuration_export_producer_info);
+-					strcpy(coupling_connection->dst_comp_full_name, comp_comm_group_mgt_mgr->get_global_node_of_local_comp(all_components_ids[i], "in Component_import_interfaces_configuration")->get_full_name());
++					strcpy(coupling_connection->dst_comp_full_name, all_descendant_real_comp_fullnames[i]);
+ 					strcpy(coupling_connection->dst_interface_name, import_interfaces_of_a_component[j]->get_interface_name());
+ 					coupling_connection->fields_name.push_back(strdup(import_fields_name[k]));					
+ 					int field_index = export_field_index_lookup_table->search(import_fields_name[k],false);
+ 					if (field_index != 0) {
+-						if (configuration_export_producer_info.size() == 0) {
++						if (configuration_export_producer_info.size() == 0) {						
+ 							for (int l = 0; l < export_fields_dst_components[field_index].size(); l ++) {
+-								if (words_are_the_same(export_fields_dst_components[field_index][l].first, comp_comm_group_mgt_mgr->get_global_node_of_local_comp(all_components_ids[i], "in Component_import_interfaces_configuration")->get_full_name()))
++								if (words_are_the_same(export_fields_dst_components[field_index][l].first, all_descendant_real_comp_fullnames[i]))
+ 									continue;
+ 								strcpy(src_comp_interface.first, export_fields_dst_components[field_index][l].first);
+ 								strcpy(src_comp_interface.second, export_fields_dst_components[field_index][l].second);
+@@ -932,10 +958,13 @@ void Coupling_generator::generate_coupling_procedures()
+ 							}
+ 						}
+ 					}
+-					all_coupling_connections.push_back(coupling_connection);
+ 					if (coupling_connection->src_comp_interfaces.size() == 1)
+ 						printf("field \"%s\" of import interface \"%s\" in component \"%s\" have %d source as follows. \n", coupling_connection->fields_name[0], coupling_connection->dst_interface_name, coupling_connection->dst_comp_full_name, coupling_connection->src_comp_interfaces.size());
+-					else if (coupling_connection->src_comp_interfaces.size() == 0) {
++					else if (coupling_connection->src_comp_interfaces.size() > 1) {
++						printf("ERROR: field \"%s\" of import interface \"%s\" in component \"%s\" have more than 1 (%d) sources as follows. Please add or modify the corresponding configuration XML file\n", coupling_connection->fields_name[0], coupling_connection->dst_interface_name, coupling_connection->dst_comp_full_name, coupling_connection->src_comp_interfaces.size());
++						define_use_wrong = true;
++					}					
++					else if (is_overall_generation) {
+ 						define_use_wrong = true;
+ 						if (export_fields_dst_components[field_index].size() == 0)
+ 							printf("ERROR: field \"%s\" of import interface \"%s\" in component \"%s\" does not have source: no component exports this field. \n", coupling_connection->fields_name[0], coupling_connection->dst_interface_name, coupling_connection->dst_comp_full_name);
+@@ -945,19 +974,19 @@ void Coupling_generator::generate_coupling_procedures()
+ 								printf("		Component is \"%s\", interface is \"%s\"\n", export_fields_dst_components[field_index][j].first, export_fields_dst_components[field_index][j].second);
+ 						}	
+ 					}
+-					else {
+-						printf("ERROR: field \"%s\" of import interface \"%s\" in component \"%s\" have more than 1 (%d) sources as follows. Please add or modify the corresponding configuration XML file\n", coupling_connection->fields_name[0], coupling_connection->dst_interface_name, coupling_connection->dst_comp_full_name, coupling_connection->src_comp_interfaces.size());
+-						define_use_wrong = true;
+-					}
+ 					for (int j = 0; j < coupling_connection->src_comp_interfaces.size(); j ++)
+ 						printf("		component is \"%s\", interface is \"%s\"\n", coupling_connection->src_comp_interfaces[j].first, coupling_connection->src_comp_interfaces[j].second);
++					if (coupling_connection->src_comp_interfaces.size() == 1)
++						all_coupling_connections.push_back(coupling_connection);
++					else delete coupling_connection;
+ 				}
++
+ 			}
+ 			delete comp_import_interfaces_config;
+ 		}
+ 		
+-		EXECUTION_REPORT(REPORT_ERROR, -1, !define_use_wrong, "Errors are reported when automatically generating coupling procedures");
+-
++		EXECUTION_REPORT(REPORT_ERROR, -1, !define_use_wrong, "Errors are reported when automatically generating coupling procedures");	
++		
+ 		for (int j, i = all_coupling_connections.size() - 1; i >= 0; i --) {
+ 			for (j = 0; j < i; j ++)
+ 				if (words_are_the_same(all_coupling_connections[i]->src_comp_interfaces[0].first, all_coupling_connections[j]->src_comp_interfaces[0].first) &&
+@@ -976,11 +1005,14 @@ void Coupling_generator::generate_coupling_procedures()
+ 		std::vector<Inout_interface*> fixed_export_interfaces;
+ 		all_interfaces_mgr->get_all_unconnected_fixed_interfaces(fixed_import_interfaces, -1, 0, NULL);
+ 		all_interfaces_mgr->get_all_unconnected_fixed_interfaces(fixed_export_interfaces, -1, 1, NULL);
+-
+-		build_coupling_connections_for_unconnected_fixed_interfaces(fixed_import_interfaces, fixed_export_interfaces, all_coupling_connections, true);
+-
++		build_coupling_connections_for_unconnected_fixed_interfaces(fixed_import_interfaces, fixed_export_interfaces, all_coupling_connections, is_overall_generation);
+ 		delete all_interfaces_mgr;
+ 
++		if (temp_array_buffer != NULL)
++			delete [] temp_array_buffer;
++		temp_array_buffer = NULL;
++		current_array_buffer_size = 0;
++
+ 		for (int i = all_coupling_connections.size() - 1; i >= 0; i --) {
+ 			// all_coupling_connections[i]->src_comp_interfaces.size() is 1
+ 			for (int j = all_coupling_connections[i]->src_comp_interfaces.size()-1; j >= 0; j --) {
+@@ -1001,12 +1033,8 @@ void Coupling_generator::generate_coupling_procedures()
+ 		write_data_into_array_buffer(&temp_int, sizeof(int), &temp_array_buffer, max_array_buffer_size, current_array_buffer_size);
+ 	}
+ 	
+-
+-	MPI_Bcast(&current_array_buffer_size, 1, MPI_LONG, 0, MPI_COMM_WORLD);
+-	if (comp_comm_group_mgt_mgr->get_current_proc_global_id() != 0) 
+-		temp_array_buffer = new char [current_array_buffer_size];
+-	MPI_Bcast(temp_array_buffer, current_array_buffer_size, MPI_CHAR, 0, MPI_COMM_WORLD);
+-	if (comp_comm_group_mgt_mgr->get_current_proc_global_id() != 0) {
++	bcast_array_in_one_comp(current_proc_local_id, &temp_array_buffer, current_array_buffer_size, comm);
++	if (current_proc_local_id != 0) {
+ 		int num_connections, num_fields, num_sources;
+ 		long buffer_content_iter = current_array_buffer_size;
+ 		read_data_from_array_buffer(&num_connections, sizeof(int), temp_array_buffer, buffer_content_iter, true);
+@@ -1019,7 +1047,8 @@ void Coupling_generator::generate_coupling_procedures()
+ 			read_data_from_array_buffer(&num_fields, sizeof(int), temp_array_buffer, buffer_content_iter, true);
+ 			for (int j = 0; j < num_fields; j ++) {
+ 				read_data_from_array_buffer(field_name, NAME_STR_SIZE, temp_array_buffer, buffer_content_iter, true);
+-				coupling_connection->fields_name.push_back(strdup(field_name));					
++				coupling_connection->fields_name.push_back(strdup(field_name));	
++				EXECUTION_REPORT_LOG(REPORT_LOG, -1, true, "connection field name %s for interface %s", coupling_connection->dst_interface_name, field_name);
+ 			}		
+ 			read_data_from_array_buffer(&num_sources, sizeof(int), temp_array_buffer, buffer_content_iter, true);
+ 			for (int j = 0; j < num_sources; j ++) {
+@@ -1033,16 +1062,47 @@ void Coupling_generator::generate_coupling_procedures()
+ 	}
+ 
+ 	delete [] temp_array_buffer;
+-
++	int num_pushed_comp_node = 0;
++	for (int i = 0; i < all_descendant_real_comp_fullnames.size(); i ++) {
++		temp_comp_node = comp_comm_group_mgt_mgr->load_comp_info_from_XML(local_comp_node->get_comp_id(), all_descendant_real_comp_fullnames[i], comm);
++		existing_comp_node = comp_comm_group_mgt_mgr->search_global_node(all_descendant_real_comp_fullnames[i]);
++		if (existing_comp_node == NULL) {
++			comp_comm_group_mgt_mgr->push_comp_node(temp_comp_node);
++			num_pushed_comp_node ++;
++		}
++		else delete temp_comp_node;
++	}
+ 	for (int i = 0; i < all_coupling_connections.size(); i ++) {
+ 		all_coupling_connections[i]->generate_a_coupling_procedure(false);
+ 	}
++	for (int i = 0; i < num_pushed_comp_node; i ++)
++		comp_comm_group_mgt_mgr->pop_comp_node();
++
++	for (int i = 0; i < all_descendant_real_comp_fullnames.size(); i ++)
++		delete [] all_descendant_real_comp_fullnames[i];
++
++	clear();
+ 	
+-	if (comp_comm_group_mgt_mgr->get_current_proc_global_id() == 0)
++	if (current_proc_local_id == 0)
+ 		EXECUTION_REPORT_LOG(REPORT_LOG, -1, true, "Finish generating coupling procedure");
+ }
+ 
+ 
++
++void Coupling_generator::generate_coupling_procedures_internal(int comp_id, bool family_generation)
++{
++	std::vector<char *> all_descendant_real_comp_fullnames;
++	char *temp_array_buffer = NULL;
++	long current_array_buffer_size, max_array_buffer_size;
++
++
++	if (family_generation)
++		comp_comm_group_mgt_mgr->get_global_node_of_local_comp(comp_id, "in Coupling_generator::generate_coupling_procedures")->get_all_descendant_real_comp_fullnames(comp_id, all_descendant_real_comp_fullnames, &temp_array_buffer, max_array_buffer_size, current_array_buffer_size);
++	else all_descendant_real_comp_fullnames.push_back(strdup(comp_comm_group_mgt_mgr->get_global_node_of_local_comp(comp_id, "in Coupling_generator::generate_coupling_procedures")->get_full_name()));
++	generate_coupling_procedures_common(all_descendant_real_comp_fullnames, comp_comm_group_mgt_mgr->get_comm_group_of_local_comp(comp_id, "in Coupling_generator::generate_coupling_procedures"), (comp_id & TYPE_ID_SUFFIX_MASK)==0);
++}
++
++
+ void Coupling_generator::generate_IO_procedures()
+ {
+ 	const int *sorted_comp_ids = comp_comm_group_mgt_mgr->get_sorted_comp_ids();
+@@ -1071,38 +1131,40 @@ void Coupling_generator::generate_interface_fields_source_dst(const char *temp_a
+ 	import_field_index_lookup_table = new Dictionary<int>(1024);
+ 	export_field_index_lookup_table = new Dictionary<int>(1024);
+ 
+-	if (comp_comm_group_mgt_mgr->get_current_proc_global_id() == 0) {
+-		long buffer_content_iter = buffer_content_size;
+-		int import_or_export, field_id_iter = 100, field_index, num_fields;
+-		while (buffer_content_iter > 0) {
+-			read_data_from_array_buffer(interface_name, NAME_STR_SIZE, temp_array_buffer, buffer_content_iter, true);
+-			read_data_from_array_buffer(comp_full_name, NAME_STR_SIZE, temp_array_buffer, buffer_content_iter, true);
+-			read_data_from_array_buffer(fixed_remote_interface_name, NAME_STR_SIZE, temp_array_buffer, buffer_content_iter, true);
+-			read_data_from_array_buffer(fixed_remote_comp_full_name, NAME_STR_SIZE, temp_array_buffer, buffer_content_iter, true);
+-			read_data_from_array_buffer(&import_or_export, sizeof(int), temp_array_buffer, buffer_content_iter, true);
+-			read_data_from_array_buffer(&num_fields, sizeof(int), temp_array_buffer, buffer_content_iter, true);
+-			is_fixed_interface = strlen(fixed_remote_comp_full_name) != 0;
+-			for (int i = 0; i < num_fields; i ++) {
+-				read_data_from_array_buffer(field_name, NAME_STR_SIZE, temp_array_buffer, buffer_content_iter, true);
+-				if (is_fixed_interface)
+-					continue;
+-				if (import_or_export == 0) {
+-					if (import_field_index_lookup_table->search(field_name, false) == 0) {
+-						import_field_index_lookup_table->insert(field_name, field_id_iter++);
+-						distinct_import_fields_name.push_back(strdup(field_name));
+-					}
+-					field_index = import_field_index_lookup_table->search(field_name, false);				}
+-				else {
+-					if (export_field_index_lookup_table->search(field_name, false) == 0) {
+-						export_field_index_lookup_table->insert(field_name, field_id_iter++);
+-						distinct_export_fields_name.push_back(strdup(field_name));
+-					}
+-					field_index = export_field_index_lookup_table->search(field_name, false);
+-					export_fields_dst_components[field_index].push_back(std::pair<const char*,const char*>(strdup(comp_full_name),strdup(interface_name)));
++	long buffer_content_iter = buffer_content_size;
++	int import_or_export, field_id_iter = 100, field_index, num_fields;
++	while (buffer_content_iter > 0) {
++		read_data_from_array_buffer(interface_name, NAME_STR_SIZE, temp_array_buffer, buffer_content_iter, true);
++		read_data_from_array_buffer(comp_full_name, NAME_STR_SIZE, temp_array_buffer, buffer_content_iter, true);
++		read_data_from_array_buffer(fixed_remote_interface_name, NAME_STR_SIZE, temp_array_buffer, buffer_content_iter, true);
++		read_data_from_array_buffer(fixed_remote_comp_full_name, NAME_STR_SIZE, temp_array_buffer, buffer_content_iter, true);
++		read_data_from_array_buffer(&import_or_export, sizeof(int), temp_array_buffer, buffer_content_iter, true);
++		read_data_from_array_buffer(&num_fields, sizeof(int), temp_array_buffer, buffer_content_iter, true);
++		is_fixed_interface = strlen(fixed_remote_comp_full_name) != 0;
++		for (int i = 0; i < num_fields; i ++) {
++			read_data_from_array_buffer(field_name, NAME_STR_SIZE, temp_array_buffer, buffer_content_iter, true);
++			if (is_fixed_interface)
++				continue;
++			if (import_or_export == 0) {
++				if (import_field_index_lookup_table->search(field_name, false) == 0) {
++					import_field_index_lookup_table->insert(field_name, field_id_iter++);
++					distinct_import_fields_name.push_back(strdup(field_name));
++				}
++				field_index = import_field_index_lookup_table->search(field_name, false);				}
++			else {
++				if (export_field_index_lookup_table->search(field_name, false) == 0) {
++					export_field_index_lookup_table->insert(field_name, field_id_iter++);
++					distinct_export_fields_name.push_back(strdup(field_name));
+ 				}
++				field_index = export_field_index_lookup_table->search(field_name, false);
++				char *str1 = strdup(comp_full_name);
++				char *str2 = strdup(interface_name);
++				export_fields_dst_components[field_index].push_back(std::pair<const char*,const char*>(str1,str2));
++				string_in_export_fields_dst_components.push_back(str1);
++				string_in_export_fields_dst_components.push_back(str2);
+ 			}
+ 		}
+-	}	
++	}
+ }
+ 
+ 
+@@ -1143,7 +1205,7 @@ void Coupling_generator::build_coupling_connections_for_unconnected_fixed_interf
+ 		strcpy(src_comp_interface.second, fixed_import_interfaces[i]->get_fixed_remote_interface_name());
+ 		coupling_connection->src_comp_interfaces.push_back(src_comp_interface);
+ 		for (k = 0; k < import_fields_name.size(); k ++)
+-			coupling_connection->fields_name.push_back(import_fields_name[k]);
++			coupling_connection->fields_name.push_back(strdup(import_fields_name[k]));
+ 		coupling_connections.push_back(coupling_connection);
+ 	}
+ }
+diff --git a/Runtime_MGT/coupling_generator.h b/Runtime_MGT/coupling_generator.h
+index c3c76d9..0ac86e9 100644
+--- a/Runtime_MGT/coupling_generator.h
++++ b/Runtime_MGT/coupling_generator.h
+@@ -124,7 +124,7 @@ class Import_direction_setting
+ 		// ... remapping and merge setting;
+ 	
+ 	public:
+-		Import_direction_setting(Import_interface_configuration *, const char*, const char*, TiXmlElement*, const char*, std::vector<const char*>&, int*);
++		Import_direction_setting(int, Import_interface_configuration *, const char*, const char*, TiXmlElement*, const char*, std::vector<const char*>&, int*, bool);
+ 		~Import_direction_setting();
+ };
+ 
+@@ -138,7 +138,7 @@ class Import_interface_configuration
+ 		std::vector<std::vector<std::pair<char[NAME_STR_SIZE],char[NAME_STR_SIZE]> > > fields_src_producers_info;
+ 
+ 	public:
+-		Import_interface_configuration(const char*, const char*, TiXmlElement*, const char*, Inout_interface_mgt *);
++		Import_interface_configuration(int, const char*, const char*, TiXmlElement*, const char*, Inout_interface_mgt *, bool);
+ 		~Import_interface_configuration();
+ 		const char *get_interface_name() { return interface_name; }
+ 		void add_field_src_component(int comp_id, const char*, std::pair<char[NAME_STR_SIZE],char[NAME_STR_SIZE]>);
+@@ -152,8 +152,8 @@ class Component_import_interfaces_configuration
+ 		char comp_full_name[NAME_STR_SIZE];
+ 		std::vector<Import_interface_configuration*> import_interfaces_configuration;
+ 
+-	public:
+-		Component_import_interfaces_configuration(int, Inout_interface_mgt*);
++	public:	
++		Component_import_interfaces_configuration(int, const char *, Inout_interface_mgt *, bool);
+ 		~Component_import_interfaces_configuration();
+ 		void get_interface_field_import_configuration(const char*, const char*, std::vector<std::pair<char[NAME_STR_SIZE],char[NAME_STR_SIZE]> >&);
+ };
+@@ -164,6 +164,7 @@ class Coupling_generator
+ {
+ 	private:
+ 		std::map<int,std::vector<std::pair<const char*, const char*> > > export_fields_dst_components;
++		std::vector<const char*> string_in_export_fields_dst_components;
+ 		Dictionary<int> *import_field_index_lookup_table;
+ 		Dictionary<int> *export_field_index_lookup_table;
+ 		std::vector<Coupling_connection*> all_coupling_connections;
+@@ -171,12 +172,14 @@ class Coupling_generator
+ 		int latest_connection_id;
+ 		
+ 		void generate_interface_fields_source_dst(const char*, int);
+-		void generate_components_connections();
++		void generate_components_connections();		
++		void generate_coupling_procedures_common(std::vector<char *> &, MPI_Comm, bool);
+ 
+ 	public:
+ 		Coupling_generator() { latest_connection_id = 1; import_field_index_lookup_table = NULL; export_field_index_lookup_table = NULL; }
+ 		~Coupling_generator();
+-		void generate_coupling_procedures();
++		void clear();
++		void generate_coupling_procedures_internal(int, bool);
+         void generate_IO_procedures();
+ 		int apply_connection_id() {  return (++latest_connection_id); }
+ 		int get_latest_connection_id() { return latest_connection_id; }
+diff --git a/Runtime_MGT/inout_interface_mgt.cxx b/Runtime_MGT/inout_interface_mgt.cxx
+index 83c9ab0..e06b5c5 100644
+--- a/Runtime_MGT/inout_interface_mgt.cxx
++++ b/Runtime_MGT/inout_interface_mgt.cxx
+@@ -455,8 +455,10 @@ Inout_interface::Inout_interface(const char *temp_array_buffer, long &buffer_con
+ 		buffer_content_iter -= NAME_STR_SIZE;
+ 	}
+ 	Comp_comm_group_mgt_node *comp_node = comp_comm_group_mgt_mgr->search_global_node(comp_full_name);
+-	EXECUTION_REPORT(REPORT_ERROR, -1, comp_node != NULL, "Software error in Inout_interface::Inout_interface");
+-	comp_id = comp_node->get_local_node_id();
++	if (comp_node != NULL)
++		comp_id = comp_node->get_local_node_id();
++	else comp_id = -1;
++	
+ 	inversed_dst_fraction = NULL;
+ }
+ 
+@@ -498,8 +500,12 @@ Inout_interface::Inout_interface(const char *interface_name, int interface_id, i
+ 		EXECUTION_REPORT(REPORT_ERROR, comp_id, strlen(fixed_remote_comp_full_name) > 0 && strlen(fixed_remote_interface_name) > 0, "Error happens when registering an import/export interface \"%s\": the parameter of \"interface_tag\" cannot be seperated into a component model full name and an interface name when it contains a special character \"$\". Please check the model code with the annotation \"%s\"", interface_name, annotation);
+ 	}
+ 
+-	for (int i = 0; i < num_fields; i ++)
++	for (int i = 0; i < num_fields; i ++) {
+ 		fields_mem_registered.push_back(memory_manager->get_field_instance(field_ids[i]));
++		fields_connected_status.push_back(false);
++	}
++	fields_connected_status.push_back(false);
++	num_fields_connected = 0;
+ }
+ 
+ 
+@@ -659,12 +665,18 @@ Field_mem_info *Inout_interface::search_registered_field_instance(const char *fi
+ 
+ void Inout_interface::transform_interface_into_array(char **temp_array_buffer, long &buffer_max_size, long &buffer_content_size)
+ {
+-	int temp_int;
++	int temp_int = 0;
++
+ 
++	if (import_or_export_or_remap == 0 && num_fields_connected == fields_mem_registered.size())
++		return;
+ 	
+-	for (int i = fields_mem_registered.size()-1; i >= 0 ; i --)
++	for (int i = fields_mem_registered.size()-1; i >= 0 ; i --) {
++		if (import_or_export_or_remap == 0 && fields_connected_status[i])
++			continue;
+ 		write_data_into_array_buffer(fields_mem_registered[i]->get_field_name(), NAME_STR_SIZE, temp_array_buffer, buffer_max_size, buffer_content_size);
+-	temp_int = fields_mem_registered.size();
++		temp_int ++;
++	}
+ 	write_data_into_array_buffer(&temp_int, sizeof(int), temp_array_buffer, buffer_max_size, buffer_content_size);
+ 	write_data_into_array_buffer(&import_or_export_or_remap, sizeof(int), temp_array_buffer, buffer_max_size, buffer_content_size);
+ 	write_data_into_array_buffer(fixed_remote_comp_full_name, NAME_STR_SIZE, temp_array_buffer, buffer_max_size, buffer_content_size);
+@@ -715,6 +727,17 @@ void Inout_interface::import_restart_data(const char *temp_array_buffer, long &b
+ void Inout_interface::add_coupling_procedure(Connection_coupling_procedure *coupling_procedure)
+ {
+ 	coupling_procedures.push_back(coupling_procedure);
++	if (import_or_export_or_remap == 0) {
++		EXECUTION_REPORT(REPORT_ERROR, -1, fields_connected_status.size() > 0, "Software error in Inout_interface::add_coupling_procedure: %s", interface_name);
++		for (int i = 0; i < coupling_procedure->fields_mem_registered.size(); i ++)
++			for (int j = 0; j < fields_mem_registered.size(); j ++)
++				if (coupling_procedure->fields_mem_registered[i] == fields_mem_registered[j]) {
++					EXECUTION_REPORT_LOG(REPORT_LOG, comp_id, true, "Add coupling procedures to the field \"%s\" of import interface \"%s", fields_mem_registered[j]->get_field_name(), interface_name);
++					EXECUTION_REPORT(REPORT_ERROR, -1, !fields_connected_status[j], "Software error in Inout_interface::add_coupling_procedure: %s %s %d", interface_name, fields_mem_registered[j]->get_field_name(), j);
++					fields_connected_status[j] = true;
++					num_fields_connected ++;
++				}
++	}
+ }
+ 
+ 
+@@ -940,6 +963,9 @@ void Inout_interface::add_remappling_fraction_processing(void *frac_src, void *f
+ 	children_interfaces[1]->fields_mem_registered.push_back(frac_field_dst);
+ 	delete children_interfaces[0]->coupling_procedures[0];
+ 	delete children_interfaces[1]->coupling_procedures[0];
++	for (int i = 0; i < children_interfaces[1]->fields_connected_status.size(); i ++)
++		children_interfaces[1]->fields_connected_status[i] = false;
++	children_interfaces[1]->num_fields_connected = 0;
+ 	children_interfaces[0]->coupling_procedures.clear();
+ 	children_interfaces[1]->coupling_procedures.clear();
+ 	int num_fields = children_interfaces[0]->fields_mem_registered.size();
+@@ -957,28 +983,15 @@ void Inout_interface::add_remappling_fraction_processing(void *frac_src, void *f
+ 
+ Inout_interface_mgt::Inout_interface_mgt(const char *temp_array_buffer, long buffer_content_iter)
+ {
+-	this->temp_array_buffer = NULL;
+ 	while (buffer_content_iter > 0)
+ 		interfaces.push_back(new Inout_interface(temp_array_buffer, buffer_content_iter));
+ }
+ 
+ 
+-Inout_interface_mgt::Inout_interface_mgt()
+-{
+-	temp_array_buffer = NULL;
+-	buffer_content_size = 0;
+-	buffer_content_iter = 0;
+-	buffer_max_size = 0;
+-}
+-
+-
+ Inout_interface_mgt::~Inout_interface_mgt()
+ {
+ 	for (int i = 0; i < interfaces.size(); i ++)
+ 		delete interfaces[i];
+-
+-	if (temp_array_buffer != NULL)
+-		delete [] temp_array_buffer;
+ }
+ 
+ 
+@@ -1083,12 +1096,8 @@ Inout_interface *Inout_interface_mgt::get_interface(int interface_id)
+ 
+ Inout_interface *Inout_interface_mgt::get_interface(const char *comp_full_name, const char *interface_name)
+ {
+-	if (comp_comm_group_mgt_mgr->search_global_node(comp_full_name) == NULL)
+-		return NULL;
+-
+-	int comp_id = comp_comm_group_mgt_mgr->search_global_node(comp_full_name)->get_comp_id();
+ 	for (int i = 0; i < interfaces.size(); i ++)
+-		if (interfaces[i]->get_comp_id() == comp_id && words_are_the_same(interfaces[i]->get_interface_name(), interface_name))
++		if (words_are_the_same(interfaces[i]->get_comp_full_name(),comp_full_name) && words_are_the_same(interfaces[i]->get_interface_name(), interface_name))
+ 			return interfaces[i];
+ 
+ 	return NULL;
+@@ -1105,48 +1114,28 @@ Inout_interface *Inout_interface_mgt::get_interface(int comp_id, const char *int
+ }
+ 
+ 
+-void Inout_interface_mgt::merge_unconnected_inout_interface_fields_info(int comp_id)
++void Inout_interface_mgt::get_all_unconnected_inout_interface_fields_info(std::vector<char*> &all_descendant_real_comp_fullnames, char **temp_array_buffer, long &buffer_content_size, MPI_Comm comm)
+ {
+-	MPI_Comm comm = comp_comm_group_mgt_mgr->get_comm_group_of_local_comp(comp_id, "in merge_unconnected_inout_interface_fields_info");
+-	int local_proc_id = comp_comm_group_mgt_mgr->get_current_proc_id_in_comp(comp_id, "in merge_unconnected_inout_interface_fields_info");
+-	int num_local_procs = comp_comm_group_mgt_mgr->get_num_proc_in_comp(comp_id, "in merge_unconnected_inout_interface_fields_info");
+-	int *counts = new int [num_local_procs];
+-	int *displs = new int [num_local_procs];
+-	char *temp_buffer;
+-	int int_buffer_content_size = buffer_content_size;
+-
+-
+-	MPI_Gather(&int_buffer_content_size, 1, MPI_INT, counts, 1, MPI_INT, 0, comm);
+-	if (local_proc_id == 0) {
+-		displs[0] = 0;
+-		for (int i = 1; i < num_local_procs; i ++)
+-			displs[i] = displs[i-1]+counts[i-1];
+-		buffer_max_size = displs[num_local_procs-1]+counts[num_local_procs-1] + 100;
+-		temp_buffer = new char [buffer_max_size];
+-		
+-	}
+-	MPI_Gatherv(temp_array_buffer, buffer_content_size, MPI_CHAR, temp_buffer, counts, displs, MPI_CHAR, 0, comm);
+-	if (temp_array_buffer != NULL) {
+-		delete [] temp_array_buffer;
+-		temp_array_buffer = NULL;
+-	}
++	char *local_temp_array_buffer = NULL;
++	long local_buffer_max_size = 0, local_buffer_content_size = 0;
++	int num_total_local_proc, current_proc_local_id, *all_array_size;
+ 
+-	if (local_proc_id == 0) {
+-		temp_array_buffer = temp_buffer;
+-		buffer_content_size = displs[num_local_procs-1]+counts[num_local_procs-1];
+-		for (int i = 0; i < interfaces.size(); i ++)
+-			if (interfaces[i]->get_comp_id() == comp_id && interfaces[i]->get_num_coupling_procedures() == 0)
+-				interfaces[i]->transform_interface_into_array(&temp_array_buffer, buffer_max_size, buffer_content_size);
+-	}
+-	else {
+-		buffer_max_size = 0;
+-		buffer_content_size = 0;
++
++	for (int i = 0; i < all_descendant_real_comp_fullnames.size(); i ++) {
++		Comp_comm_group_mgt_node *comp_node = comp_comm_group_mgt_mgr->search_global_node(all_descendant_real_comp_fullnames[i]);
++		if (comp_node == NULL || comp_node->get_current_proc_local_id() != 0)
++			continue;
++		for (int j = 0; j < interfaces.size(); j ++)
++			if (interfaces[j]->get_comp_id() == comp_node->get_comp_id())
++				interfaces[j]->transform_interface_into_array(&local_temp_array_buffer, local_buffer_max_size, local_buffer_content_size);
+ 	}
+-	
+-	delete [] counts;
+-	delete [] displs;
+-}
+ 
++	EXECUTION_REPORT(REPORT_ERROR, -1, MPI_Comm_size(comm, &num_total_local_proc) == MPI_SUCCESS);
++	EXECUTION_REPORT(REPORT_ERROR, -1, MPI_Comm_rank(comm, &current_proc_local_id) == MPI_SUCCESS);
++	all_array_size = new int [num_total_local_proc];
++	gather_array_in_one_comp(num_total_local_proc, current_proc_local_id, local_temp_array_buffer, local_buffer_content_size, sizeof(char), all_array_size, (void**)temp_array_buffer, buffer_content_size, comm);
++	delete [] all_array_size;
++}
+ 
+ 
+ void Inout_interface_mgt::get_all_import_interfaces_of_a_component(std::vector<Inout_interface*> &import_interfaces, int comp_id)
+@@ -1159,6 +1148,16 @@ void Inout_interface_mgt::get_all_import_interfaces_of_a_component(std::vector<I
+ }
+ 
+ 
++void Inout_interface_mgt::get_all_import_interfaces_of_a_component(std::vector<Inout_interface*> &import_interfaces, const char *comp_full_name)
++{
++	import_interfaces.clear();
++
++	for (int i = 0; i < interfaces.size(); i ++)
++		if (words_are_the_same(interfaces[i]->get_comp_full_name(), comp_full_name) && interfaces[i]->get_import_or_export_or_remap() == 0)
++			import_interfaces.push_back(interfaces[i]);
++}
++
++
+ void Inout_interface_mgt::get_all_unconnected_fixed_interfaces(std::vector<Inout_interface*> &import_interfaces, int comp_id, int import_or_export, const char *remote_comp_name)
+ {
+ 	for (int i = 0; i < interfaces.size(); i ++)
+diff --git a/Runtime_MGT/inout_interface_mgt.h b/Runtime_MGT/inout_interface_mgt.h
+index c182823..aa12cdd 100644
+--- a/Runtime_MGT/inout_interface_mgt.h
++++ b/Runtime_MGT/inout_interface_mgt.h
+@@ -61,6 +61,7 @@ class Connection_field_time_info
+ class Connection_coupling_procedure
+ {
+ 	private:
++		friend class Inout_interface;
+ 		std::vector<Field_mem_info *> fields_mem_registered;
+ 		std::vector<Field_mem_info *> fields_mem_inner_step_averaged;
+ 		std::vector<Field_mem_info *> fields_mem_inter_step_averaged;
+@@ -114,6 +115,7 @@ class Inout_interface
+ 		int inst_or_aver;
+ 		std::vector<Field_mem_info *> fields_mem_registered;
+ 		std::vector<const char*> fields_name;
++		std::vector<bool> fields_connected_status;
+ 		std::vector<Connection_coupling_procedure*> coupling_procedures;
+ 		std::vector<Inout_interface *> children_interfaces;           // only for remap interface 
+ 		int execution_checking_status;
+@@ -122,6 +124,7 @@ class Inout_interface
+ 		char fixed_remote_interface_name[NAME_STR_SIZE];
+ 		char *inversed_dst_fraction;
+ 		long bypass_counter;
++		int num_fields_connected;
+ 
+ 	public:
+ 		Inout_interface(const char*, long&);
+@@ -164,15 +167,11 @@ class Inout_interface_mgt
+ 	private:
+ 		std::vector<Inout_interface*> interfaces;
+ 		std::vector<Runtime_trans_algorithm*> all_runtime_receive_algorithms;
+-		char *temp_array_buffer;
+-		long buffer_max_size;
+-		long buffer_content_size;
+-		long buffer_content_iter;
+ 		std::vector<MPI_Win> all_MPI_wins;
+ 
+ 	public:
+ 		Inout_interface_mgt(const char*, long);
+-		Inout_interface_mgt();
++		Inout_interface_mgt() {}
+ 		~Inout_interface_mgt();
+ 		int register_inout_interface(const char*, int, int, int*, int, int, int, const char*, const char*, int);
+ 		void generate_remapping_interface_connection(Inout_interface *, int, int *, bool);
+@@ -184,11 +183,11 @@ class Inout_interface_mgt
+ 		Inout_interface *get_interface(const char*, const char*);
+ 		Inout_interface *get_interface(int, const char*);
+ 		void get_all_import_interfaces_of_a_component(std::vector<Inout_interface*>&, int);	
+-		void get_all_unconnected_fixed_interfaces(std::vector<Inout_interface*> &, int, int, const char*);
++		void get_all_import_interfaces_of_a_component(std::vector<Inout_interface*>&, const char*);
++		void get_all_unconnected_fixed_interfaces(std::vector<Inout_interface*> &, int, int, const char*);		
++		void get_all_unconnected_inout_interface_fields_info(std::vector<char*> & , char **, long &, MPI_Comm);
+ 		void merge_unconnected_inout_interface_fields_info(int);
+ 		void write_all_interfaces_fields_info();
+-		const char *get_temp_array_buffer() { return temp_array_buffer; } 
+-		int get_buffer_content_size()  { return buffer_content_size; }
+ 		void execute_interface(int, bool, int*, int, int*, const char*);
+ 		void execute_interface(int, const char*, bool, int *, int, int*, const char*);
+ 		void add_runtime_receive_algorithm(Runtime_trans_algorithm *new_algorithm) { all_runtime_receive_algorithms.push_back(new_algorithm); }
+diff --git a/Runtime_MGT/runtime_cumulate_average_algorithm.cxx b/Runtime_MGT/runtime_cumulate_average_algorithm.cxx
+index 23db2ec..dbeea7f 100644
+--- a/Runtime_MGT/runtime_cumulate_average_algorithm.cxx
++++ b/Runtime_MGT/runtime_cumulate_average_algorithm.cxx
+@@ -82,6 +82,12 @@ void Runtime_cumulate_average_algorithm::cumulate_or_average(bool do_average)
+                                          cumulate_average_fields[i]->num_elements_in_field,
+                                          cumulate_average_fields[i]->current_computing_count,
+                                          do_average);
++		else if (words_are_the_same(cumulate_average_fields[i]->field_data_type, DATA_TYPE_INT))
++            template_cumulate_or_average<int>((int *) (cumulate_average_fields[i]->mem_info_dst->get_data_buf()), 
++                                         (int *) (cumulate_average_fields[i]->mem_info_src->get_data_buf()), 
++                                         cumulate_average_fields[i]->num_elements_in_field,
++                                         cumulate_average_fields[i]->current_computing_count,
++                                         do_average);
+         else EXECUTION_REPORT(REPORT_ERROR, -1, false, "error data type in cumulate_average algorithm\n"); 
+         if (do_average) {
+ 			EXECUTION_REPORT_LOG(REPORT_LOG, comp_id, true, "do average at computing count is %d", cumulate_average_fields[i]->current_computing_count);

@@ -1,0 +1,20 @@
+gamil.o gamil.d : gamil.F90
+gamil.o : misc.h
+gamil.o : params.h
+gamil.o : shr_kind_mod.o
+gamil.o : pmgrid.o
+gamil.o : dycore.o
+gamil.o : history.o
+gamil.o : units.o
+gamil.o : restart.o
+gamil.o : time_manager.o
+gamil.o : phys_buffer.o
+gamil.o : ppgrid.o
+gamil.o : comsrf.o
+gamil.o : mpishorthand.o
+gamil.o : shr_msg_mod.o
+gamil.o : coupling_chemistry_model_mod.o
+gamil.o : comctl.h
+gamil.o : comlun.h
+gamil.o : gpt.inc
+gamil.o : RK_or_MG.h

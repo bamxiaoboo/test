@@ -1,0 +1,54 @@
+&atmexp
+! ------------------------------------------------------------------------------
+! Experiment parameters
+  caseid                = 'GAMIL2.8_AMIP-sole'
+  nsrest                = 0
+  start_ymd             = 19740101
+  start_tod             = 00000
+  stop_ymd              = 19760101
+  stop_tod              = 00000
+! ------------------------------------------------------------------------------
+  aqua_planet           = .false.
+! ------------------------------------------------------------------------------
+! Input data parameters
+  absems_data           = "abs_ems_factors_fastvx.052001.nc"
+  bndtvo                = "Ozone_CMIP5_ACC_SPARC_1850-2099_RCP2.6_T3M_O3.nc"
+  ozncyc                = .false.
+  bndtvs                = "bc.128x60_1870-2009_hadley_taylor.nc" 
+  sstcyc                = .false.
+  ncdata                = "amip_ic.gamil.128x060.0011-01-01-00000.nc"
+  bndtvaer              = "Aerosol1850-2105RCP26gamil.nc"
+  dtdy                  = 240
+! ------------------------------------------------------------------------------
+! Output parameters
+  mss_irt               = 0
+  inithist              = "monthly"
+  nhtfrq                = 0, -24, -6, -3
+  mfilt                 = 1, 30, 120, 240
+! ------------------------------------------------------------------------------
+! Forcing parameters
+  scenario_scon         = "CMIP5"
+  scenario_ghg          = "CMIP5"
+! ------------------------------------------------------------------------------
+! Orbital parameters
+  eccen                 = 0.016715
+  obliq                 = 23.441
+  mvelp                 = 102.7
+!------------------------------------------------------------------------------
+! daily output
+  fincl2                = "TREFHTMN", "TREFHTMX", "TREFHT", "PRECT", "PS", "PSL", "CLDTOT", "PRECC", "PRECSC", "PRECSL", "LHFLX", "SHFLX", "FLDS", "FLUS", "FSDS", "FSUS", "FLUTOA", "T", "Q", "RELHUM", "OMEGA", "U", "V", "Z3", "WSPEED"
+! ------------------------------------------------------------------------------
+! 6-hour output
+  fincl3                = "T:I", "Q:I", "U:I", "V:I", "PS:I", "PSL:I"
+! ------------------------------------------------------------------------------
+! 3-hour
+! for COSP
+  fincl4                = "PRECT", "TREFHT:I", "LHFLX", "SHFLX", "FLDS", "FLUS", "FLDSC", "FSDS", "FSUS", "FSUSC", "FSDSC", "PRECC", "PRECSC", "PRECSL", "PS:I", "CLDTOT", "SOLSD"
+/
+
+&clmexp
+  finidat               = ""
+  fpftcon               = "pft-physiology"
+  fsurdat               = "surface-data.128x060.nc"
+/
+

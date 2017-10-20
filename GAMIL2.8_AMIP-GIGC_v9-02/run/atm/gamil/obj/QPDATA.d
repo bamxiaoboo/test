@@ -1,0 +1,5 @@
+QPDATA.o QPDATA.d : QPDATA.F
+QPDATA.o : misc.h
+QPDATA.o : params.h
+QPDATA.o : PARADYN
+QPDATA.o : PARADD

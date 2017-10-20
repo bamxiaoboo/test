@@ -1,0 +1,30 @@
+&compset_nml
+  exp_model               = "GIGC_v9-02_sole"
+  case_name               = "GIGC_v9-02_sole"
+  case_desc               = "GIGC_v9-02_sole : CESM1_0_5 sole run template, did configuration at 20170920-161753"
+  config_time             = "20170920-161753"
+  run_type                = "initial"
+  start_date              = 20050701
+  start_second            = 00000
+  stop_date               = 20050702
+  stop_second             = 00000
+  rest_freq_unit          = "months"
+  rest_freq_count         = 1
+  stop_latency_seconds    = 0
+  component_name          = "GIGC"
+  compset_filename        = "comp_list.cfg"
+  comp_run_data_dir       = "/data3/work/yuxinzhu/test/GIGC_v9-02_sole/run/atm_chem/GIGC/data"
+  comp_model_nml          = "GIGC.stdin"
+  cpl_interface_time_step = 1
+  comp_log_filename       = "/data3/work/yuxinzhu/test/GIGC_v9-02_sole/run/atm_chem/GIGC/run_logs/GIGC_v9-02_sole.GIGC.log.20170920-161753"
+  leap_year               = .false.
+/
+
+&orb_nml
+  iyear_AD                = 1990
+/
+&ensemble_setting_nml
+  ensemble_member_id             = -1
+  random_seed_for_perturb_roundoff_errors = -9999
+  roundoff_errors_perturbation_type = "none"
+/
