@@ -65,10 +65,10 @@ sed -i -e "s#Dir w/ 1x1 emissions etc.*#Dir w/ 1x1 emissions etc: $DATA_DST_DIR/
 sed -i -e "s#Dir w/ archived OH files.*#Dir w/ archived OH files: $DATA_DST_DIR/$OH_DATA/#g" input.geos
 sed -i -e "s#Dir w/ O3 P/L rate files.*#Dir w/ O3 P/L rate files: $DATA_DST_DIR/$O3_DATA/#g" input.geos
 
-link_data "$DATA_SRC_DIR/$ROOT_DATA" "$DATA_DST_DIR/"
-link_data "$DATA_SRC_DIR/$EMISSION_DATA" "$DATA_DST_DIR/"
-link_data "$DATA_SRC_DIR/$OH_DATA" "$DATA_DST_DIR/GEOS_MEAN/OHmerge"
-link_data "$DATA_SRC_DIR/$O3_DATA" "$DATA_DST_DIR/GEOS_MEAN/O3_PROD_LOSS/"
+#link_data "$DATA_SRC_DIR/$ROOT_DATA" "$DATA_DST_DIR/"
+#link_data "$DATA_SRC_DIR/$EMISSION_DATA" "$DATA_DST_DIR/"
+#link_data "$DATA_SRC_DIR/$OH_DATA" "$DATA_DST_DIR/GEOS_MEAN/OHmerge"
+#link_data "$DATA_SRC_DIR/$O3_DATA" "$DATA_DST_DIR/GEOS_MEAN/O3_PROD_LOSS/"
 
 
 

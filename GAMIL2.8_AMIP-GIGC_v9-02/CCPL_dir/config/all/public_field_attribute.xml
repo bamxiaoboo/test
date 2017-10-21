@@ -1,9 +1,11 @@
 <?xml version="1.0" ?>
-<field name="evap"  dimensions="0D"   long_name="water evaporation"  type="flux"  default_unit="kg/s/m^2" />
-<field name="t"  dimensions="V3D"   long_name="surface temperature"  type="state"  default_unit="kelvin" />
-<field name="ps"  dimensions="H2D"   long_name="surface pressure"  type="state"  default_unit="Pa" />
-<field name="ifrac"  dimensions="H2D"   long_name="fraction of sea ice"  type="state"  default_unit="" />
-<field name="sst"  dimensions="V3D"   long_name="sea surface temperature"  type="state"  default_unit="kelvin" />
-<field name="sss"  dimensions="V3D"   long_name="salty surface temperature"  type="state"  default_unit="kelvin" />
-<field name="tbot"  dimensions="V3D"   long_name="bottom atm level temperature"  type="state"  default_unit="kelvin" />
-<field name="u_atm_bot"  dimensions="V3D"   long_name="bottom atm level zonal wind velocity"  type="state"  default_unit="m/s^2" />
+<field name="SLP"  dimensions="H2D"   long_name="sea level pressure"  type="state"  default_unit="Pa" />
+<field name="CLDFRC"  dimensions="H2D"   long_name="column cloud fraction"  type="state"  default_unit="fraction" />
+<field name="TS"  dimensions="H2D"   long_name="surface temperature"  type="state"  default_unit="K" />
+<field name="CMFMC"  dimensions="V3D"   long_name="Moist convection mass flux"  type="flux"  default_unit="kg m-2 s-1" />
+<field name="DQIDTMST"  dimensions="V3D"   long_name="ice tendency, mst proc"  type="state"  default_unit="kg kg-1 s-1" />
+<field name="DQLDTMST"  dimensions="V3D"   long_name="H2O tendency, mst proc"  type="state"  default_unit="kg kg-1 s-1" />
+<field name="DQVDTMST"  dimensions="V3D"   long_name="vapor tendency, mst proc"  type="state"  default_unit="kg kg-1 s-1" />
+<field name="DTRAIN"  dimensions="V3D"   long_name="detrainment flux"  type="state"  default_unit="kg m-2 s-1" />
+<field name="MOISTQ"  dimensions="V3D"   long_name="tendency in sp. C17"  type="state"  default_unit="g kg-1 day-1" />
+<field name="OPTDEP"  dimensions="V3D"   long_name="visible optical depth"  type="state"  default_unit="unitless" />

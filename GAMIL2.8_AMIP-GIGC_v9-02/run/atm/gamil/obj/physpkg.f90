@@ -51,6 +51,7 @@ subroutine physpkg(phys_state, phys_state0, gw,     ztodt,  &
 
     use sst_data,       only: sst    ! added by SHI Xiangjun
 
+    use physconst,     only: gravit, rga, rair
 
     implicit none
 
@@ -139,7 +140,7 @@ subroutine physpkg(phys_state, phys_state0, gw,     ztodt,  &
 !!    real(r8) divdampn         ! Number of days to invoke divergence damper
       real(r8) precc_thresh     ! Precipitation threshold for PRECCINT and PRECCFRQ
       real(r8) precl_thresh     ! Precipitation threshold for PRECLINT and PRECLFRQ
-# 50 "/data3/work/yuxinzhu/test/model_platform/models/atm/GAMIL2.8_AMIP/src/physics/cam1/physpkg.F90" 2
+# 51 "/data3/work/yuxinzhu/test/model_platform/models/atm/GAMIL2.8_AMIP/src/physics/cam1/physpkg.F90" 2
 
 # 1 "/data3/work/yuxinzhu/test/model_platform/models/atm/GAMIL2.8_AMIP/src/physics/cam1/comsol.h" 1
 !
@@ -177,7 +178,7 @@ subroutine physpkg(phys_state, phys_state0, gw,     ztodt,  &
       common /comorb/ eccen   , obliq   , mvelp   , obliqr  
       common /comorb/ lambm0  , mvelpp  , iyear_AD
 
-# 51 "/data3/work/yuxinzhu/test/model_platform/models/atm/GAMIL2.8_AMIP/src/physics/cam1/physpkg.F90" 2
+# 52 "/data3/work/yuxinzhu/test/model_platform/models/atm/GAMIL2.8_AMIP/src/physics/cam1/physpkg.F90" 2
 
     real(r8), intent(in) :: gw(plat) ! Gaussian weights
     real(r8), intent(in) :: ztodt    ! physics time step unless nstep=0
@@ -194,6 +195,9 @@ subroutine physpkg(phys_state, phys_state0, gw,     ztodt,  &
     real(r8), intent(inout) :: qcwatn(pcols, pver, begchunk:endchunk) ! new moisture
     real(r8), intent(inout) :: lcwato(pcols, pver, begchunk:endchunk) ! cloud liquid water
     real(r8), intent(inout) :: lcwatn(pcols, pver, begchunk:endchunk) ! cloud liquid water
+    real(r8), allocatable :: psl(:,:)      ! sea-level pressure
+    real(r8) psl_tmp(pcols)   ! Sea Level Pressure
+    type(physics_state) :: state
 
     integer i, m, lat, c, lchnk                ! indices
     integer lats(pcols)                        ! array of latitude indices
@@ -350,7 +354,7 @@ subroutine physpkg(phys_state, phys_state0, gw,     ztodt,  &
     call update_srf_fluxes(srfflx_state2d, srfflx_parm2d, icefrac)
 
 
-# 278 "/data3/work/yuxinzhu/test/model_platform/models/atm/GAMIL2.8_AMIP/src/physics/cam1/physpkg.F90"
+# 282 "/data3/work/yuxinzhu/test/model_platform/models/atm/GAMIL2.8_AMIP/src/physics/cam1/physpkg.F90"
     !
     !-----------------------------------------------------------------------
     ! 4. Calculate physical tendencies after calling of flux coupler
@@ -445,7 +449,16 @@ subroutine physpkg(phys_state, phys_state0, gw,     ztodt,  &
 
     call out_fld_for_coupling_chem('CLDF',cldn)
     call out_fld_for_coupling_chem('FROCEAN',ocnfrac)
-    !call out_fld_for_coupling_chem('SLP',psl)
+
+        allocate(psl(pcols,begchunk:endchunk))
+        psl     (:,:) = inf
+        state = phys_state(c)
+        lchnk = state%lchnk
+        ncol  = state%ncol
+        call cpslec(ncol, state%pmid, state%phis, state%ps, state%t,psl_tmp, gravit, rair)
+        psl(:ncol,lchnk) = psl_tmp(:ncol)
+
+    call out_fld_for_coupling_chem('SLP',psl)
     do c = begchunk, endchunk
         call out_fld_for_coupling_chem('EFLUX',srfflx_state2d(c)%lhf(:),c)
         call out_fld_for_coupling_chem('HFLUX',srfflx_state2d(c)%lhf(:),c)

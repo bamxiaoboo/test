@@ -214,7 +214,7 @@ program gamil
     integer nstep           ! Current timestep number.
     integer kvh_idx ! added by LIU Li
     integer i
-    integer :: comm,export_interface_id,time_step
+    integer :: gamil_mpicom,export_interface_id,time_step
     !------------------------------Externals--------------------------------
 
 
@@ -239,9 +239,9 @@ program gamil
     call t_startf('initialization')
 
     !call c_coupler_initialize(mpicom)
-    comm = -1
+    gamil_mpicom = -1
     !gamil_comp_id = CCPL_register_component(-1, "gamil", "atm", comm, annotation = "register atm model gamil")
-    call register_gamil_component(comm)
+    call register_gamil_component(gamil_mpicom)
     !
     ! Initialize internal/external MPI if appropriate
     !
@@ -283,7 +283,7 @@ program gamil
         end if
     end if
     time_step = get_step_size()
-    call register_component_coupling_configuration(comm, "gamil", export_interface_id, 1, time_step)
+    call register_component_coupling_configuration(gamil_mpicom, "gamil", export_interface_id, 1, time_step)
     call CCPL_end_coupling_configuration(gamil_comp_id, annotation = "component gamil ends registration")
     !
     ! Set defaults then override with user-specified input

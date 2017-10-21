@@ -1,0 +1,142 @@
+make[1]: Entering directory `/data3/work/yuxinzhu/test/GAMIL2.8_AMIP-GIGC_v9-02/run/atm_chem/GIGC/GIGC_code_mirror/GeosCore'
+make[2]: Entering directory `/data3/work/yuxinzhu/test/GAMIL2.8_AMIP-GIGC_v9-02/run/atm_chem/GIGC/GIGC_code_mirror/GeosCore'
+make[3]: Entering directory `/data3/work/yuxinzhu/test/GAMIL2.8_AMIP-GIGC_v9-02/run/atm_chem/GIGC/GIGC_code_mirror/GeosCore'
+make[4]: Entering directory `/data3/work/yuxinzhu/test/GAMIL2.8_AMIP-GIGC_v9-02/run/atm_chem/GIGC/GIGC_code_mirror/NcdfUtil'
+ar crs libNcUtils.a m_do_err_out.o m_netcdf_io_checks.o m_netcdf_io_close.o m_netcdf_io_create.o m_netcdf_io_define.o m_netcdf_io_get_dimlen.o m_netcdf_io_handle_err.o m_netcdf_io_open.o m_netcdf_io_read.o m_netcdf_io_readattr.o m_netcdf_io_write.o
+mv libNcUtils.a ../lib
+make[4]: Leaving directory `/data3/work/yuxinzhu/test/GAMIL2.8_AMIP-GIGC_v9-02/run/atm_chem/GIGC/GIGC_code_mirror/NcdfUtil'
+make[3]: Leaving directory `/data3/work/yuxinzhu/test/GAMIL2.8_AMIP-GIGC_v9-02/run/atm_chem/GIGC/GIGC_code_mirror/GeosCore'
+make[3]: Entering directory `/data3/work/yuxinzhu/test/GAMIL2.8_AMIP-GIGC_v9-02/run/atm_chem/GIGC/GIGC_code_mirror/GeosCore'
+make[4]: Entering directory `/data3/work/yuxinzhu/test/GAMIL2.8_AMIP-GIGC_v9-02/run/atm_chem/GIGC/GIGC_code_mirror/Headers'
+ar crs libHeaders.a CMN_DIAG_mod.o CMN_GCTM_mod.o CMN_NOX_mod.o CMN_O3_mod.o CMN_SIZE_mod.o CMN_mod.o EF_MGN20_mod.o cmn_fj_mod.o commsoil_mod.o comode_loop_mod.o jv_cmn_mod.o jv_mie_mod.o smv_dimension_mod.o smv_physconst_mod.o gigc_errcode_mod.o gigc_input_opt_mod.o gigc_state_chm_mod.o gigc_state_met_mod.o gigc_state_phy_mod.o
+mv libHeaders.a ../lib
+make[4]: Leaving directory `/data3/work/yuxinzhu/test/GAMIL2.8_AMIP-GIGC_v9-02/run/atm_chem/GIGC/GIGC_code_mirror/Headers'
+make[3]: Leaving directory `/data3/work/yuxinzhu/test/GAMIL2.8_AMIP-GIGC_v9-02/run/atm_chem/GIGC/GIGC_code_mirror/GeosCore'
+make[3]: Entering directory `/data3/work/yuxinzhu/test/GAMIL2.8_AMIP-GIGC_v9-02/run/atm_chem/GIGC/GIGC_code_mirror/GeosCore'
+make[4]: Entering directory `/data3/work/yuxinzhu/test/GAMIL2.8_AMIP-GIGC_v9-02/run/atm_chem/GIGC/GIGC_code_mirror/KPP'
+make[5]: Entering directory `/data3/work/yuxinzhu/test/GAMIL2.8_AMIP-GIGC_v9-02/run/atm_chem/GIGC/GIGC_code_mirror/KPP/standard'
+ar crs libKpp.a gckpp_Function.o gckpp_Global.o gckpp_Hessian.o gckpp_HessianSP.o gckpp_Initialize.o gckpp_Integrator.o gckpp_Jacobian.o gckpp_JacobianSP.o gckpp_LinearAlgebra.o gckpp_Model.o gckpp_Monitor.o gckpp_Parameters.o gckpp_Precision.o gckpp_Rates.o gckpp_Stoichiom.o gckpp_StoichiomSP.o gckpp_Util.o gckpp_comode_mod.o
+mv libKpp.a ../../lib
+make[5]: Leaving directory `/data3/work/yuxinzhu/test/GAMIL2.8_AMIP-GIGC_v9-02/run/atm_chem/GIGC/GIGC_code_mirror/KPP/standard'
+make[4]: Leaving directory `/data3/work/yuxinzhu/test/GAMIL2.8_AMIP-GIGC_v9-02/run/atm_chem/GIGC/GIGC_code_mirror/KPP'
+make[3]: Leaving directory `/data3/work/yuxinzhu/test/GAMIL2.8_AMIP-GIGC_v9-02/run/atm_chem/GIGC/GIGC_code_mirror/GeosCore'
+make[3]: Entering directory `/data3/work/yuxinzhu/test/GAMIL2.8_AMIP-GIGC_v9-02/run/atm_chem/GIGC/GIGC_code_mirror/GeosCore'
+make[4]: Entering directory `/data3/work/yuxinzhu/test/GAMIL2.8_AMIP-GIGC_v9-02/run/atm_chem/GIGC/GIGC_code_mirror/GeosUtil'
+ar crs libGeosUtil.a bpch2_mod.o charpak_mod.o directory_mod.o error_mod.o file_mod.o hdf_mod.o ifort_errmsg.o julday_mod.o pressure_mod.o regrid_1x1_mod.o time_mod.o transfer_mod.o unix_cmds_mod.o global_grid_mod.o grid_mod.o inquireMod.o regrid_a2a_mod.o ifort_errmsg.o
+mv libGeosUtil.a ../lib
+make[4]: Leaving directory `/data3/work/yuxinzhu/test/GAMIL2.8_AMIP-GIGC_v9-02/run/atm_chem/GIGC/GIGC_code_mirror/GeosUtil'
+make[3]: Leaving directory `/data3/work/yuxinzhu/test/GAMIL2.8_AMIP-GIGC_v9-02/run/atm_chem/GIGC/GIGC_code_mirror/GeosCore'
+make[3]: Entering directory `/data3/work/yuxinzhu/test/GAMIL2.8_AMIP-GIGC_v9-02/run/atm_chem/GIGC/GIGC_code_mirror/GeosCore'
+make[4]: Entering directory `/data3/work/yuxinzhu/test/GAMIL2.8_AMIP-GIGC_v9-02/run/atm_chem/GIGC/GIGC_code_mirror/ISOROPIA'
+ar crs libIsoropia.a isoropiaIIcode.o
+mv libIsoropia.a ../lib
+make[4]: Leaving directory `/data3/work/yuxinzhu/test/GAMIL2.8_AMIP-GIGC_v9-02/run/atm_chem/GIGC/GIGC_code_mirror/ISOROPIA'
+make[3]: Leaving directory `/data3/work/yuxinzhu/test/GAMIL2.8_AMIP-GIGC_v9-02/run/atm_chem/GIGC/GIGC_code_mirror/GeosCore'
+make[3]: Entering directory `/data3/work/yuxinzhu/test/GAMIL2.8_AMIP-GIGC_v9-02/run/atm_chem/GIGC/GIGC_code_mirror/GeosCore'
+mpiifort -cpp -w -O2 -auto -noalign -convert big_endian -vec-report0 -fp-model source -openmp -mcmodel=medium -shared-intel -DLINUX_IFORT -DGEOS_5 -DGRID4x5 -I../Headers -module ../mod  -I/usr/include  -I/data3/work/yuxinzhu/test/GAMIL2.8_AMIP-GIGC_v9-02/run/lib/esmf/src -I/data3/work/yuxinzhu/test/GAMIL2.8_AMIP-GIGC_v9-02/run/lib/c_coupler/src -I/data3/work/yuxinzhu/test/GAMIL2.8_AMIP-GIGC_v9-02/run/lib/include  -I/opt/intel/impi/3.2.0.011/include64 -c -free gigc_environment_mod.F90
+mpiifort -cpp -w -O2 -auto -noalign -convert big_endian -vec-report0 -fp-model source -openmp -mcmodel=medium -shared-intel -DLINUX_IFORT -DGEOS_5 -DGRID4x5 -I../Headers -module ../mod  -I/usr/include  -I/data3/work/yuxinzhu/test/GAMIL2.8_AMIP-GIGC_v9-02/run/lib/esmf/src -I/data3/work/yuxinzhu/test/GAMIL2.8_AMIP-GIGC_v9-02/run/lib/c_coupler/src -I/data3/work/yuxinzhu/test/GAMIL2.8_AMIP-GIGC_v9-02/run/lib/include  -I/opt/intel/impi/3.2.0.011/include64 -c merra_cn_mod.F
+mpiifort -cpp -w -O2 -auto -noalign -convert big_endian -vec-report0 -fp-model source -openmp -mcmodel=medium -shared-intel -DLINUX_IFORT -DGEOS_5 -DGRID4x5 -I../Headers -module ../mod  -I/usr/include  -I/data3/work/yuxinzhu/test/GAMIL2.8_AMIP-GIGC_v9-02/run/lib/esmf/src -I/data3/work/yuxinzhu/test/GAMIL2.8_AMIP-GIGC_v9-02/run/lib/c_coupler/src -I/data3/work/yuxinzhu/test/GAMIL2.8_AMIP-GIGC_v9-02/run/lib/include  -I/opt/intel/impi/3.2.0.011/include64 -c merra_a3_mod.F
+mpiifort -cpp -w -O2 -auto -noalign -convert big_endian -vec-report0 -fp-model source -openmp -mcmodel=medium -shared-intel -DLINUX_IFORT -DGEOS_5 -DGRID4x5 -I../Headers -module ../mod  -I/usr/include  -I/data3/work/yuxinzhu/test/GAMIL2.8_AMIP-GIGC_v9-02/run/lib/esmf/src -I/data3/work/yuxinzhu/test/GAMIL2.8_AMIP-GIGC_v9-02/run/lib/c_coupler/src -I/data3/work/yuxinzhu/test/GAMIL2.8_AMIP-GIGC_v9-02/run/lib/include  -I/opt/intel/impi/3.2.0.011/include64 -c merra_i6_mod.F
+mpiifort -cpp -w -O2 -auto -noalign -convert big_endian -vec-report0 -fp-model source -openmp -mcmodel=medium -shared-intel -DLINUX_IFORT -DGEOS_5 -DGRID4x5 -I../Headers -module ../mod  -I/usr/include  -I/data3/work/yuxinzhu/test/GAMIL2.8_AMIP-GIGC_v9-02/run/lib/esmf/src -I/data3/work/yuxinzhu/test/GAMIL2.8_AMIP-GIGC_v9-02/run/lib/c_coupler/src -I/data3/work/yuxinzhu/test/GAMIL2.8_AMIP-GIGC_v9-02/run/lib/include  -I/opt/intel/impi/3.2.0.011/include64 -c -free olson_landmap_mod.F90
+mpiifort -cpp -w -O2 -auto -noalign -convert big_endian -vec-report0 -fp-model source -openmp -mcmodel=medium -shared-intel -DLINUX_IFORT -DGEOS_5 -DGRID4x5 -I../Headers -module ../mod  -I/usr/include  -I/data3/work/yuxinzhu/test/GAMIL2.8_AMIP-GIGC_v9-02/run/lib/esmf/src -I/data3/work/yuxinzhu/test/GAMIL2.8_AMIP-GIGC_v9-02/run/lib/c_coupler/src -I/data3/work/yuxinzhu/test/GAMIL2.8_AMIP-GIGC_v9-02/run/lib/include  -I/opt/intel/impi/3.2.0.011/include64 -c soilnox_restart_mod.F
+mpiifort -cpp -w -O2 -auto -noalign -convert big_endian -vec-report0 -fp-model source -openmp -mcmodel=medium -shared-intel -DLINUX_IFORT -DGEOS_5 -DGRID4x5 -I../Headers -module ../mod  -I/usr/include  -I/data3/work/yuxinzhu/test/GAMIL2.8_AMIP-GIGC_v9-02/run/lib/esmf/src -I/data3/work/yuxinzhu/test/GAMIL2.8_AMIP-GIGC_v9-02/run/lib/c_coupler/src -I/data3/work/yuxinzhu/test/GAMIL2.8_AMIP-GIGC_v9-02/run/lib/include  -I/opt/intel/impi/3.2.0.011/include64 -c -free vdiff_mod.F90
+mpiifort -cpp -w -O2 -auto -noalign -convert big_endian -vec-report0 -fp-model source -openmp -mcmodel=medium -shared-intel -DLINUX_IFORT -DGEOS_5 -DGRID4x5 -I../Headers -module ../mod  -I/usr/include  -I/data3/work/yuxinzhu/test/GAMIL2.8_AMIP-GIGC_v9-02/run/lib/esmf/src -I/data3/work/yuxinzhu/test/GAMIL2.8_AMIP-GIGC_v9-02/run/lib/c_coupler/src -I/data3/work/yuxinzhu/test/GAMIL2.8_AMIP-GIGC_v9-02/run/lib/include  -I/opt/intel/impi/3.2.0.011/include64 -c -free component_mgt.F90
+component_mgt.F90(59): error #5277: Syntax error, found ',' following statement keyword
+       public, integer                    :: gigc_decomp_id, gigc_grid_h2d_id
+--------------^
+component_mgt.F90(59): error #5082: Syntax error, found '::' when expecting one of: ( , <END-OF-STATEMENT> ; (/
+       public, integer                    :: gigc_decomp_id, gigc_grid_h2d_id
+------------------------------------------^
+component_mgt.F90(60): error #5277: Syntax error, found ',' following statement keyword
+       public, integer                    :: gigc_grid_v1d_id, gigc_grid_3d_id
+--------------^
+component_mgt.F90(60): error #5082: Syntax error, found '::' when expecting one of: ( , <END-OF-STATEMENT> ; (/
+       public, integer                    :: gigc_grid_v1d_id, gigc_grid_3d_id
+------------------------------------------^
+component_mgt.F90(61): error #5277: Syntax error, found ',' following statement keyword
+       public, integer                    :: gigc_grid_mid_3d_id
+--------------^
+component_mgt.F90(61): error #5082: Syntax error, found '::' when expecting one of: ( , <END-OF-STATEMENT> ; (/
+       public, integer                    :: gigc_grid_mid_3d_id
+------------------------------------------^
+component_mgt.F90(14): error #7002: Error in opening the compiled module file.  Check INCLUDE paths.   [C_COUPLER_INTERFACE_MOD]
+      USE c_coupler_interface_mod
+----------^
+component_mgt.F90(28): error #6417: The dimensions of this array have been defined more than once.   [OPTDEP_CCPL]
+    real*8, allocatable :: OPTDEP_CCPL(:,:,:)
+---------------------------^
+component_mgt.F90(59): error #6847: This statement is valid only in the specification part of a module.
+       public, integer                    :: gigc_decomp_id, gigc_grid_h2d_id
+-------^
+component_mgt.F90(60): error #6847: This statement is valid only in the specification part of a module.
+       public, integer                    :: gigc_grid_v1d_id, gigc_grid_3d_id
+-------^
+component_mgt.F90(61): error #6847: This statement is valid only in the specification part of a module.
+       public, integer                    :: gigc_grid_mid_3d_id
+-------^
+component_mgt.F90(57): error #6418: This name has already been assigned a data type.   [I]
+       integer                            :: i,j,k
+---------------------------------------------^
+component_mgt.F90(57): error #6418: This name has already been assigned a data type.   [J]
+       integer                            :: i,j,k
+-----------------------------------------------^
+component_mgt.F90(77): error #6404: This name does not have a type, and must have an explicit type.   [GIGC_COMP_ID]
+       proc_id = CCPL_get_current_process_id_in_component(gigc_comp_id)
+----------------------------------------------------------^
+component_mgt.F90(116): error #6404: This name does not have a type, and must have an explicit type.   [GIGC_GRID_H2D_ID]
+       gigc_grid_h2d_id = CCPL_register_H2D_grid_via_global_data(gigc_comp_id, "gigc_H2D_grid", "LON_LAT", "degrees", "cyclic", IIPAR, JJPAR, min_lon, max_lon, min_lat, max_lat, XMID, YMID, mask)
+-------^
+component_mgt.F90(116): error #6284: There is no matching specific function for this generic function reference.   [CCPL_REGISTER_H2D_GRID_VIA_GLOBAL_DATA]
+       gigc_grid_h2d_id = CCPL_register_H2D_grid_via_global_data(gigc_comp_id, "gigc_H2D_grid", "LON_LAT", "degrees", "cyclic", IIPAR, JJPAR, min_lon, max_lon, min_lat, max_lat, XMID, YMID, mask)
+--------------------------^
+component_mgt.F90(117): error #6404: This name does not have a type, and must have an explicit type.   [GIGC_GRID_V1D_ID]
+       gigc_grid_v1d_id = CCPL_register_V1D_HYBRID_grid_via_model_data(gigc_comp_id, "gigc_V1D_grid", "LON_LAT", PTOP, AP, BP, "register gigc v1d grid")
+-------^
+component_mgt.F90(117): error #6284: There is no matching specific function for this generic function reference.   [CCPL_REGISTER_V1D_HYBRID_GRID_VIA_MODEL_DAT]
+       gigc_grid_v1d_id = CCPL_register_V1D_HYBRID_grid_via_model_data(gigc_comp_id, "gigc_V1D_grid", "LON_LAT", PTOP, AP, BP, "register gigc v1d grid")
+--------------------------^
+component_mgt.F90(121): error #6404: This name does not have a type, and must have an explicit type.   [GIGC_GRID_3D_ID]
+       gigc_grid_3d_id = CCPL_register_MD_grid_via_multi_grids(gigc_comp_id, "gigc_3D_grid", gigc_grid_h2d_id, gigc_grid_v1d_id, annotation="register a gigc 3-d grid")
+-------^
+component_mgt.F90(134): error #6404: This name does not have a type, and must have an explicit type.   [GIGC_DECOMP_ID]
+       gigc_decomp_id = CCPL_register_parallel_decomp("decomp_gigc_grid", gigc_grid_h2d_id, num, local_grid_cell_indexes, "allocate for gigc grid")
+-------^
+component_mgt.F90(137): error #6284: There is no matching specific function for this generic function reference.   [CCPL_REGISTER_FIELD_INSTANCE]
+       fields_id(1) = CCPL_register_field_instance(State_Met%SLP, "SLP", gigc_decomp_id, gigc_grid_h2d_id, 1, "Pa", "register field instance of SLP")
+----------------------^
+component_mgt.F90(138): error #6284: There is no matching specific function for this generic function reference.   [CCPL_REGISTER_FIELD_INSTANCE]
+       fields_id(2) = CCPL_register_field_instance(State_Met%CLDFRC, "CLDFRC", gigc_decomp_id, gigc_grid_h2d_id, 1, "fraction", "register field instance of CLDFRC")
+----------------------^
+component_mgt.F90(139): error #6284: There is no matching specific function for this generic function reference.   [CCPL_REGISTER_FIELD_INSTANCE]
+       fields_id(3) = CCPL_register_field_instance(State_Met%TS, "TS", gigc_decomp_id, gigc_grid_h2d_id, 1, "K", "register field instance of TS")
+----------------------^
+component_mgt.F90(140): error #6284: There is no matching specific function for this generic function reference.   [CCPL_REGISTER_FIELD_INSTANCE]
+       fields_id(4) = CCPL_register_field_instance(State_Met%CMFMC, "CMFMC", gigc_decomp_id, gigc_grid_3d_id, 1, "kg m-2 s-1", "register field instance of CMFMC")
+----------------------^
+component_mgt.F90(141): error #6284: There is no matching specific function for this generic function reference.   [CCPL_REGISTER_FIELD_INSTANCE]
+       fields_id(5) = CCPL_register_field_instance(State_Met%DQIDTMST, "DQIDTMST", gigc_decomp_id, gigc_grid_3d_id, 1, "kg kg-1 s-1", "register field instance of DQIDTMST")
+----------------------^
+component_mgt.F90(142): error #6284: There is no matching specific function for this generic function reference.   [CCPL_REGISTER_FIELD_INSTANCE]
+       fields_id(6) = CCPL_register_field_instance(State_Met%DQLDTMST, "DQLDTMST", gigc_decomp_id, gigc_grid_3d_id, 1, "kg kg-1 s-1", "register field instance of DQLDTMST")
+----------------------^
+component_mgt.F90(143): error #6284: There is no matching specific function for this generic function reference.   [CCPL_REGISTER_FIELD_INSTANCE]
+       fields_id(7) = CCPL_register_field_instance(State_Met%DQVDTMST, "DQVDTMST", gigc_decomp_id, gigc_grid_3d_id, 1, "kg kg-1 s-1", "register field instance of DQVDTMST")
+----------------------^
+component_mgt.F90(144): error #6284: There is no matching specific function for this generic function reference.   [CCPL_REGISTER_FIELD_INSTANCE]
+       fields_id(8) = CCPL_register_field_instance(State_Met%DTRAIN, "DTRAIN", gigc_decomp_id, gigc_grid_3d_id, 1, "kg m-2 s-1", "register field instance of DTRAIN")
+----------------------^
+component_mgt.F90(145): error #6284: There is no matching specific function for this generic function reference.   [CCPL_REGISTER_FIELD_INSTANCE]
+       fields_id(9) = CCPL_register_field_instance(State_Met%MOISTQ, "MOISTQ", gigc_decomp_id, gigc_grid_3d_id, 1, "g kg-1 day-1", "register field instance of MOISTQ")
+----------------------^
+component_mgt.F90(146): error #6284: There is no matching specific function for this generic function reference.   [CCPL_REGISTER_FIELD_INSTANCE]
+       fields_id(10) = CCPL_register_field_instance(OPTDEP_CCPL, "OPTDEP", gigc_decomp_id, gigc_grid_3d_id, 1, "1", "register field instance of OPTDEP")
+-----------------------^
+/tmp/ifortVgJsA6.i90(209): catastrophic error: Too many errors, exiting
+compilation aborted for component_mgt.F90 (code 1)
+make[3]: *** [component_mgt.o] Error 1
+make[3]: Leaving directory `/data3/work/yuxinzhu/test/GAMIL2.8_AMIP-GIGC_v9-02/run/atm_chem/GIGC/GIGC_code_mirror/GeosCore'
+make[2]: *** [lib] Error 2
+make[2]: Leaving directory `/data3/work/yuxinzhu/test/GAMIL2.8_AMIP-GIGC_v9-02/run/atm_chem/GIGC/GIGC_code_mirror/GeosCore'
+make[1]: *** [all] Error 2
+make[1]: Leaving directory `/data3/work/yuxinzhu/test/GAMIL2.8_AMIP-GIGC_v9-02/run/atm_chem/GIGC/GIGC_code_mirror/GeosCore'
+make: *** [all] Error 2

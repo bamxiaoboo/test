@@ -16,5 +16,6 @@ physpkg.o : time_manager.o
 physpkg.o : phys_buffer.o
 physpkg.o : coupling_chemistry_model_mod.o
 physpkg.o : sst_data.o
+physpkg.o : physconst.o
 physpkg.o : comctl.h
 physpkg.o : comsol.h

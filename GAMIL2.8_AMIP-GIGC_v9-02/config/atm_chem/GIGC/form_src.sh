@@ -21,7 +21,6 @@ $CODEROOT/atm_chem/GIGC/Code.v9-02/KPP/int/
 $CODEROOT/atm_chem/GIGC/Code.v9-02/NcdfUtil
 $CODEROOT/atm_chem/GIGC/Code.v9-02/obsolete
 $CODEROOT/atm_chem/GIGC/Code.v9-02/obsolete/standard
-$CODEROOT/atm_chem/GIGC/Code.v9-02/
 EOF
 
 exit 0

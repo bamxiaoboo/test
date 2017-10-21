@@ -1,4 +1,4 @@
-<?xml version="1.0" ?>
+<root>
 <component_import_interfaces_configuration>
    <import_interface  name="receive_data_from_GIGC"  status="on">
        <import_redirection status="on">
@@ -18,4 +18,4 @@
 <component_interface_tags>
     <entry status="on" interface_tag="gamil_component_send" comp_full_name="gigc"  interface_name="receive_data_from_GIGC" />
 </component_interface_tags>
-
+    </root>

@@ -11,7 +11,7 @@ module component_mgt
 
       USE CMN_SIZE_MOD
       USE GIGC_State_Met_Mod, ONLY : MetState
-      USE c_coupler_interface_mod
+      USE CCPL_interface_mod
 
       REAL*8, allocatable   :: OPTDEP_CCPL(:,:,:)
 
@@ -25,11 +25,19 @@ module component_mgt
     end type comp_states_fluxes
 
     type(comp_states_fluxes), public :: comps_states_fluxes(100)
-    real*8, allocatable :: OPTDEP_CCPL(:,:,:)
+       integer, public                    :: gigc_decomp_id, gigc_grid_h2d_id
+       integer, public                    :: gigc_grid_v1d_id, gigc_grid_3d_id
+       integer, public                    :: gigc_grid_mid_3d_id
+       integer, public                    :: gigc_comp_id
 
-contains
+   contains
 
-    subroutine register_component_coupling_configuration(comm, comp_name, comp_id, import_interface_id, export_interface_id, local_comp_id, time_step,mask,State_Met)
+       subroutine register_gigc_component(comm)
+           integer, intent(inout) :: comm
+           gigc_comp_id = CCPL_register_component(-1, "GIGC", "atm_chem", comm, .true., "register atm_chem model GIGC")
+       end subroutine register_gigc_component
+
+    subroutine register_component_coupling_configuration(comm, comp_name, comp_id, import_interface_id, local_comp_id, time_step,mask,State_Met)
 
       use CMN_SIZE_MOD
       use GIGC_State_Met_Mod, only : MetState
@@ -43,7 +51,7 @@ contains
        character(len=*), intent(in)       :: comp_name
        integer, intent(inout)             :: comm
        integer, intent(in)                :: local_comp_id,comp_id
-       integer, intent(out)               :: import_interface_id, export_interface_id
+       integer, intent(out)               :: import_interface_id
        integer, intent(in)                :: time_step
        integer, intent(in)                :: mask(:,:)
        type(MetState), intent(inout)      :: State_Met
@@ -52,13 +60,8 @@ contains
        integer                            :: grid_H2D_size, decomp_size, num_proc, proc_id, grid_V1D_size
        integer, allocatable               :: timers_id(:), fields_id(:), local_grid_cell_indexes(:)
        logical                            :: interface_status
-       integer                            :: I,J,L,n,X1,Y1,X2,Y2, num
+       integer                            :: I,J,L,n,X1,Y1,X2,Y2,num,k
        real*8                             :: min_lon, min_lat, max_lon, max_lat
-       integer                            :: i,j,k
-
-       public, integer                    :: gigc_decomp_id, gigc_grid_h2d_id
-       public, integer                    :: gigc_grid_v1d_id, gigc_grid_3d_id
-       public, integer                    :: gigc_grid_mid_3d_id
 
        !-----------------local variables------------------------------------------------
        real*8 AREA_M2(IIPAR,JJPAR)
@@ -147,7 +150,7 @@ contains
 
        call transform_CCPL_arrays(State_Met)
 
-       call CCPL_set_3D_grid_dynamic_surface_field(grid_3D_id, field_id_cmfmc, "set bottom field of a 3-D grid")
+       call CCPL_set_3D_grid_dynamic_surface_field(gigc_grid_3d_id, fields_id(1), "set bottom field of a 3-D grid")
        !register interface
        allocate(timers_id(10),fields_id(10))
        timer1_id = CCPL_define_single_timer(comp_id, "steps", 1, 0, 0, annotation="define a single timer for comp_id_gamil")
@@ -187,6 +190,7 @@ contains
 !        end do
 !        comps_states_fluxes(local_id)%first = .false.
 !        end subroutine run_component
+
       subroutine transform_CCPL_arrays(State_Met)
       USE GIGC_State_Met_Mod, ONLY : MetState
       implicit none

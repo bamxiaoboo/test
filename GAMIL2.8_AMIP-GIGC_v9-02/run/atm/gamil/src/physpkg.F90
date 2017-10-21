@@ -43,6 +43,7 @@ subroutine physpkg(phys_state, phys_state0, gw,     ztodt,  &
 #ifndef COUP_CSM
     use sst_data,       only: sst    ! added by SHI Xiangjun
 #endif
+    use physconst,     only: gravit, rga, rair
 
     implicit none
 
@@ -64,6 +65,9 @@ subroutine physpkg(phys_state, phys_state0, gw,     ztodt,  &
     real(r8), intent(inout) :: qcwatn(pcols, pver, begchunk:endchunk) ! new moisture
     real(r8), intent(inout) :: lcwato(pcols, pver, begchunk:endchunk) ! cloud liquid water
     real(r8), intent(inout) :: lcwatn(pcols, pver, begchunk:endchunk) ! cloud liquid water
+    real(r8), allocatable :: psl(:,:)      ! sea-level pressure
+    real(r8) psl_tmp(pcols)   ! Sea Level Pressure
+    type(physics_state) :: state
 
     integer i, m, lat, c, lchnk                ! indices
     integer lats(pcols)                        ! array of latitude indices
@@ -369,7 +373,16 @@ subroutine physpkg(phys_state, phys_state0, gw,     ztodt,  &
 
     call out_fld_for_coupling_chem('CLDF',cldn)
     call out_fld_for_coupling_chem('FROCEAN',ocnfrac)
-    !call out_fld_for_coupling_chem('SLP',psl)
+
+        allocate(psl(pcols,begchunk:endchunk))
+        psl     (:,:) = inf
+        state = phys_state(c)
+        lchnk = state%lchnk
+        ncol  = state%ncol
+        call cpslec(ncol, state%pmid, state%phis, state%ps, state%t,psl_tmp, gravit, rair)
+        psl(:ncol,lchnk) = psl_tmp(:ncol)
+
+    call out_fld_for_coupling_chem('SLP',psl)
     do c = begchunk, endchunk
         call out_fld_for_coupling_chem('EFLUX',srfflx_state2d(c)%lhf(:),c)
         call out_fld_for_coupling_chem('HFLUX',srfflx_state2d(c)%lhf(:),c)

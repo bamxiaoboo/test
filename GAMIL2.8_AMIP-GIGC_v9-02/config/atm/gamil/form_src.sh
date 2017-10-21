@@ -21,7 +21,7 @@ $CODEROOT/atm/GAMIL2.8_AMIP/src/lnd/clm2/src/biogeophys
 $CODEROOT/atm/GAMIL2.8_AMIP/src/lnd/clm2/src/mksrfdata
 $CODEROOT/atm/GAMIL2.8_AMIP/src/lnd/clm2/src/ecosysdyn
 $CODEROOT/atm/GAMIL2.8_AMIP/src/lnd/clm2/src/riverroute
-$CODEROOT/atm/GAMIL2.8_AMIP/src/couple/c_coupler/
+$CODEROOT/atm/GAMIL2.8_AMIP/src/couple/c_coupler
 EOF
 
 exit 0

@@ -123,7 +123,7 @@
       USE GIGC_State_Met_Mod    ! Derived type for Meteorology State object
 
       USE CCPL_interface_mod
-      USE coupling_with_CCPL_mod
+      !USE coupling_with_CCPL_mod
       USE component_mgt
 
       IMPLICIT NONE
@@ -257,7 +257,6 @@
       INTEGER                  :: import_interface_id
       INTEGER                  :: export_interface_id, coupled_system_id
       integer, allocatable     :: mask(:,:)
-      public, integer          :: gigc_comp_id
 
       ! Arrays
       INTEGER                  :: DATE(2)
@@ -342,9 +341,7 @@
 
 
       mpicom = -1
-      coupled_comm = -1
-      gigc_comp_id = CCPL_register_component(-1, "GIGC", 
-     & "atm_chem", mpicom, .true., "register atm_chem model GIGC")
+      call register_gigc_component(mpicom)
 !      CALL c_coupler_initialize(mpicom, .true.)
       !-----------------------------------------------------------------
       ! %%%% REPLICATING GIGC FUNCTIONALITY IN EXISTING GEOS-CHEM %%%%
@@ -566,7 +563,7 @@
       end do
 
       CALL register_component_coupling_configuration(mpicom, "GIGC",
-     &     gigc_comp_id, import_interface_id, export_interface_id,
+     &     gigc_comp_id, import_interface_id, 
      &     1, 600, mask,State_Met)
       CALL CCPL_end_coupling_configuration(gigc_comp_id, annotation=
      &     "component GIGC ends registration")

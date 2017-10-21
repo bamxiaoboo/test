@@ -1,8 +1,0 @@
-C-Coupler REPORT LOG in the component model "FGOALS-g2" corresponding to the executable named "c_coupler", at the current simulation time of 00040331-00000 (the current step number is 0): Before the MPI_barrier for synchronizing all processes of the parent component "FGOALS-g2" for registerring its children components including "c_coupler" (the corresponding model code annotation is "component c_coupler start registration")
-
-C-Coupler REPORT LOG in the component model "FGOALS-g2" corresponding to the executable named "c_coupler", at the current simulation time of 00040331-00000 (the current step number is 0): After the MPI_barrier for synchronizing all processes of the parent component "FGOALS-g2" for registerring its children components including "c_coupler" (the corresponding model code annotation is "component c_coupler start registration")
-
-C-Coupler REPORT LOG in the component model "FGOALS-g2" corresponding to the executable named "c_coupler", at the current simulation time of 00040331-00000 (the current step number is 0): Link the parent of component "FGOALS-g2" to "ROOT"
-
-C-Coupler REPORT PROGRESS in the component model "FGOALS-g2" corresponding to the executable named "c_coupler", at the current simulation time of 00040331-00000 (the current step number is 0): The coupling registration stage of the component model "FGOALS-g2" is successfully ended at the model code with the annotation "root component ends registration"
-

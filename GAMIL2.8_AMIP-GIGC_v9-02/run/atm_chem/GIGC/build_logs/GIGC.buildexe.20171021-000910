@@ -1,0 +1,135 @@
+make[1]: Entering directory `/data3/work/yuxinzhu/test/GAMIL2.8_AMIP-GIGC_v9-02/run/atm_chem/GIGC/GIGC_code_mirror/GeosCore'
+make[2]: Entering directory `/data3/work/yuxinzhu/test/GAMIL2.8_AMIP-GIGC_v9-02/run/atm_chem/GIGC/GIGC_code_mirror/GeosCore'
+make[3]: Entering directory `/data3/work/yuxinzhu/test/GAMIL2.8_AMIP-GIGC_v9-02/run/atm_chem/GIGC/GIGC_code_mirror/GeosCore'
+make[4]: Entering directory `/data3/work/yuxinzhu/test/GAMIL2.8_AMIP-GIGC_v9-02/run/atm_chem/GIGC/GIGC_code_mirror/NcdfUtil'
+ar crs libNcUtils.a m_do_err_out.o m_netcdf_io_checks.o m_netcdf_io_close.o m_netcdf_io_create.o m_netcdf_io_define.o m_netcdf_io_get_dimlen.o m_netcdf_io_handle_err.o m_netcdf_io_open.o m_netcdf_io_read.o m_netcdf_io_readattr.o m_netcdf_io_write.o
+mv libNcUtils.a ../lib
+make[4]: Leaving directory `/data3/work/yuxinzhu/test/GAMIL2.8_AMIP-GIGC_v9-02/run/atm_chem/GIGC/GIGC_code_mirror/NcdfUtil'
+make[3]: Leaving directory `/data3/work/yuxinzhu/test/GAMIL2.8_AMIP-GIGC_v9-02/run/atm_chem/GIGC/GIGC_code_mirror/GeosCore'
+make[3]: Entering directory `/data3/work/yuxinzhu/test/GAMIL2.8_AMIP-GIGC_v9-02/run/atm_chem/GIGC/GIGC_code_mirror/GeosCore'
+make[4]: Entering directory `/data3/work/yuxinzhu/test/GAMIL2.8_AMIP-GIGC_v9-02/run/atm_chem/GIGC/GIGC_code_mirror/Headers'
+ar crs libHeaders.a CMN_DIAG_mod.o CMN_GCTM_mod.o CMN_NOX_mod.o CMN_O3_mod.o CMN_SIZE_mod.o CMN_mod.o EF_MGN20_mod.o cmn_fj_mod.o commsoil_mod.o comode_loop_mod.o jv_cmn_mod.o jv_mie_mod.o smv_dimension_mod.o smv_physconst_mod.o gigc_errcode_mod.o gigc_input_opt_mod.o gigc_state_chm_mod.o gigc_state_met_mod.o gigc_state_phy_mod.o
+mv libHeaders.a ../lib
+make[4]: Leaving directory `/data3/work/yuxinzhu/test/GAMIL2.8_AMIP-GIGC_v9-02/run/atm_chem/GIGC/GIGC_code_mirror/Headers'
+make[3]: Leaving directory `/data3/work/yuxinzhu/test/GAMIL2.8_AMIP-GIGC_v9-02/run/atm_chem/GIGC/GIGC_code_mirror/GeosCore'
+make[3]: Entering directory `/data3/work/yuxinzhu/test/GAMIL2.8_AMIP-GIGC_v9-02/run/atm_chem/GIGC/GIGC_code_mirror/GeosCore'
+make[4]: Entering directory `/data3/work/yuxinzhu/test/GAMIL2.8_AMIP-GIGC_v9-02/run/atm_chem/GIGC/GIGC_code_mirror/KPP'
+make[5]: Entering directory `/data3/work/yuxinzhu/test/GAMIL2.8_AMIP-GIGC_v9-02/run/atm_chem/GIGC/GIGC_code_mirror/KPP/standard'
+ar crs libKpp.a gckpp_Function.o gckpp_Global.o gckpp_Hessian.o gckpp_HessianSP.o gckpp_Initialize.o gckpp_Integrator.o gckpp_Jacobian.o gckpp_JacobianSP.o gckpp_LinearAlgebra.o gckpp_Model.o gckpp_Monitor.o gckpp_Parameters.o gckpp_Precision.o gckpp_Rates.o gckpp_Stoichiom.o gckpp_StoichiomSP.o gckpp_Util.o gckpp_comode_mod.o
+mv libKpp.a ../../lib
+make[5]: Leaving directory `/data3/work/yuxinzhu/test/GAMIL2.8_AMIP-GIGC_v9-02/run/atm_chem/GIGC/GIGC_code_mirror/KPP/standard'
+make[4]: Leaving directory `/data3/work/yuxinzhu/test/GAMIL2.8_AMIP-GIGC_v9-02/run/atm_chem/GIGC/GIGC_code_mirror/KPP'
+make[3]: Leaving directory `/data3/work/yuxinzhu/test/GAMIL2.8_AMIP-GIGC_v9-02/run/atm_chem/GIGC/GIGC_code_mirror/GeosCore'
+make[3]: Entering directory `/data3/work/yuxinzhu/test/GAMIL2.8_AMIP-GIGC_v9-02/run/atm_chem/GIGC/GIGC_code_mirror/GeosCore'
+make[4]: Entering directory `/data3/work/yuxinzhu/test/GAMIL2.8_AMIP-GIGC_v9-02/run/atm_chem/GIGC/GIGC_code_mirror/GeosUtil'
+ar crs libGeosUtil.a bpch2_mod.o charpak_mod.o directory_mod.o error_mod.o file_mod.o hdf_mod.o ifort_errmsg.o julday_mod.o pressure_mod.o regrid_1x1_mod.o time_mod.o transfer_mod.o unix_cmds_mod.o global_grid_mod.o grid_mod.o inquireMod.o regrid_a2a_mod.o ifort_errmsg.o
+mv libGeosUtil.a ../lib
+make[4]: Leaving directory `/data3/work/yuxinzhu/test/GAMIL2.8_AMIP-GIGC_v9-02/run/atm_chem/GIGC/GIGC_code_mirror/GeosUtil'
+make[3]: Leaving directory `/data3/work/yuxinzhu/test/GAMIL2.8_AMIP-GIGC_v9-02/run/atm_chem/GIGC/GIGC_code_mirror/GeosCore'
+make[3]: Entering directory `/data3/work/yuxinzhu/test/GAMIL2.8_AMIP-GIGC_v9-02/run/atm_chem/GIGC/GIGC_code_mirror/GeosCore'
+make[4]: Entering directory `/data3/work/yuxinzhu/test/GAMIL2.8_AMIP-GIGC_v9-02/run/atm_chem/GIGC/GIGC_code_mirror/ISOROPIA'
+ar crs libIsoropia.a isoropiaIIcode.o
+mv libIsoropia.a ../lib
+make[4]: Leaving directory `/data3/work/yuxinzhu/test/GAMIL2.8_AMIP-GIGC_v9-02/run/atm_chem/GIGC/GIGC_code_mirror/ISOROPIA'
+make[3]: Leaving directory `/data3/work/yuxinzhu/test/GAMIL2.8_AMIP-GIGC_v9-02/run/atm_chem/GIGC/GIGC_code_mirror/GeosCore'
+make[3]: Entering directory `/data3/work/yuxinzhu/test/GAMIL2.8_AMIP-GIGC_v9-02/run/atm_chem/GIGC/GIGC_code_mirror/GeosCore'
+mpiifort -cpp -w -O2 -auto -noalign -convert big_endian -vec-report0 -fp-model source -openmp -mcmodel=medium -shared-intel -DLINUX_IFORT -DGEOS_5 -DGRID4x5 -I../Headers -module ../mod  -I/usr/include  -I/data3/work/yuxinzhu/test/GAMIL2.8_AMIP-GIGC_v9-02/run/lib/esmf/src -I/data3/work/yuxinzhu/test/GAMIL2.8_AMIP-GIGC_v9-02/run/lib/c_coupler/src -I/data3/work/yuxinzhu/test/GAMIL2.8_AMIP-GIGC_v9-02/run/lib/include  -I/opt/intel/impi/3.2.0.011/include64 -c -free coupling_with_CCPL_mod.F90
+coupling_with_CCPL_mod.F90(74): error #6632: Keyword arguments are invalid without an explicit interface.   [GRID_NAME]
+                                               "GIGC_h2D_grid_decomp","PS",.true., grid_name="GIGC_h2D_grid")
+-----------------------------------------------------------------------------------^
+coupling_with_CCPL_mod.F90(76): error #6632: Keyword arguments are invalid without an explicit interface.   [GRID_NAME]
+                                               "GIGC_h2D_grid_decomp","PBLH",.true., grid_name="GIGC_h2D_grid")
+-------------------------------------------------------------------------------------^
+coupling_with_CCPL_mod.F90(78): error #6632: Keyword arguments are invalid without an explicit interface.   [GRID_NAME]
+                                               "GIGC_h2D_grid_decomp","SLP",.true., grid_name="GIGC_h2D_grid")
+------------------------------------------------------------------------------------^
+coupling_with_CCPL_mod.F90(80): error #6632: Keyword arguments are invalid without an explicit interface.   [GRID_NAME]
+                                               "GIGC_h2D_grid_decomp","CLDFRC",.true., grid_name="GIGC_h2D_grid")
+---------------------------------------------------------------------------------------^
+coupling_with_CCPL_mod.F90(82): error #6632: Keyword arguments are invalid without an explicit interface.   [GRID_NAME]
+                                               "GIGC_h2D_grid_decomp","EFLUX",.true., grid_name="GIGC_h2D_grid")
+--------------------------------------------------------------------------------------^
+coupling_with_CCPL_mod.F90(84): error #6632: Keyword arguments are invalid without an explicit interface.   [GRID_NAME]
+                                               "GIGC_h2D_grid_decomp","HFLUX",.true., grid_name="GIGC_h2D_grid")
+--------------------------------------------------------------------------------------^
+coupling_with_CCPL_mod.F90(86): error #6632: Keyword arguments are invalid without an explicit interface.   [GRID_NAME]
+                                               "GIGC_h2D_grid_decomp","EVAP",.true., grid_name="GIGC_h2D_grid")
+-------------------------------------------------------------------------------------^
+coupling_with_CCPL_mod.F90(88): error #6632: Keyword arguments are invalid without an explicit interface.   [GRID_NAME]
+                                               "GIGC_h2D_grid_decomp","TS",.true., grid_name="GIGC_h2D_grid")
+-----------------------------------------------------------------------------------^
+coupling_with_CCPL_mod.F90(90): error #6632: Keyword arguments are invalid without an explicit interface.   [GRID_NAME]
+                                               "GIGC_h2D_grid_decomp","TSKIN",.true., grid_name="GIGC_h2D_grid")
+--------------------------------------------------------------------------------------^
+coupling_with_CCPL_mod.F90(92): error #6632: Keyword arguments are invalid without an explicit interface.   [GRID_NAME]
+                                               "GIGC_h2D_grid_decomp","PARDR",.true., grid_name="GIGC_h2D_grid")
+--------------------------------------------------------------------------------------^
+coupling_with_CCPL_mod.F90(94): error #6632: Keyword arguments are invalid without an explicit interface.   [GRID_NAME]
+                                               "GIGC_h2D_grid_decomp","PARDF",.true., grid_name="GIGC_h2D_grid")
+--------------------------------------------------------------------------------------^
+coupling_with_CCPL_mod.F90(96): error #6632: Keyword arguments are invalid without an explicit interface.   [GRID_NAME]
+                                               "GIGC_h2D_grid_decomp","PRECCON",.true., grid_name="GIGC_h2D_grid")
+----------------------------------------------------------------------------------------^
+coupling_with_CCPL_mod.F90(98): error #6632: Keyword arguments are invalid without an explicit interface.   [GRID_NAME]
+                                               "GIGC_h2D_grid_decomp","PRECTOT",.true., grid_name="GIGC_h2D_grid")
+----------------------------------------------------------------------------------------^
+coupling_with_CCPL_mod.F90(100): error #6632: Keyword arguments are invalid without an explicit interface.   [GRID_NAME]
+                                               "GIGC_h2D_grid_decomp","PRECSNO",.true., grid_name="GIGC_h2D_grid")
+----------------------------------------------------------------------------------------^
+coupling_with_CCPL_mod.F90(102): error #6632: Keyword arguments are invalid without an explicit interface.   [GRID_NAME]
+                                               "GIGC_h2D_grid_decomp","RADLWG",.true., grid_name="GIGC_h2D_grid")
+---------------------------------------------------------------------------------------^
+coupling_with_CCPL_mod.F90(104): error #6632: Keyword arguments are invalid without an explicit interface.   [GRID_NAME]
+                                               "GIGC_h2D_grid_decomp","RADSWG",.true., grid_name="GIGC_h2D_grid")
+---------------------------------------------------------------------------------------^
+coupling_with_CCPL_mod.F90(106): error #6632: Keyword arguments are invalid without an explicit interface.   [GRID_NAME]
+                                               "GIGC_h2D_grid_decomp","FROCEAN",.true., grid_name="GIGC_h2D_grid")
+----------------------------------------------------------------------------------------^
+coupling_with_CCPL_mod.F90(108): error #6632: Keyword arguments are invalid without an explicit interface.   [GRID_NAME]
+                                               "GIGC_h2D_grid_decomp","FRLAKE",.true., grid_name="GIGC_h2D_grid")
+---------------------------------------------------------------------------------------^
+coupling_with_CCPL_mod.F90(110): error #6632: Keyword arguments are invalid without an explicit interface.   [GRID_NAME]
+                                               "GIGC_h2D_grid_decomp","FRLAND",.true., grid_name="GIGC_h2D_grid")
+---------------------------------------------------------------------------------------^
+coupling_with_CCPL_mod.F90(113): error #6632: Keyword arguments are invalid without an explicit interface.   [GRID_NAME]
+        call c_coupler_register_model_data(CLDF_CCPL, "GIGC_h2D_grid_decomp","CLDF",.true., grid_name="GIGC_3D_grid")
+--------------------------------------------------------------------------------------------^
+coupling_with_CCPL_mod.F90(115): error #6632: Keyword arguments are invalid without an explicit interface.   [GRID_NAME]
+                                               "GIGC_h2D_grid_decomp","CLDTOPS",.true., grid_name="GIGC_h2D_grid")
+----------------------------------------------------------------------------------------^
+coupling_with_CCPL_mod.F90(119): error #6632: Keyword arguments are invalid without an explicit interface.   [GRID_NAME]
+                                               "GIGC_h2D_grid_decomp","DQIDTMST",.true., grid_name="GIGC_3D_grid")
+-----------------------------------------------------------------------------------------^
+coupling_with_CCPL_mod.F90(121): error #6632: Keyword arguments are invalid without an explicit interface.   [GRID_NAME]
+                                               "GIGC_h2D_grid_decomp","DQLDTMST",.true., grid_name="GIGC_3D_grid")
+-----------------------------------------------------------------------------------------^
+coupling_with_CCPL_mod.F90(123): error #6632: Keyword arguments are invalid without an explicit interface.   [GRID_NAME]
+                                               "GIGC_h2D_grid_decomp","DQRCU",.true., grid_name="GIGC_3D_grid")
+--------------------------------------------------------------------------------------^
+coupling_with_CCPL_mod.F90(125): error #6632: Keyword arguments are invalid without an explicit interface.   [GRID_NAME]
+                                               "GIGC_h2D_grid_decomp","DQRLSAN",.true., grid_name="GIGC_3D_grid")
+----------------------------------------------------------------------------------------^
+coupling_with_CCPL_mod.F90(127): error #6632: Keyword arguments are invalid without an explicit interface.   [GRID_NAME]
+                                               "GIGC_h2D_grid_decomp","DQVDTMST",.true., grid_name="GIGC_3D_grid")
+-----------------------------------------------------------------------------------------^
+coupling_with_CCPL_mod.F90(129): error #6632: Keyword arguments are invalid without an explicit interface.   [GRID_NAME]
+                                               "GIGC_h2D_grid_decomp","DTRAIN",.true., grid_name="GIGC_3D_grid")
+---------------------------------------------------------------------------------------^
+coupling_with_CCPL_mod.F90(131): error #6632: Keyword arguments are invalid without an explicit interface.   [GRID_NAME]
+                                               "GIGC_h2D_grid_decomp","MOISTQ",.true., grid_name="GIGC_3D_grid")
+---------------------------------------------------------------------------------------^
+coupling_with_CCPL_mod.F90(133): error #6632: Keyword arguments are invalid without an explicit interface.   [GRID_NAME]
+                                               "GIGC_h2D_grid_decomp","OPTDEP",.true., grid_name="GIGC_3D_grid")
+---------------------------------------------------------------------------------------^
+coupling_with_CCPL_mod.F90(135): error #6632: Keyword arguments are invalid without an explicit interface.   [GRID_NAME]
+                                               "GIGC_h2D_grid_decomp","PV",.true., grid_name="GIGC_3D_grid")
+-----------------------------------------------------------------------------------^
+/tmp/ifortepRJ18.i90(203): catastrophic error: Too many errors, exiting
+compilation aborted for coupling_with_CCPL_mod.F90 (code 1)
+make[3]: *** [coupling_with_CCPL_mod.o] Error 1
+make[3]: Leaving directory `/data3/work/yuxinzhu/test/GAMIL2.8_AMIP-GIGC_v9-02/run/atm_chem/GIGC/GIGC_code_mirror/GeosCore'
+make[2]: *** [lib] Error 2
+make[2]: Leaving directory `/data3/work/yuxinzhu/test/GAMIL2.8_AMIP-GIGC_v9-02/run/atm_chem/GIGC/GIGC_code_mirror/GeosCore'
+make[1]: *** [all] Error 2
+make[1]: Leaving directory `/data3/work/yuxinzhu/test/GAMIL2.8_AMIP-GIGC_v9-02/run/atm_chem/GIGC/GIGC_code_mirror/GeosCore'
+make: *** [all] Error 2

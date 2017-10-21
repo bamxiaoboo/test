@@ -44,7 +44,6 @@ comode_loop_mod.F COMODE_LOOP_MOD
 comode_mod.F COMODE_MOD
 component_mgt.F90 component_mgt
 convection_mod.F CONVECTION_MOD
-coupling_with_CCPL_mod.F90 coupling_with_CCPL_mod
 dao_mod.F DAO_MOD
 defineArrays.F90 defineArrays
 defineConstants.F90 defineConstants
