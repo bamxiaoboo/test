@@ -3,9 +3,9 @@
 ! Experiment parameters
   caseid                = 'GAMIL2.8_AMIP-GIGC_v9-02'
   nsrest                = 0
-  start_ymd             = 19760101
+  start_ymd             = 20060101
   start_tod             = 00000
-  stop_ymd              = 19760101
+  stop_ymd              = 20070101
   stop_tod              = 00000
 ! ------------------------------------------------------------------------------
   aqua_planet           = .false.

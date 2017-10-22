@@ -3,5 +3,5 @@
 #undef COUP_CSM
 #define SPMD
 #undef PERGRO
-#define NTASK 20
+#define NTASK 4
 #endif

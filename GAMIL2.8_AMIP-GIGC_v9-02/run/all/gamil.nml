@@ -1,14 +1,14 @@
 &compset_nml
   exp_model               = "GAMIL2.8-GIGC_v902"
   case_name               = "GAMIL2.8_AMIP-GIGC_v9-02"
-  case_desc               = "GAMIL2.8_AMIP-GIGC_v9-02 : GAMIL sole run with land surface model CLM3. Two models a coupled with C-Coupler, did configuration at 20171021-111824"
-  config_time             = "20171021-111824"
+  case_desc               = "GAMIL2.8_AMIP-GIGC_v9-02 : GAMIL sole run with land surface model CLM3. Two models a coupled with C-Coupler, did configuration at 20171022-144425"
+  config_time             = "20171022-144425"
   run_type                = "initial"
-  start_date              = 19760101
+  start_date              = 20060101
   start_second            = 00000
-  stop_date               = 19760101
+  stop_date               = 20070101
   stop_second             = 00000
-  rest_freq_unit          = "days"
+  rest_freq_unit          = "months"
   rest_freq_count         = 1
   stop_latency_seconds    = 0
   component_name          = "gamil"
@@ -16,7 +16,7 @@
   comp_run_data_dir       = "/data3/work/yuxinzhu/test/GAMIL2.8_AMIP-GIGC_v9-02/run/atm/gamil/data"
   comp_model_nml          = "gamil.stdin"
   cpl_interface_time_step = 1200
-  comp_log_filename       = "/data3/work/yuxinzhu/test/GAMIL2.8_AMIP-GIGC_v9-02/run/atm/gamil/run_logs/GAMIL2.8_AMIP-GIGC_v9-02.gamil.log.20171021-111824"
+  comp_log_filename       = "/data3/work/yuxinzhu/test/GAMIL2.8_AMIP-GIGC_v9-02/run/atm/gamil/run_logs/GAMIL2.8_AMIP-GIGC_v9-02.gamil.log.20171022-144425"
   leap_year               = .false.
 /
 

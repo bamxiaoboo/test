@@ -1,4 +1,4 @@
 <?xml version="1.0" ?>
 <Component>
-    <Online_Model name="ROOT" full_name="ROOT" global_id="0" processes=" 0~20" />
+    <Online_Model name="ROOT" full_name="ROOT" global_id="0" processes=" 0~4" />
 </Component>

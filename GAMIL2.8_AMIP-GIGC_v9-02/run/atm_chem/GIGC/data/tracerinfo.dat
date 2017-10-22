@@ -1,5 +1,5 @@
 #==============================================================================
-# tracerinfo.dat: Created by GEOS-CHEM at 2015/06/17 15:44
+# tracerinfo.dat: Created by GEOS-CHEM at 2017/10/22 14:51
 #
 # ****** CUSTOMIZED FOR NOx-Ox-Hydrocarbon-Aerosol SIMULATION *****
 #
@@ -635,4 +635,25 @@ PBL      GMAO PBL field                 0.000E+00  1    11009 1.000E+00 hPa
 CLDFRC   GMAO CLDFRC field              0.000E+00  1    11010 1.000E+00 unitless
 U10M     GMAO U10M field                0.000E+00  1    11011 1.000E+00 m/s
 V10M     GMAO V10M field                0.000E+00  1    11012 1.000E+00 m/s
-PS-PBL   GMAO PS-PBL field       
+PS-PBL   GMAO PS-PBL field              0.000E+00  1    11013 1.000E+00 hPa
+ALBD     GMAO ALBD field                0.000E+00  1    11014 1.000E+00 unitless
+PHIS     GMAO PHIS field                0.000E+00  1    11015 1.000E+00 m
+CLDTOP   GMAO CLDTOP field              0.000E+00  1    11016 1.000E+00 level
+TROPP    GMAO TROPP field               0.000E+00  1    11017 1.000E+00 hPa
+SLP      GMAO SLP field                 0.000E+00  1    11018 1.000E+00 hPa
+TSKIN    GMAO TSKIN field               0.000E+00  1    11019 1.000E+00 K
+PARDF    GMAO PARDF field               0.000E+00  1    11020 1.000E+00 W/m2
+PARDR    GMAO PARDR field               0.000E+00  1    11021 1.000E+00 W/m2
+GWET     GMAO GWET field                0.000E+00  1    11022 1.000E+00 unitless
+EFLUX    GMAO EFLUX field               0.000E+00  1    11023 1.000E+00 W/m2
+#==============================================================================
+# ND68 diagnostic quantities
+#==============================================================================
+BXHEIGHT Grid box height                0.000E+00  1    24001 1.000E+00 m
+AD       Air mass in grid box           0.000E+00  1    24002 1.000E+00 kg
+AVGW     Mixing ratio of H2O vapor      0.000E+00  1    24003 1.000E+00 v/v
+N(AIR)   Number density of air          0.000E+00  1    24004 1.000E+00 molec/m3
+#==============================================================================
+# ND69 diagnostic quantities
+#==============================================================================
+DXYP     Grid box surface area          0.000E+00  1    25001 1.000E+00 m2

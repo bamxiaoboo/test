@@ -12,7 +12,7 @@ index 4008783..55cc2d1 100755
          !
          ! Set archive_dir if not initialized, and make sure has trailing "/"
 diff --git a/src/control/gamil.F90 b/src/control/gamil.F90
-index 5e90ea7..a06ddd1 100755
+index 5e90ea7..1d141a1 100755
 --- a/src/control/gamil.F90
 +++ b/src/control/gamil.F90
 @@ -23,7 +23,7 @@ program gamil
@@ -40,7 +40,7 @@ index 5e90ea7..a06ddd1 100755
      integer nstep           ! Current timestep number.
      integer kvh_idx ! added by LIU Li
      integer i
-+    integer :: comm,export_interface_id,time_step
++    integer :: gamil_mpicom,export_interface_id,time_step
      !------------------------------Externals--------------------------------
  #if ( defined SUNOS )
      !integer iexcept, ieee_handler
@@ -50,9 +50,9 @@ index 5e90ea7..a06ddd1 100755
  
 -    call c_coupler_initialize(mpicom)
 +    !call c_coupler_initialize(mpicom)
-+    comm = -1
++    gamil_mpicom = -1
 +    !gamil_comp_id = CCPL_register_component(-1, "gamil", "atm", comm, annotation = "register atm model gamil")
-+    call register_gamil_component(comm)
++    call register_gamil_component(gamil_mpicom)
      !
      ! Initialize internal/external MPI if appropriate
      !
@@ -61,7 +61,7 @@ index 5e90ea7..a06ddd1 100755
          end if
      end if
 +    time_step = get_step_size()
-+    call register_component_coupling_configuration(comm, "gamil", export_interface_id, 1, time_step)
++    call register_component_coupling_configuration(gamil_mpicom, "gamil", export_interface_id, 1, time_step)
 +    call CCPL_end_coupling_configuration(gamil_comp_id, annotation = "component gamil ends registration")
      !
      ! Set defaults then override with user-specified input
@@ -823,10 +823,10 @@ index d23d052..803bef6 100755
      end subroutine diag_dynvar
  
 diff --git a/src/physics/cam1/physpkg.F90 b/src/physics/cam1/physpkg.F90
-index 31ec674..0066f3e 100755
+index 31ec674..e71e8d9 100755
 --- a/src/physics/cam1/physpkg.F90
 +++ b/src/physics/cam1/physpkg.F90
-@@ -38,6 +38,8 @@ subroutine physpkg(phys_state, phys_state0, gw,     ztodt,  &
+@@ -38,9 +38,12 @@ subroutine physpkg(phys_state, phys_state0, gw,     ztodt,  &
      use time_manager,   only: get_nstep, is_first_step, is_first_restart_step, &
                                is_end_curr_month, get_curr_date
      use phys_buffer,    only: pbuf   ! added by SHI Xiangjun
@@ -835,13 +835,36 @@ index 31ec674..0066f3e 100755
  #ifndef COUP_CSM
      use sst_data,       only: sst    ! added by SHI Xiangjun
  #endif
-@@ -365,5 +367,20 @@ subroutine physpkg(phys_state, phys_state0, gw,     ztodt,  &
++    use physconst,     only: gravit, rga, rair
+ 
+     implicit none
+ 
+@@ -62,6 +65,9 @@ subroutine physpkg(phys_state, phys_state0, gw,     ztodt,  &
+     real(r8), intent(inout) :: qcwatn(pcols, pver, begchunk:endchunk) ! new moisture
+     real(r8), intent(inout) :: lcwato(pcols, pver, begchunk:endchunk) ! cloud liquid water
+     real(r8), intent(inout) :: lcwatn(pcols, pver, begchunk:endchunk) ! cloud liquid water
++    real(r8), allocatable :: psl(:,:)      ! sea-level pressure
++    real(r8) psl_tmp(pcols)   ! Sea Level Pressure
++    type(physics_state) :: state
+ 
+     integer i, m, lat, c, lchnk                ! indices
+     integer lats(pcols)                        ! array of latitude indices
+@@ -365,5 +371,29 @@ subroutine physpkg(phys_state, phys_state0, gw,     ztodt,  &
  
      call t_stopf ('global_ts')
  
 +    call out_fld_for_coupling_chem('CLDF',cldn)
 +    call out_fld_for_coupling_chem('FROCEAN',ocnfrac)
-+    !call out_fld_for_coupling_chem('SLP',psl)
++
++        allocate(psl(pcols,begchunk:endchunk))
++        psl     (:,:) = inf
++        state = phys_state(c)
++        lchnk = state%lchnk
++        ncol  = state%ncol
++        call cpslec(ncol, state%pmid, state%phis, state%ps, state%t,psl_tmp, gravit, rair)
++        psl(:ncol,lchnk) = psl_tmp(:ncol)
++
++    call out_fld_for_coupling_chem('SLP',psl)
 +    do c = begchunk, endchunk
 +        call out_fld_for_coupling_chem('EFLUX',srfflx_state2d(c)%lhf(:),c)
 +        call out_fld_for_coupling_chem('HFLUX',srfflx_state2d(c)%lhf(:),c)

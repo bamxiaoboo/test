@@ -415,7 +415,7 @@ contains
 
 
       integer nprocessor
-      parameter(nprocessor=20)            !by LPF
+      parameter(nprocessor=4)            !by LPF
       integer,parameter :: nx = 130
       integer,parameter :: ny = 60/nprocessor+2
       integer,parameter :: nl = 26

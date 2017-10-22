@@ -1,0 +1,16 @@
+t_setoption: option disabled: Usr Sys   
+t_setoption: option disabled: Usr Sys   
+t_setoption: option disabled: Usr Sys   
+t_setoption: option disabled: Usr Sys   
+ERROR happens. Please check the log file "/data3/work/yuxinzhu/test/GAMIL2.8_AMIP-GIGC_v9-02/CCPL_dir/run/CCPL_logs/by_executables/gamil/gamil.CCPL.log.0"
+
+ERROR happens. Please check the log file "/data3/work/yuxinzhu/test/GAMIL2.8_AMIP-GIGC_v9-02/CCPL_dir/run/CCPL_logs/by_executables/gamil/gamil.CCPL.log.2"
+
+ERROR happens. Please check the log file "/data3/work/yuxinzhu/test/GAMIL2.8_AMIP-GIGC_v9-02/CCPL_dir/run/CCPL_logs/by_executables/gamil/gamil.CCPL.log.3"
+
+ERROR happens. Please check the log file "/data3/work/yuxinzhu/test/GAMIL2.8_AMIP-GIGC_v9-02/CCPL_dir/run/CCPL_logs/by_executables/gamil/gamil.CCPL.log.1"
+
+rank 3 in job 159  public2.c-coupler.org_32973   caused collective abort of all ranks
+  exit status of rank 3: killed by signal 6 
+rank 1 in job 159  public2.c-coupler.org_32973   caused collective abort of all ranks
+  exit status of rank 1: killed by signal 6 

@@ -1,8 +1,8 @@
 GEOS-CHEM SIMULATION v9-02: GEOS-5 NOx-Ox-HC-Aerosol simulation (66 tracers)
 ------------------------+------------------------------------------------------
 %%% SIMULATION MENU %%% :
-Start YYYYMMDD, HHMMSS  : 19760101 000000
-End   YYYYMMDD, HHMMSS  : 19760101 000000
+Start YYYYMMDD, HHMMSS  : 20060101 000000
+End   YYYYMMDD, HHMMSS  : 20070101 000000
 Run directory           : ./
 Input restart file      : restart.4x5.geos5.YYYYMMDDhh
 Make new restart file?  : T

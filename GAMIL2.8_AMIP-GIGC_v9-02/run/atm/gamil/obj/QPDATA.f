@@ -34,7 +34,7 @@
 
 
       integer nprocessor
-      parameter(nprocessor=20)            !by LPF
+      parameter(nprocessor=4)            !by LPF
 
 
       INTEGER
@@ -181,7 +181,7 @@ C
 
 
       integer nprocessor
-      parameter(nprocessor=20)            !by LPF
+      parameter(nprocessor=4)            !by LPF
 
 
       INTEGER

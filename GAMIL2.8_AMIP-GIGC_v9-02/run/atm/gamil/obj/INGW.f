@@ -26,7 +26,7 @@
 
 
       integer nprocessor
-      parameter(nprocessor=20)            !by LPF
+      parameter(nprocessor=4)            !by LPF
 
 
       INTEGER
@@ -238,7 +238,7 @@ c	EE=EE+(Y1+Y1+Y2)/FLOAT(ITN*ITN)+Y3
 
 
       integer nprocessor
-      parameter(nprocessor=20)            !by LPF
+      parameter(nprocessor=4)            !by LPF
 
 
       INTEGER
@@ -390,7 +390,7 @@ c	EE=EE+(Y1+Y1+Y2)/FLOAT(ITN*ITN)+Y3
 
 
       integer nprocessor
-      parameter(nprocessor=20)            !by LPF
+      parameter(nprocessor=4)            !by LPF
 
 
       INTEGER
